@@ -1,0 +1,72 @@
+﻿@model IEnumerable<ThongFastFood_Api.Models.ProductVM>
+
+@{
+    ViewData["Title"] = "Product";
+    Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
+}
+
+<div class="section-body">
+    <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Quản Lí Sản Phẩm</h2>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-12 col-md-12">
+                        <a asp-action="CreateProduct" class="btn btn-primary">Thêm sản phẩm mới</a>
+                    </div>
+                </div>
+                <table class="table" id="product-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th scope="col">Mã sản phẩm</th>
+                            <th scope="col">Tên Sản Phẩm</th>
+                            <th scope="col">Giá</th>
+                            <th scope="col">Hình</th>
+                            <th scope="col">Chức Năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model)
+                        {
+                            <tr style="text-align: center;">
+                                <td>@item.ProductId</td>
+                                <td>@item.ProductName</td>
+                                <td>@item.ProductPrice</td>
+                                <td><img src="~/img/product/@item.ProductImage" width="100px" style="padding:15px" /></td>
+                                <td>
+                                    <a asp-action="EditProduct" asp-route-id="@item.ProductId" class="btn btn-primary">Sửa</a>
+                                    <a asp-action="DeleteProduct" asp-route-id="@item.ProductId" class="btn btn-danger" onclick="return confirm('Bạn có chắc là muốn xóa sản phẩm này?')">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="card-body">
+                    <nav style="float: right;">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a href="#" class="page-link">Trước</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">1</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">2</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">3</a>
+                            </li>
+                            <li class="page-item">
+                                <a href="#" class="page-link">Sau</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

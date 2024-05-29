@@ -1,0 +1,56 @@
+﻿@{
+	ViewData["Title"] = "UserInfo";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Breadcrumb -->
+<div id="breadcrumb">
+	<div class="container">
+		<h2 class="title">Thông Tin Người Dùng</h2>
+
+		<ul class="breadcrumb">
+			<li><a asp-controller="MainPage" asp-action="Index">Trang Chủ</a></li>
+			<li><span>Thông Tin Người Dùng</span></li>
+		</ul>
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="register-page">
+		<div class="register-form form">
+
+			<form action="#" method="post" enctype="multipart/form-data">
+				<div class="form-group">
+					<div class="col-md-6">
+						<label>First Name</label>
+						<input type="text" value="" name="first_name">
+					</div>
+					<div class="col-md-6">
+						<label>Last Name</label>
+						<input type="text" value="" name="last_name">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-md-12">
+						<label>Email</label>
+						<input type="email" value="" name="email">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-md-12">
+						<label>Địa Chỉ</label>
+						<input type="email" value="" name="email">
+					</div>
+				</div>
+
+				<div class="form-group text-center">
+					<input type="submit" class="btn btn-primary" value="Lưu Thay Đổi">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

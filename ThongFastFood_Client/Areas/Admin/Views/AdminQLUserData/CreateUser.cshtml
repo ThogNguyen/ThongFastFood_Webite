@@ -1,0 +1,59 @@
+﻿@model ThongFastFood_Api.Data.User
+
+@{
+    ViewData["Title"] = "CreateUser";
+    Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
+}
+
+<h2>Thêm mới người dùng</h2>
+<a asp-action="User" class="btn btn-danger">Trở về</a>
+
+<hr />
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form asp-action="CreateUser">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label class="control-label">Họ và tên</label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-7">
+                    <label class="control-label">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-5">
+                    <label class="control-label">Số điện thoại</label>
+                    <input asp-for="PhoneNo" class="form-control" />
+                    <span asp-validation-for="PhoneNo" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Địa chỉ</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Mật khẩu</label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Xác nhận mật khẩu</label>
+                <input asp-for="ComfirmPassword" class="form-control" />
+                <span asp-validation-for="ComfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Vai Trò</label>
+                <select asp-for="Role_Id" class ="form-control" asp-items="ViewBag.Role_Id"></select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary mb-4 w-100" type="submit">Thêm</button>
+            </div>
+        </form>
+    </div>
+</div>
+

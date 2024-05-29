@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewData["Title"] = "User";
+    Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
+}
+
+<div class="section-body">
+    <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Quản Lí Người Dùng</h2>
+            </div>
+            
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-12 col-md-12">
+                        <a asp-action="CreateUser" class="btn btn-primary">Thêm người dùng mới</a>
+                    </div>
+                </div>
+                <table class="table" id="product-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th scope="col">STT</th>
+                            <th scope="col">Họ và tên</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">SĐT</th>
+                            <th scope="col">Địa chỉ</th>
+                            <th scope="col">Chức Năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="text-align: center;">
+                            <td>MaNguoiDung</td>
+                            <td>HoTen</td>
+                            <td>Email</td>
+                            <td>Sdt</td>
+                            <td>DiaChi</td>
+                            <td>
+                                <a asp-action="EditUser" class="btn btn-primary">Sửa</a>
+                                <a href="#" class="btn btn-danger">Xóa </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+

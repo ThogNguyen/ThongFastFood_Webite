@@ -1,0 +1,55 @@
+﻿@{
+	ViewData["Title"] = "CustomerOrder";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Breadcrumb -->
+<div id="breadcrumb">
+	<div class="container">
+		<h2 class="title">Lịch Sử Đơn Hàng</h2>
+
+		<ul class="breadcrumb">
+			<li><a asp-controller="MainPage" asp-action="Index">Trang Chủ</a></li>
+			<li><span>Lịch Sử Đơn Hàng</span></li>
+		</ul>
+	</div>
+</div>
+
+<div class="container">
+	<div class="page-cart">
+		<div class="table-responsive">
+			<table class="cart-summary table table-bordered">
+				<thead>
+					<tr>
+						<th class="col-1 text-center"><strong>Mã Đơn Hàng</strong></th>
+						<th class="col-4 text-center"><strong>Mã Sản Phẩm</strong></th>
+						<th class="col-2 text-center"><strong>Ngày Mua</strong></th>
+						<th class="col-2 text-center"><strong>Số Lượng</strong></th>
+						<th class="col-2 text-center"><strong>Thành Tiền</strong></th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr>
+						<td class="text-center">
+							1
+						</td>
+						<td class="text-center">
+							1
+						</td>
+						<td class="text-center">
+							1/1/2024
+						</td>
+						<td class="text-center">
+							1
+						</td>
+						<td class="text-center">
+							$265
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+

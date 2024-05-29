@@ -1,0 +1,67 @@
+﻿@model ThongFastFood_Api.Models.ProductVM
+
+@{
+    ViewData["Title"] = "EditProduct";
+    Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
+}
+
+<h2>Sửa sản phẩm</h2>
+<a asp-action="Product" class="btn btn-danger">Trở về</a>
+
+<hr />
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <form asp-action="EditProduct" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="id" value="@ViewData["ProductId"]" />
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="control-label">Tên sản phẩm</label>
+                    <input asp-for="ProductName" class="form-control" />
+                    <span asp-validation-for="ProductName" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="control-label">Giá sản phẩm</label>
+                    <input asp-for="ProductPrice" class="form-control" />
+                    <span asp-validation-for="ProductPrice" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset-sm-4 col-sm-6">
+                    <img src="~/img/product/@ViewData["ProductImage"]" width="150">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Ảnh sản phẩm</label>
+                <input asp-for="ProductImage" name="file" type="file" class="form-control" />
+                <span asp-validation-for="ProductImage" class="text-danger"></span>
+            </div>
+            @if (TempData["ImageNull"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["ImageNull"]
+                </div>
+            }
+            <div class="form-group">
+                <label class="control-label">Thời gian chỉnh sửa</label>
+                <input asp-for="AddDate" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Mô tả</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Mã loại sản phẩm</label>
+                <select asp-for="Category_Id" class="form-control" asp-items="ViewBag.Category_Id"></select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary mb-4 w-100" type="submit">Sửa</button>
+            </div>
+        </form>
+    </div>
+</div>
+

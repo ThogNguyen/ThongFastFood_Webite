@@ -1,0 +1,48 @@
+﻿@model List<ThongFastFood_Api.Data.Category>
+
+@{
+    ViewData["Title"] = "Category";
+    Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
+}
+
+<div class="section-body">
+    <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Quản Lí Loại Sản Phẩm</h2>
+            </div>
+            
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-12 col-md-12">
+                        <a asp-action="CreateCategory" class="btn btn-primary">Thêm loại sản phẩm mới</a>
+                    </div>
+                </div>
+                <table class="table" id="product-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th scope="col">Mã Loại Sản Phẩm</th>
+                            <th scope="col">Tên Loại Sản Phẩm</th>
+                            <th scope="col">Chức Năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var item in Model)
+                        {
+                            <tr style="text-align: center;">
+                                <td>@item.CategoryId</td>
+                                <td>@item.CategoryName</td>
+                                <td>
+                                    <a asp-action="EditCategory" asp-route-id="@item.CategoryId" class="btn btn-primary">Sửa</a>
+                                    <a asp-action="DeleteCategory" asp-route-id="@item.CategoryId" class="btn btn-danger"
+                                       onclick="return confirm('Bạn có chắc là muốn xóa loại sản phẩm này?')">Xóa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,271 @@
+﻿@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Slideshow -->
+<div class="section slideshow">
+	<div class="tiva-slideshow-wrapper">
+		<div id="tiva-slideshow" class="nivoSlider">
+			<a>
+				<img class="img-responsive" src="~/img/slideshow/home1-slideshow-1.jpg" alt="Slideshow Image">
+			</a>
+			<a>
+				<img class="img-responsive" src="~/img/slideshow/home1-slideshow-2.jpg" alt="Slideshow Image">
+			</a>
+			<a>
+				<img class="img-responsive" src="~/img/slideshow/home1-slideshow-3.jpg" alt="Slideshow Image">
+			</a>
+		</div>
+	</div>
+</div>
+
+
+<!-- Product - Best Sellers -->
+<div class="section products-block product-tab nav-color show-hover nav-round best-sellers">
+	<div class="block-title">
+		<h2 class="title"><span>Sản Phẩm Mới</span></h2>
+	</div>
+
+	<div class="block-content">
+		<!-- Tab Content -->
+		<div class="tab-content">
+			<!-- All Products -->
+			<div role="tabpanel" class="tab-pane fade in active" id="all-products">
+				<div class="products owl-theme owl-carousel">
+					<div class="product-item">
+						<div class="product-image">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								<img src="~/img/product/comgaxoimo.jpg" alt="Product Image">
+							</a>
+						</div>
+
+						<div class="product-title">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								Cơm Gà Xối Mỡ
+							</a>
+						</div>
+
+						<div class="product-price">
+							<span class="sale-price">$80.00</span>
+
+						</div>
+
+						<div class="product-buttons">
+							<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+							</a>
+
+							<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="product-item">
+						<div class="product-image">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								<img src="~/img/product/mitronthapcam.jpg" alt="Product Image">
+							</a>
+						</div>
+
+						<div class="product-title">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								Mì Trộn Thập Cẩm
+							</a>
+						</div>
+
+						<div class="product-price">
+							<span class="sale-price">$80.00</span>
+
+						</div>
+
+						<div class="product-buttons">
+							<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+							</a>
+
+							<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="product-item">
+						<div class="product-image">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								<img src="~/img/product/mitronbaroi.jpg" alt="Product Image">
+							</a>
+						</div>
+
+						<div class="product-title">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								Organic Strawberry Fruits
+							</a>
+						</div>
+
+						<div class="product-price">
+							<span class="sale-price">$80.00</span>
+
+						</div>
+
+						<div class="product-buttons">
+							<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+							</a>
+
+							<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="product-item">
+						<div class="product-image">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								<img src="~/img/product/nuixaohaisan.jpg" alt="Product Image">
+							</a>
+						</div>
+
+						<div class="product-title">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								Organic Strawberry Fruits
+							</a>
+						</div>
+
+						<div class="product-price">
+							<span class="sale-price">$80.00</span>
+						</div>
+
+						<div class="product-buttons">
+							<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+							</a>
+
+							<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="product-item">
+						<div class="product-image">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								<img src="~/img/product/comxaxiu.jpg" alt="Product Image">
+							</a>
+						</div>
+
+						<div class="product-title">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								Organic Strawberry Fruits
+							</a>
+						</div>
+
+						<div class="product-price">
+							<span class="sale-price">$80.00</span>
+
+						</div>
+
+						<div class="product-buttons">
+							<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+							</a>
+
+							<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="product-item">
+						<div class="product-image">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								<img src="~/img/product/commucchiengion.jpg" alt="Product Image">
+							</a>
+						</div>
+
+						<div class="product-title">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								Organic Strawberry Fruits
+							</a>
+						</div>
+
+						<div class="product-price">
+							<span class="sale-price">$80.00</span>
+
+						</div>
+
+						<div class="product-buttons">
+							<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+							</a>
+
+							<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="product-item">
+						<div class="product-image">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								<img src="~/img/product/comgahapmuoi.jpg" alt="Product Image">
+							</a>
+						</div>
+
+						<div class="product-title">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								Organic Strawberry Fruits
+							</a>
+						</div>
+
+						<div class="product-price">
+							<span class="sale-price">$80.00</span>
+
+						</div>
+
+						<div class="product-buttons">
+							<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+							</a>
+
+							<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+
+					<div class="product-item">
+						<div class="product-image">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								<img src="~/img/product/comgahapmuoi.jpg" alt="Product Image">
+							</a>
+						</div>
+
+						<div class="product-title">
+							<a asp-controller="Category" asp-action="DetailProduct">
+								Organic Strawberry Fruits
+							</a>
+						</div>
+
+						<div class="product-price">
+							<span class="sale-price">$80.00</span>
+
+						</div>
+
+						<div class="product-buttons">
+							<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+								<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+							</a>
+
+							<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
+								<i class="fa fa-eye" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
