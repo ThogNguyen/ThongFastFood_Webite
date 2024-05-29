@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using PagedList;
 using System;
 using System.IO;
 using System.Net.Http;
@@ -26,7 +27,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
         }
 
         // load sản phẩm
-        public async Task<IActionResult> Product()
+        public async Task<IActionResult> Product(int? page)
         {
             List<ProductVM> products = new List<ProductVM>();
 
@@ -39,7 +40,11 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
                 products = JsonConvert.DeserializeObject<List<ProductVM>>(data);
             }
 
-            return View(products);
+            int pageSize = 6;
+            int pageNumber = page ?? 1;
+            IPagedList<ProductVM> pagedProducts = products.ToPagedList(pageNumber, pageSize);
+
+            return View(pagedProducts);
         }
 
 

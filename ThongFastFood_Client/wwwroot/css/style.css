@@ -2429,7 +2429,7 @@ input {
 }
 
 [class~=products-block] [class~=product-item] [class~=product-countdown] [class~=item] [class~=number] {
-    width: 100%;
+    width: 95%;
 }
 
 [class~=my-account][class~=toggle-icon] [class~=dropdown-menu] {

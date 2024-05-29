@@ -1,5 +1,5 @@
-﻿@model IEnumerable<ThongFastFood_Api.Models.ProductVM>
-
+﻿@model IPagedList<ThongFastFood_Api.Models.ProductVM>
+@using PagedList;
 @{
     ViewData["Title"] = "Product";
     Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
@@ -46,21 +46,36 @@
                 <div class="card-body">
                     <nav style="float: right;">
                         <ul class="pagination">
-                            <li class="page-item">
-                                <a href="#" class="page-link">Trước</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a href="#" class="page-link">Sau</a>
-                            </li>
+                            @if (Model.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-controller="AdminQLProduct" asp-action="Product" asp-route-page="@(Model.PageNumber - 1)">Trước</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <a class="page-link">Trước</a>
+                                </li>
+                            }
+                            @for (int i = 1; i <= Model.PageCount; i++)
+                            {
+                                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                    <a class="page-link" asp-controller="AdminQLProduct" asp-action="Product" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+                            @if (Model.HasNextPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-controller="AdminQLProduct" asp-action="Product" asp-route-page="@(Model.PageNumber + 1)">Sau</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <a class="page-link">Sau</a>
+                                </li>
+                            }
                         </ul>
                     </nav>
                 </div>
