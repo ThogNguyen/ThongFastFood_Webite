@@ -49,7 +49,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
 
         //thêm sản phẩm (view)
-
         [HttpGet]
         public async Task<IActionResult> CreateProduct()
         {
@@ -100,8 +99,19 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
                 }
             }
 
-            // Nếu không thành công hoặc có lỗi xảy ra, hiển thị lại form với model để người dùng nhập lại thông tin
-            return View(model);
+			List<Category> categories = new List<Category>();
+			HttpResponseMessage apiMessage = await _httpClient.GetAsync(_httpClient.BaseAddress + "/CategoryApi/GetCategories");
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				string data = await apiMessage.Content.ReadAsStringAsync();
+				categories = JsonConvert.DeserializeObject<List<Category>>(data);
+			}
+
+			ViewBag.Category_Id = new SelectList(categories, "CategoryId", "CategoryName");
+
+			// Nếu không thành công hoặc có lỗi xảy ra, hiển thị lại form với model để người dùng nhập lại thông tin
+			return View(model);
         }
 
 

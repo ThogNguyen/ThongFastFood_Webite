@@ -3,6 +3,9 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model IEnumerable<ThongFastFood_Api.Models.ProductVM>
+
+
 <!-- Breadcrumb -->
 <div id="breadcrumb">
 	<div class="container">
@@ -113,194 +116,39 @@
 				</div>
 				<div class="products-block">
 					<div class="row">
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="product-item">
-								<div class="product-image">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										<img class="img-responsive" src="~/img/product/comgaxoimo.jpg" alt="Product Image">
-									</a>
-								</div>
+						@foreach(var item in Model)
+						{
+							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+								<div class="product-item">
+									<div class="product-image">
+										<a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
+											<img class="img-responsive" src="~/img/product/@item.ProductImage" alt="Product Image">
+										</a>
+									</div>
 
-								<div class="product-title">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										Organic Strawberry Fruits
-									</a>
-								</div>
+									<div class="product-title">
+										<a asp-controller="Category" asp-action="DetailProduct">
+											@item.ProductName
+										</a>
+									</div>
 
-								<div class="product-price">
-									<span class="sale-price">$80.00</span>
+									<div class="product-price">
+										<span class="sale-price">@String.Format("{0:N0}", item.ProductPrice)đ</span>
 
-								</div>
+									</div>
 
-								<div class="product-buttons">
-									<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-										<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-									</a>
+									<div class="product-buttons">
+										<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+											<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+										</a>
 
-									<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-										<i class="fa fa-eye" aria-hidden="true"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="product-item">
-								<div class="product-image">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										<img class="img-responsive" src="~/img/product/comgaxoimo.jpg" alt="Product Image">
-									</a>
-								</div>
-
-								<div class="product-title">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										Organic Strawberry Fruits
-									</a>
-								</div>
-
-								<div class="product-price">
-									<span class="sale-price">$80.00</span>
-
-								</div>
-
-								<div class="product-buttons">
-									<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-										<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-									</a>
-
-									<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-										<i class="fa fa-eye" aria-hidden="true"></i>
-									</a>
+										<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
+											<i class="fa fa-eye" aria-hidden="true"></i>
+										</a>
+									</div>
 								</div>
 							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="product-item">
-								<div class="product-image">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										<img class="img-responsive" src="~/img/product/comgaxoimo.jpg" alt="Product Image">
-									</a>
-								</div>
-
-								<div class="product-title">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										Organic Strawberry Fruits
-									</a>
-								</div>
-
-								<div class="product-price">
-									<span class="sale-price">$80.00</span>
-
-								</div>
-
-								<div class="product-buttons">
-									<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-										<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-									</a>
-
-									<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-										<i class="fa fa-eye" aria-hidden="true"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="product-item">
-								<div class="product-image">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										<img class="img-responsive" src="~/img/product/comgaxoimo.jpg" alt="Product Image">
-									</a>
-								</div>
-
-								<div class="product-title">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										Organic Strawberry Fruits
-									</a>
-								</div>
-
-								<div class="product-price">
-									<span class="sale-price">$120.00</span>
-								</div>
-
-								<div class="product-buttons">
-									<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-										<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-									</a>
-
-									<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-										<i class="fa fa-eye" aria-hidden="true"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="product-item">
-								<div class="product-image">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										<img class="img-responsive" src="~/img/product/comgaxoimo.jpg" alt="Product Image">
-									</a>
-								</div>
-
-								<div class="product-title">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										Organic Strawberry Fruits
-									</a>
-								</div>
-
-
-
-								<div class="product-price">
-									<span class="sale-price">$80.00</span>
-
-								</div>
-
-								<div class="product-buttons">
-									<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-										<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-									</a>
-
-									<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-										<i class="fa fa-eye" aria-hidden="true"></i>
-									</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-							<div class="product-item">
-								<div class="product-image">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										<img class="img-responsive" src="~/img/product/comgaxoimo.jpg" alt="Product Image">
-									</a>
-								</div>
-
-								<div class="product-title">
-									<a asp-controller="Category" asp-action="DetailProduct">
-										Organic Strawberry Fruits
-									</a>
-								</div>
-
-
-
-								<div class="product-price">
-									<span class="sale-price">$80.00</span>
-
-								</div>
-
-								<div class="product-buttons">
-									<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-										<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-									</a>
-
-									<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-										<i class="fa fa-eye" aria-hidden="true"></i>
-									</a>
-								</div>
-							</div>
-						</div>
+						}
 					</div>
 				</div>
 
