@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Text;
 using ThongFastFood_Api.Data;
+using ThongFastFood_Api.Models;
 
 namespace ThongFastFood_Client.Areas.Admin.Controllers
 {
@@ -20,7 +21,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
         public IActionResult Category()
         {
-            List<Category> categories = new List<Category>();
+            List<CategoryVM> categories = new List<CategoryVM>();
 
             HttpResponseMessage apiMessage =
                     _httpClient.GetAsync(_httpClient.BaseAddress + "/CategoryApi/GetCategories").Result;
@@ -28,7 +29,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
             if (apiMessage.IsSuccessStatusCode)
             {
                 string data = apiMessage.Content.ReadAsStringAsync().Result;
-                categories = JsonConvert.DeserializeObject<List<Category>>(data);
+                categories = JsonConvert.DeserializeObject<List<CategoryVM>>(data);
             }
             return View(categories);
         }
@@ -40,7 +41,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCategory(Category category)
+        public IActionResult CreateCategory(CategoryVM category)
         {
             string data = JsonConvert.SerializeObject(category);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
@@ -64,7 +65,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
             if (apiMessage.IsSuccessStatusCode)
             {
                 string data = apiMessage.Content.ReadAsStringAsync().Result;
-                Category category = JsonConvert.DeserializeObject<Category>(data);
+                CategoryVM category = JsonConvert.DeserializeObject<CategoryVM>(data);
 
                 return View(category);
             }

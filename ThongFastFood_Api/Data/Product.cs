@@ -41,6 +41,5 @@ namespace ThongFastFood_Api.Data
         public ICollection<OrderDetail> OrderDetails { get; set; }
         public ICollection<Review> Reviews { get; set; }
         public ICollection<Cart> GioHangs { get; set; }
-        public ICollection<ComboItem> ComboItems { get; set; }
     }
 }

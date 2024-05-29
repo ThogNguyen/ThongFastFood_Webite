@@ -14,7 +14,7 @@ namespace ThongFastFood_Api.Repositories.CategoryService
 
         public CategoryVM AddCategory(CategoryVM model)
         {
-            Category category = new Category
+            var category = new Category
             {
                 CategoryId = model.CategoryId,
                 CategoryName = model.CategoryName

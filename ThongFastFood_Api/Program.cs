@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Repositories.CategoryService;
-using ThongFastFood_Api.Repositories.ComboService;
 using ThongFastFood_Api.Repositories.ProductService;
 
 namespace ThongFastFood_Api
@@ -26,7 +25,6 @@ namespace ThongFastFood_Api
 
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
-            builder.Services.AddScoped<IComboService, ComboService>();
 
             var app = builder.Build();
 

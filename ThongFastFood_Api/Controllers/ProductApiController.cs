@@ -35,7 +35,7 @@ namespace ThongFastFood_Api.Controllers
             }
             else
             {
-                return NotFound();
+                return BadRequest("Không tìm thấy id này");
             }
         }
 

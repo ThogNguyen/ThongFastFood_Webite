@@ -18,8 +18,6 @@ namespace ThongFastFood_Api.Data
         [ForeignKey("Product")]
         public int? Product_Id { get; set; }
         public Product Product { get; set; }
-        [ForeignKey("Combo")]
-        public int? Combo_Id { get; set; }
-        public Combo Combo { get; set; }
+        
     }
 }
