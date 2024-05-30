@@ -71,17 +71,25 @@ namespace ThongFastFood_Api.Controllers
         [HttpDelete("{id}")]
         public IActionResult RemoveCategory(int id)
         {
-            var category = _categoryService.GetIdCategory(id);
-            if (category != null)
-            {
-                _categoryService.DeleteCategory(id);
-                return Ok("Xóa thành công");
-            }
+			var categoryExists = _categoryService.GetIdCategory(id);
+			if (categoryExists != null)
+			{
+				var success = _categoryService.DeleteCategory(id);
+				if (success)
+				{
+					return Ok("Xóa thành công");
+				}
+				else
+				{
+					return BadRequest("Không thể xóa loại sản phẩm khi đã có sản phẩm thuộc loại này");
+				}
+
+			}
             else
             {
-                return BadRequest("Xóa thất bại");
-            }
-        }
+				return BadRequest("Loại sản phẩm không tồn tại");
+			}
+		}
     }
 
 }

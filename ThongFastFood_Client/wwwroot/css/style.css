@@ -8266,7 +8266,7 @@ input {
 }
 
 [class~=product-categories] [class~=item]>a {
-    font-size: .145833333in;
+    font-size: 18px;
 }
 
 [class~=product-categories] [class~=item] [class~=sub-category] [class~=item] {

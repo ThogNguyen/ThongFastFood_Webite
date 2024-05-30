@@ -92,14 +92,18 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
         public IActionResult DeleteCategory(int id)
         {
-            HttpResponseMessage apiMessage =
-                _httpClient.DeleteAsync(_httpClient.BaseAddress + "/CategoryApi/RemoveCategory/" + id).Result;
+            HttpResponseMessage apiMessage = _httpClient.DeleteAsync(_httpClient.BaseAddress + "/CategoryApi/RemoveCategory/" + id).Result;
 
             if (apiMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Category");
             }
-            return View();
+            else
+            {
+                var errorMessage = apiMessage.Content.ReadAsStringAsync().Result;
+                TempData["ErrorMessage"] = errorMessage; 
+                return RedirectToAction("Category"); 
+            }
         }
     }
 }

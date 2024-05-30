@@ -25,28 +25,9 @@
 		<div id="left-column" class="sidebar col-lg-3 col-md-3 col-sm-3 col-xs-12">
 			<!-- Block - Product Categories -->
 			<form action="#">
-				<div class="block product-categories">
-					<h3 class="block-title">Loại</h3>
 
-					<div class="block-content">
-						<div class="item">
-							<a class="category-title" asp-controller="Category" asp-action="ListProduct">Tea and Coffee</a>
-						</div>
-
-						<div class="item">
-							<a class="category-title" asp-controller="Category" asp-action="ListProduct">Jam</a>
-						</div>
-
-						<div class="item">
-							<a class="category-title" asp-controller="Category" asp-action="ListProduct">SeaFood</a>
-						</div>
-
-						<div class="item">
-							<a class="category-title" asp-controller="Category" asp-action="ListProduct">Fresh Meats</a>
-						</div>
-					</div>
-				</div>
-
+				@* Loai san pham *@
+				@await Component.InvokeAsync("ListCategory")
 
 				<!-- Block - Filter -->
 				<div class="block product-filter">

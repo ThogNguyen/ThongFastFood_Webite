@@ -25,15 +25,20 @@ namespace ThongFastFood_Api.Repositories.CategoryService
             return model;
         }
 
-        public void DeleteCategory(int id)
+		public bool DeleteCategory(int id)
         {
-            var category = db.Categories.Find(id);
-            if (category != null)
-            {
-                db.Categories.Remove(category);
-                db.SaveChanges();
-            }
-        }
+			var category = db.Categories.Find(id);
+
+			var productsInCategory = db.Products.Any(p => p.Category_Id == id);
+			if (productsInCategory)
+			{
+				return false;
+			}
+
+			db.Categories.Remove(category);
+			db.SaveChanges();
+			return true;
+		}
 
         public CategoryVM GetIdCategory(int id)
         {

@@ -9,6 +9,6 @@ namespace ThongFastFood_Api.Repositories.CategoryService
         CategoryVM AddCategory(CategoryVM model);
         CategoryVM GetIdCategory(int id);
         CategoryVM UpdateCategory(int id, CategoryVM model);
-        void DeleteCategory(int id);
+        public bool DeleteCategory(int id);
     }
 }

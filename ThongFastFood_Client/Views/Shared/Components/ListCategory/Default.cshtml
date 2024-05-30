@@ -1,0 +1,14 @@
+﻿@model IEnumerable<ThongFastFood_Api.Models.CategoryVM>
+
+
+<div class="block product-categories">
+	<h3 class="block-title">Loại</h3>
+
+	<div class="block-content">
+		@foreach(var item in Model){
+			<div class="item">
+				<a class="category-title" asp-controller="Category" asp-action="ListProduct">@item.CategoryName</a>
+			</div>
+		}
+	</div>
+</div>
