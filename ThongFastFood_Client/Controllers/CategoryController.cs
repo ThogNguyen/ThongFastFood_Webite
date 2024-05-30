@@ -30,9 +30,19 @@ namespace ThongFastFood_Client.Controllers
 			return View(products);
 		}
 
-		public IActionResult DetailProduct()
+		/*GetIdProduct*/
+		public async Task<IActionResult> DetailProduct(int id)
 		{
-			return View();
+			ProductVM product = new ProductVM();
+			HttpResponseMessage apiMessage =
+			   await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetIdProduct/" + id);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				string data = await apiMessage.Content.ReadAsStringAsync();
+				product = JsonConvert.DeserializeObject<ProductVM>(data);
+			}
+			return View(product);
 		}
 	}
 }

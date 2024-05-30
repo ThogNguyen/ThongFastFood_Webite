@@ -72,8 +72,26 @@ namespace ThongFastFood_Api.Repositories.ProductService
             return null;
         }
 
-        
-        public List<ProductVM> GetProducts()
+		public List<ProductVM> GetProductByCategoryId(int id)
+		{
+			var products = db.Products
+				.Where(p => p.Category_Id == id)
+				.Select(p => new ProductVM
+				{
+					ProductId = p.ProductId,
+					ProductName = p.ProductName,
+					ProductPrice = p.ProductPrice,
+					ProductImage = p.ProductImage,
+					AddDate = p.AddDate,
+					Description = p.Description,
+					Category_Id = p.Category_Id
+				})
+				.ToList();
+
+			return products;
+		}
+
+		public List<ProductVM> GetProducts()
         {
             // Lấy danh sách sản phẩm từ cơ sở dữ liệu
             var productVM = db.Products.Select(p => new ProductVM

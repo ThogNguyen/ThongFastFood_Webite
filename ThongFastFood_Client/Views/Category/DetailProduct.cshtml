@@ -2,6 +2,8 @@
 	ViewData["Title"] = "Detail Product";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@model ThongFastFood_Api.Models.ProductVM
+
 
 <!-- Breadcrumb -->
 <div id="breadcrumb">
@@ -22,14 +24,14 @@
 		<div class="products-block layout-5">
 			<div class="product-item">
 				<div class="product-title">
-					Organic Strawberry Fruits
+					@Model.ProductName
 				</div>
 
 				<div class="row">
 					<div class="product-left col-md-4 col-sm-4 col-xs-12">
 						<div class="product-image horizontal">
 							<div class="main-image">
-								<img class="img-responsive" src="~/img/product/comgaxoimo.jpg" alt="Product Image">
+								<img class="img-responsive" src="~/img/product/@Model.ProductImage" alt="Product Image">
 							</div>
 						</div>
 					</div>
@@ -37,12 +39,12 @@
 					<div class="product-right col-md-5 col-sm-4 col-xs-12">
 						<div class="product-info">
 							<div class="product-price">
-								<span class="sale-price">$80.00</span>
+								<span class="sale-price">@String.Format("{0:N0}", Model.ProductPrice)đ</span>
 
 							</div>
 
 							<div class="product-short-description">
-								Mô tả sản phẩm
+								@Model.Description
 							</div>
 
 							<div class="product-add-to-cart border-bottom">
@@ -168,154 +170,7 @@
 			<h2 class="title"><span>Sản phẩm liên quan</span></h2>
 		</div>
 
-		<div class="block-content">
-			<div class="products owl-theme owl-carousel">
-				<div class="product-item">
-					<div class="product-image">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							<img src="~/img/product/combaroichiengion.jpg" alt="Product Image">
-						</a>
-					</div>
-
-					<div class="product-title">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							Organic Strawberry Fruits
-						</a>
-					</div>
-
-					<div class="product-price">
-						<span class="sale-price">$80.00</span>
-
-					</div>
-
-					<div class="product-buttons">
-						<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-							<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-						</a>
-
-						<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-							<i class="fa fa-eye" aria-hidden="true"></i>
-						</a>
-					</div>
-				</div>
-
-				<div class="product-item">
-					<div class="product-image">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							<img src="~/img/product/combaroichiengion.jpg" alt="Product Image">
-						</a>
-					</div>
-
-					<div class="product-title">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							Organic Strawberry Fruits
-						</a>
-					</div>
-
-					<div class="product-price">
-						<span class="sale-price">$80.00</span>
-
-					</div>
-
-					<div class="product-buttons">
-						<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-							<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-						</a>
-
-						<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-							<i class="fa fa-eye" aria-hidden="true"></i>
-						</a>
-					</div>
-				</div>
-
-				<div class="product-item">
-					<div class="product-image">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							<img src="~/img/product/combaroichiengion.jpg" alt="Product Image">
-						</a>
-					</div>
-
-					<div class="product-title">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							Organic Strawberry Fruits
-						</a>
-					</div>
-
-					<div class="product-price">
-						<span class="sale-price">$80.00</span>
-
-					</div>
-
-					<div class="product-buttons">
-						<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-							<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-						</a>
-
-						<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-							<i class="fa fa-eye" aria-hidden="true"></i>
-						</a>
-					</div>
-				</div>
-
-				<div class="product-item">
-					<div class="product-image">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							<img src="~/img/product/combaroichiengion.jpg" alt="Product Image">
-						</a>
-					</div>
-
-					<div class="product-title">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							Organic Strawberry Fruits
-						</a>
-					</div>
-
-					<div class="product-price">
-						<span class="sale-price">$80.00</span>
-
-					</div>
-
-					<div class="product-buttons">
-						<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-							<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-						</a>
-
-						<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-							<i class="fa fa-eye" aria-hidden="true"></i>
-						</a>
-					</div>
-				</div>
-
-				<div class="product-item">
-					<div class="product-image">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							<img src="~/img/product/combaroichiengion.jpg" alt="Product Image">
-						</a>
-					</div>
-
-					<div class="product-title">
-						<a asp-controller="Category" asp-action="DetailProduct">
-							Organic Strawberry Fruits
-						</a>
-					</div>
-
-					<div class="product-price">
-						<span class="sale-price">$80.00</span>
-
-					</div>
-
-					<div class="product-buttons">
-						<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-							<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-						</a>
-
-						<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-							<i class="fa fa-eye" aria-hidden="true"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div>
+		@await Component.InvokeAsync("RelatedProducts", new { categoryId = Model.Category_Id, currentProductId = Model.ProductId })
 	</div>
 </div>
 
