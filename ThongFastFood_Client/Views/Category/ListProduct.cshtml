@@ -1,6 +1,6 @@
 ﻿@{
-	ViewData["Title"] = "List Product";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "List Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @model IEnumerable<ThongFastFood_Api.Models.ProductVM>
@@ -8,148 +8,164 @@
 
 <!-- Breadcrumb -->
 <div id="breadcrumb">
-	<div class="container">
-		<h2 class="title">Danh Mục Sản Phẩm</h2>
+    <div class="container">
+        <h2 class="title">Danh Mục Sản Phẩm</h2>
 
-		<ul class="breadcrumb">
-			<li><a asp-controller="MainPage" asp-action="Index">Trang Chủ</a></li>
-			<li>Danh Mục Sản Phẩm</li>
-		</ul>
-	</div>
+        <ul class="breadcrumb">
+            <li><a asp-controller="MainPage" asp-action="Index">Trang Chủ</a></li>
+            <li>Danh Mục Sản Phẩm</li>
+        </ul>
+    </div>
 </div>
 
+<form id="sortForm" asp-controller="Category" asp-action="ListProduct" asp-route-id="@ViewBag.CurrentCategoryId" method="get">
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div id="left-column" class="sidebar col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <!-- Block - Product Categories -->
+                @* Loai san pham *@
+                @await Component.InvokeAsync("ListCategory")
 
-<div class="container">
-	<div class="row">
-		<!-- Sidebar -->
-		<div id="left-column" class="sidebar col-lg-3 col-md-3 col-sm-3 col-xs-12">
-			<!-- Block - Product Categories -->
-			<form action="#">
+                <!-- Block - Filter -->
+                <div class="block product-filter">
+                    <h3 class="block-title">Giá</h3>
 
-				@* Loai san pham *@
-				@await Component.InvokeAsync("ListCategory")
+                    <div class="block-content">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="priceRangeAll" name="priceRange" value="all" checked>
+                            <label class="form-check-label" for="priceRangeAll">
+                                Tất cả
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="priceRange10to20" name="priceRange" value="10-20k">
+                            <label class="form-check-label" for="priceRange10to20">
+                                10 - 20k
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="priceRange20to50" name="priceRange" value="20-50k">
+                            <label class="form-check-label" for="priceRange20to50">
+                                20-50k
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="priceRangeAbove50" name="priceRange" value="50k">
+                            <label class="form-check-label" for="priceRangeAbove50">
+                                50k trở lên
+                            </label>
+                        </div>
+                    </div>
+                </div>
 
-				<!-- Block - Filter -->
-				<div class="block product-filter">
-					<h3 class="block-title">Giá</h3>
+                <div class="form-group text-left">
+                    <input type="submit" class="btn btn-primary" value="Lọc">
+                </div>
+            </div>
 
-					<div class="block-content">
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="priceRange" id="priceRangeUnder100" value="under_100" checked>
-							<label class="form-check-label" for="priceRangeUnder100">
-								Tất cả
-							</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="priceRange" id="priceRange100to500" value="100_to_500">
-							<label class="form-check-label" for="priceRange100to500">
-								100.000 - 500.000
-							</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="priceRange" id="priceRange500to1000" value="500_to_1000">
-							<label class="form-check-label" for="priceRange500to1000">
-								500.000 - 1.000.000
-							</label>
-						</div>
-						<div class="form-check">
-							<input class="form-check-input" type="radio" name="priceRange" id="priceRangeAbove1000" value="above_1000">
-							<label class="form-check-label" for="priceRangeAbove1000">
-								Trên 1.000.000
-							</label>
-						</div>
-					</div>
-				</div>
+            <!-- Page Content -->
+            <div id="center-column" class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                <div class="product-category-page">
+                    <!-- Nav Bar -->
+                    <div class="products-bar">
+                        <div class="row">
+                            <div class="col-md-4 col-xs-4">
+                                <<div class="total-products">There are @Model.Count() products</div>
+                            </div>
 
-				<div class="form-group text-left">
-					<input type="submit" class="btn btn-primary" value="Lọc">
-				</div>
-			</form>
+                            <div class="col-md-8 col-xs-8">
+                                <div class="filter-bar">
+                                    <div class="select pull-right">
+                                        <select class="form-control" id="sortSelect" name="sort">
+                                            <option value="">Sắp Xếp</option>
+                                            <option value="name_asc">A -> Z</option>
+                                            <option value="name_desc">Z -> A</option>
+                                            <option value="price_asc">Giá tăng</option>
+                                            <option value="price_desc">Giá giảm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="products-block">
+                        <div class="row">
+                            @foreach (var item in Model)
+                            {
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="product-item">
+                                        <div class="product-image">
+                                            <a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
+                                                <img class="img-responsive" src="~/img/product/@item.ProductImage" alt="Product Image">
+                                            </a>
+                                        </div>
 
-		</div>
+                                        <div class="product-title">
+                                            <a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
+                                                @item.ProductName
+                                            </a>
+                                        </div>
 
-		<!-- Page Content -->
-		<div id="center-column" class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-			<div class="product-category-page">
-				<!-- Nav Bar -->
-				<div class="products-bar">
-					<div class="row">
-						<div class="col-md-4 col-xs-4">
-							<div class="total-products">There are 12 products</div>
-						</div>
+                                        <div class="product-price">
+                                            <span class="sale-price">@String.Format("{0:N0}", item.ProductPrice)đ</span>
 
-						<div class="col-md-8 col-xs-8">
-							<div class="filter-bar">
-								<form action="#" class="pull-right">
-									<div class="select">
-										<select class="form-control">
-											<option value="">Sắp Xếp</option>
-											<option value="1">Giá giảm</option>
-											<option value="2">Giá tăng</option>
-											<option value="3">A -> Z</option>
-											<option value="4">Z -> A</option>
-										</select>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="products-block">
-					<div class="row">
-						@foreach(var item in Model)
-						{
-							<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-								<div class="product-item">
-									<div class="product-image">
-										<a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
-											<img class="img-responsive" src="~/img/product/@item.ProductImage" alt="Product Image">
-										</a>
-									</div>
+                                        </div>
 
-									<div class="product-title">
-										<a asp-controller="Category" asp-action="DetailProduct">
-											@item.ProductName
-										</a>
-									</div>
+                                        <div class="product-buttons">
+                                            <a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+                                                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                            </a>
 
-									<div class="product-price">
-										<span class="sale-price">@String.Format("{0:N0}", item.ProductPrice)đ</span>
+                                            <a class="quickview" asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
+                                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
 
-									</div>
+                    <!-- Pagination Bar -->
+                    <div class="pagination-bar">
+                        <div class="row">
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <div class="pagination">
+                                    <ul class="page-list">
+                                        <li><a href="#" class="prev"></a></li>
+                                        <li><a href="#" class="current">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#" class="next">Next</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-									<div class="product-buttons">
-										<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
-											<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-										</a>
+    <input type="hidden" name="sort" value="@ViewBag.CurrentSort" />
+    <input type="hidden" name="priceRange" value="@ViewBag.CurrentPriceRange" />
+</form>
 
-										<a class="quickview" asp-controller="Category" asp-action="DetailProduct">
-											<i class="fa fa-eye" aria-hidden="true"></i>
-										</a>
-									</div>
-								</div>
-							</div>
-						}
-					</div>
-				</div>
 
-				<!-- Pagination Bar -->
-				<div class="pagination-bar">
-					<div class="row">
-						<div class="col-md-8 col-sm-8 col-xs-12">
-							<div class="pagination">
-								<ul class="page-list">
-									<li><a href="#" class="prev"></a></li>
-									<li><a href="#" class="current">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#" class="next">Next</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<script>
+    document.getElementById('sortForm').addEventListener('submit', function (event) {
+        event.preventDefault(); // Ngăn chặn việc submit mặc định của form
+
+        var form = this;
+        var sortValue = form.querySelector('[name="sort"]').value;
+        var priceRangeValue = form.querySelector('[name="priceRange"]:checked') ? form.querySelector('[name="priceRange"]:checked').value : 'all'; // Lấy giá trị đã chọn hoặc giá trị mặc định 'all'
+
+        // Thêm giá trị của sort và priceRange vào URL
+        var actionUrl = form.getAttribute('action') + '?sort=' + sortValue + '&priceRange=' + priceRangeValue;
+
+        // Chuyển hướng đến URL đã được cập nhật
+        window.location.href = actionUrl;
+    });
+</script>
+
 

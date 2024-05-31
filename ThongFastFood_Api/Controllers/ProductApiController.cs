@@ -18,9 +18,9 @@ namespace ThongFastFood_Api.Controllers
 
 
         [HttpGet]
-        public IActionResult GetProducts()
+        public IActionResult GetProducts(int id, string? sort, string? search, string? priceRange)
         {
-            var products = _productSer.GetProducts();
+            var products = _productSer.GetProducts(sort, search, priceRange);
             return Ok(products);
         }
 

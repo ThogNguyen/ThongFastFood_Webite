@@ -16,18 +16,36 @@ namespace ThongFastFood_Client.Controllers
 			_httpClient.BaseAddress = baseUrl;
 			_environment = environment;
 		}
-		public async Task<IActionResult> ListProduct()
+		public async Task<IActionResult> ListProduct(int? id, string search, string sort, string priceRange)
 		{
-            List<ProductVM> products = new List<ProductVM>();
-			HttpResponseMessage apiMessage =
-			   await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetProducts");
+			List<ProductVM> products = new List<ProductVM>();
 
-			if (apiMessage.IsSuccessStatusCode)
+			if (id.HasValue)
 			{
-				string data = await apiMessage.Content.ReadAsStringAsync();
-				products = JsonConvert.DeserializeObject<List<ProductVM>>(data);
+				// Nếu id có giá trị, tìm sản phẩm theo mã loại 
+				HttpResponseMessage apiMessage = await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetProductsByCategory/" + id.Value + "?search=" + search + "&sort=" + sort + "&priceRange=" + priceRange);
+				if (apiMessage.IsSuccessStatusCode)
+				{
+					string data = await apiMessage.Content.ReadAsStringAsync();
+					products = JsonConvert.DeserializeObject<List<ProductVM>>(data);
+				}
 			}
-			return View(products);
+			else
+			{
+				// Nếu id không có giá trị, lấy tất cả sản phẩm
+				HttpResponseMessage apiMessage = await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetProducts?search=" + search + "&sort=" + sort + "&priceRange=" + priceRange);
+				if (apiMessage.IsSuccessStatusCode)
+				{
+					string data = await apiMessage.Content.ReadAsStringAsync();
+					products = JsonConvert.DeserializeObject<List<ProductVM>>(data);
+				}
+			}
+
+			ViewBag.CurrentSort = sort;
+			ViewBag.CurrentPriceRange = priceRange;
+            ViewBag.CurrentCategory = id;
+
+            return View(products);
 		}
 
 		/*GetIdProduct*/

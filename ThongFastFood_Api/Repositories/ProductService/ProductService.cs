@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Drawing.Printing;
 using System.Net.Http;
 using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ThongFastFood_Api.Repositories.ProductService
 {
@@ -91,10 +93,63 @@ namespace ThongFastFood_Api.Repositories.ProductService
 			return products;
 		}
 
-		public List<ProductVM> GetProducts()
+		public List<ProductVM> GetProducts(string? sort, string? search, string? priceRange)
         {
+            IQueryable<Product> query = db.Products;
+
+            #region Lọc sản phẩm theo tên
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(x => x.ProductName.Contains(search));
+			}
+
+			#endregion
+
+			#region Lọc sản phẩm theo giá
+			if (!string.IsNullOrEmpty(priceRange))
+			{
+				switch (priceRange)
+				{
+					case "10-20k":
+						query = query.Where(p => p.ProductPrice >= 10000 && p.ProductPrice <= 20000);
+						break;
+					case "20-50k":
+						query = query.Where(p => p.ProductPrice >= 20000 && p.ProductPrice <= 50000);
+						break;
+					case "50k":
+						query = query.Where(p => p.ProductPrice > 50000);
+						break;
+                    default:
+                        break;
+				}
+			}
+			#endregion
+			#region Sắp xếp sản phẩm
+			if (!string.IsNullOrEmpty(sort))
+            {
+                switch (sort)
+                {
+                    case "name_asc":
+                        query = query.OrderBy(x => x.ProductName);
+                        break;
+                    case "name_desc":
+                        query = query.OrderByDescending(x => x.ProductName);
+                        break;
+                    case "price_asc":
+                        query = query.OrderBy(x => x.ProductPrice);
+                        break;
+                    case "price_desc":
+                        query = query.OrderByDescending(x => x.ProductPrice);
+                        break;
+                    default:
+                        query = query.OrderBy(x => x.ProductId);
+                        break;
+                }
+            }
+            #endregion
+
             // Lấy danh sách sản phẩm từ cơ sở dữ liệu
-            var productVM = db.Products.Select(p => new ProductVM
+            var productVM = query.Select(p => new ProductVM
             {
                 ProductId = p.ProductId,
                 ProductName = p.ProductName,

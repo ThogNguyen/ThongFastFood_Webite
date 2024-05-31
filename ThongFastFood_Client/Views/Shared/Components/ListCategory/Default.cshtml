@@ -7,7 +7,10 @@
 	<div class="block-content">
 		@foreach(var item in Model){
 			<div class="item">
-				<a class="category-title" asp-controller="Category" asp-action="ListProduct">@item.CategoryName</a>
+				<a class="category-title" 
+				asp-controller="Category" 
+				asp-action="ListProduct" 
+				asp-route-id="@item.CategoryId">@item.CategoryName</a>
 			</div>
 		}
 	</div>

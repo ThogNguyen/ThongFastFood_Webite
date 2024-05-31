@@ -34,6 +34,11 @@
 	<link rel="stylesheet" href="~/css/reponsive.css">
 </head>
 
+@{
+	string searchValue = ViewData["Search"] as string ?? string.Empty;
+}
+
+
 <body class="home home-1">
 	<div id="all">
 		<!-- Header -->
@@ -103,8 +108,8 @@
 						<!-- Search -->
 						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 							<div class="form-search">
-								<form action="#" method="get">
-									<input type="text" class="form-input" placeholder="Search">
+								<form asp-controller="Category" asp-action="ListProduct" method="get">
+									<input type="text" class="form-input" placeholder="Search" name="search">
 									<button type="submit" class="fa fa-search"></button>
 								</form>
 							</div>
