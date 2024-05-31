@@ -1,5 +1,7 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ThongFastFood_Api.Data;
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 
 namespace ThongFastFood_Client
 {
@@ -16,6 +18,15 @@ namespace ThongFastFood_Client
             builder.Services.AddDbContext<FoodStoreDbContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("db"));
+            });
+
+
+            // Add ToastNotification
+            builder.Services.AddNotyf(config =>
+            {
+                config.DurationInSeconds = 3;
+                config.IsDismissable = true;
+                config.Position = NotyfPosition.TopRight;
             });
 
             var app = builder.Build();
@@ -42,6 +53,8 @@ namespace ThongFastFood_Client
 			app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=MainPage}/{action=Index}/{id?}");
+
+            app.UseNotyf();
 
             app.Run();
         }

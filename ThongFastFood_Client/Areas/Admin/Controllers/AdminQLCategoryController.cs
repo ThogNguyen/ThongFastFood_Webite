@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using NToastNotify;
+using System.Collections.Specialized;
 using System.Text;
 using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Models;
@@ -13,10 +16,12 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
         Uri baseUrl = new Uri("https://localhost:7244/api");
 
         private readonly HttpClient _httpClient;
-        public AdminQLCategoryController(HttpClient httpClient)
+        private readonly INotyfService _notyf;
+        public AdminQLCategoryController(HttpClient httpClient, INotyfService noty)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = baseUrl;
+            _notyf = noty;
         }
 
         public IActionResult Category()
@@ -51,6 +56,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             if (resMessage.IsSuccessStatusCode)
             {
+                _notyf.Information("Thêm loại thành công");
                 return RedirectToAction("Category");
             }
 
@@ -84,6 +90,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             if (apiMessage.IsSuccessStatusCode)
             {
+                _notyf.Information("Sửa loại thành công");
                 return RedirectToAction("Category");
             }
 
@@ -96,12 +103,12 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             if (apiMessage.IsSuccessStatusCode)
             {
+                _notyf.Success("Xóa loại thành công");
                 return RedirectToAction("Category");
             }
             else
             {
-                var errorMessage = apiMessage.Content.ReadAsStringAsync().Result;
-                TempData["ErrorMessage"] = errorMessage; 
+                _notyf.Warning("Đã có sản phẩm trong loại này");
                 return RedirectToAction("Category"); 
             }
         }

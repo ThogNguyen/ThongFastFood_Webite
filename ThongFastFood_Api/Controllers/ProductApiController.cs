@@ -64,7 +64,6 @@ namespace ThongFastFood_Api.Controllers
             {
                 return BadRequest("Mã loại không được bỏ trống");
             }
-            
         }
 
         [HttpPut("{id}")]

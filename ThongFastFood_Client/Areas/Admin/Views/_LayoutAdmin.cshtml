@@ -15,6 +15,7 @@
     <!-- Custom style CSS -->
     <link rel="stylesheet" href="~/assets/css/custom.css">
     <link rel='shortcut icon' type='image/x-icon' href='~/assets/img/favicon.ico' />
+
 </head>
 
 <body>
@@ -95,7 +96,9 @@
     <!-- Custom JS File -->
     <script src="~/assets/js/custom.js"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+    @await Component.InvokeAsync("Notyf")
+    @await RenderSectionAsync("Scripts", required: false)    
+
 </body>
 
 

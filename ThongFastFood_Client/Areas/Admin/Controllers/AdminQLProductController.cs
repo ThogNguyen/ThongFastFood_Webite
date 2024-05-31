@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -19,11 +20,13 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
         private readonly HttpClient _httpClient;
         private readonly IWebHostEnvironment _environment;
-        public AdminQLProductController(HttpClient httpClient, IWebHostEnvironment environment)
+        private readonly INotyfService _notyf;
+        public AdminQLProductController(HttpClient httpClient, IWebHostEnvironment environment, INotyfService noty)
         {
             _httpClient = httpClient;
             _httpClient.BaseAddress = baseUrl;
             _environment = environment;
+            _notyf = noty;
         }
 
         // load sản phẩm
@@ -94,6 +97,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    _notyf.Information("Thêm sản phẩm thành công");
                     // Chuyển hướng đến trang sản phẩm
                     return RedirectToAction("Product");
                 }
@@ -107,8 +111,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 				string data = await apiMessage.Content.ReadAsStringAsync();
 				categories = JsonConvert.DeserializeObject<List<Category>>(data);
 			}
-
-			ViewBag.Category_Id = new SelectList(categories, "CategoryId", "CategoryName");
+            ViewBag.Category_Id = new SelectList(categories, "CategoryId", "CategoryName");
 
 			// Nếu không thành công hoặc có lỗi xảy ra, hiển thị lại form với model để người dùng nhập lại thông tin
 			return View(model);
@@ -237,6 +240,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             if (resMessage.IsSuccessStatusCode)
             {
+                _notyf.Information("Sửa sản phẩm thành công");
                 // Nếu thành công, chuyển hướng về trang danh sách sản phẩm
                 return RedirectToAction("Product");
             }
@@ -254,6 +258,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             if (apiMessage.IsSuccessStatusCode)
             {
+                _notyf.Success("Xóa sản phẩm thành công");
                 return RedirectToAction("Product");
             }
             return View();

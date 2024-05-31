@@ -170,7 +170,8 @@
 			<h2 class="title"><span>Sản phẩm liên quan</span></h2>
 		</div>
 
-		@await Component.InvokeAsync("RelatedProducts", new { categoryId = Model.Category_Id, currentProductId = Model.ProductId })
+		@await Component.InvokeAsync("RelatedProducts", 
+		new { categoryId = Model.Category_Id, currentProductId = Model.ProductId })
 	</div>
 </div>
 
