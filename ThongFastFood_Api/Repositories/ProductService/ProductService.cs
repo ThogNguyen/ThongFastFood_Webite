@@ -110,8 +110,8 @@ namespace ThongFastFood_Api.Repositories.ProductService
 			{
 				switch (priceRange)
 				{
-					case "10-20k":
-						query = query.Where(p => p.ProductPrice >= 10000 && p.ProductPrice <= 20000);
+					case "0-20k":
+						query = query.Where(p => p.ProductPrice >= 0 && p.ProductPrice <= 20000);
 						break;
 					case "20-50k":
 						query = query.Where(p => p.ProductPrice >= 20000 && p.ProductPrice <= 50000);

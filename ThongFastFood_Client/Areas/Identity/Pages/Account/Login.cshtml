@@ -1,0 +1,64 @@
+﻿@page
+@model LoginModel
+
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Breadcrumb -->
+<div id="breadcrumb">
+    <div class="container">
+        <h2 class="title">Đăng Nhập</h2>
+
+        <ul class="breadcrumb">
+            <li><a asp-area="" asp-controller="MainPage" asp-action="Index">Trang Chủ</a></li>
+            <li><span>Đăng Nhập</span></li>
+        </ul>
+    </div>
+</div>
+
+<div class="container">
+    <div class="login-page">
+        <div class="login-form form">
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label>Tên Đăng Nhập</label>
+                    <input asp-for="Input.Username" class="form-control" />
+                    <span asp-validation-for="Input.Username" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Input.RememberMe">
+                            <input asp-for="Input.RememberMe" />
+                            Nhớ Mật Khẩu
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+                </div>
+
+                <div class="form-group text-center">
+                    <div class="link">
+                        <a href="#" id="forgot-password">Quên mật khẩu?</a>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Tạo tài khoản mới</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

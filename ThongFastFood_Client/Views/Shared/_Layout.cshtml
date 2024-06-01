@@ -50,7 +50,7 @@
 				<div class="container topbar-content" style="display: block;">
 					<div class="row">
 						<!-- Topbar Left -->
-						<div class="col-md-10 col-sm-7 col-xs-12">
+						<div class="col-md-9 col-sm-7 col-xs-12">
 							<div class="topbar-left d-flex">
 								<div class="email">
 									<i class="fa fa-envelope" aria-hidden="true"></i>Email: abc@gmail.com
@@ -62,41 +62,7 @@
 						</div>
 
 						<!-- Topbar Right -->
-						<div class="col-md-2 col-sm-5 col-xs-12">
-							<div class="topbar-right d-flex justify-content-center">
-								<!-- My Account -->
-								<div class="dropdown account">
-									<div class="dropdown-toggle" data-toggle="dropdown">
-										Tài Khoản
-									</div>
-									<div class="dropdown-menu">
-										<div class="item">
-											<a asp-controller="User" asp-action="Login">
-												<i class="fa fa-sign-in"></i>Đăng Nhập
-											</a>
-										</div>
-										<div class="item">
-											<a asp-controller="User" asp-action="Register"><i class="fa fa-user"></i>Đăng Kí</a>
-										</div>
-										<div class="item">
-											<a asp-area="Admin" asp-controller="AdminMainPage" asp-action="MainPage">
-												<i class="fa fa-user-secret"></i>Admin
-											</a>
-										</div>
-										<div class="item">
-											<a asp-controller="MainPage" asp-action="UserInfo">
-												<i class="fa fa-user"></i>Thông Tin
-											</a>
-										</div>
-										<div class="item">
-											<a asp-controller="MainPage" asp-action="CustomerOrder">
-												<i class="fa fa-product-hunt"></i>Đơn Hàng
-											</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<partial name="_LoginPartial.cshtml" />
 					</div>
 				</div>
 			</div>
@@ -335,5 +301,6 @@
 
 	<!-- Template CSS -->
 	<script src="~/js/main.js"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

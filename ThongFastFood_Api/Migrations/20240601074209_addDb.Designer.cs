@@ -12,8 +12,8 @@ using ThongFastFood_Api.Data;
 namespace ThongFastFood_Api.Migrations
 {
     [DbContext(typeof(FoodStoreDbContext))]
-    [Migration("20240527051355_addComboId_OrderDetail")]
-    partial class addComboId_OrderDetail
+    [Migration("20240601074209_addDb")]
+    partial class addDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,212 @@ namespace ThongFastFood_Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("ThongFastFood_Api.Data.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FullName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("ThongFastFood_Api.Data.Cart", b =>
                 {
                     b.Property<int>("CartId")
@@ -32,9 +238,6 @@ namespace ThongFastFood_Api.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
-
-                    b.Property<int?>("Combo_Id")
-                        .HasColumnType("int");
 
                     b.Property<string>("Image")
                         .IsRequired()
@@ -58,12 +261,11 @@ namespace ThongFastFood_Api.Migrations
                     b.Property<int>("TotalAmount")
                         .HasColumnType("int");
 
-                    b.Property<int>("User_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CartId");
-
-                    b.HasIndex("Combo_Id");
 
                     b.HasIndex("Product_Id");
 
@@ -82,55 +284,11 @@ namespace ThongFastFood_Api.Migrations
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CategoryId");
 
                     b.ToTable("Category");
-                });
-
-            modelBuilder.Entity("ThongFastFood_Api.Data.Combo", b =>
-                {
-                    b.Property<int>("ComboId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComboId"));
-
-                    b.Property<string>("ComboImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(400)");
-
-                    b.Property<string>("ComboName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("ComboPrice")
-                        .HasColumnType("int");
-
-                    b.HasKey("ComboId");
-
-                    b.ToTable("Combo");
-                });
-
-            modelBuilder.Entity("ThongFastFood_Api.Data.ComboItem", b =>
-                {
-                    b.Property<int>("Combo_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Product_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Combo_Id", "Product_Id");
-
-                    b.HasIndex("Product_Id");
-
-                    b.ToTable("ComboItem");
                 });
 
             modelBuilder.Entity("ThongFastFood_Api.Data.Order", b =>
@@ -146,8 +304,9 @@ namespace ThongFastFood_Api.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("Customer_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("Customer_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DeliveryAddress")
                         .IsRequired()
@@ -190,9 +349,6 @@ namespace ThongFastFood_Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"));
 
-                    b.Property<int?>("Combo_Id")
-                        .HasColumnType("int");
-
                     b.Property<int>("Order_ID")
                         .HasColumnType("int");
 
@@ -206,8 +362,6 @@ namespace ThongFastFood_Api.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderDetailId");
-
-                    b.HasIndex("Combo_Id");
 
                     b.HasIndex("Order_ID");
 
@@ -279,8 +433,9 @@ namespace ThongFastFood_Api.Migrations
                     b.Property<DateTime>("ReviewDate")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("User_Id")
-                        .HasColumnType("int");
+                    b.Property<string>("User_Id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -291,118 +446,78 @@ namespace ThongFastFood_Api.Migrations
                     b.ToTable("Review");
                 });
 
-            modelBuilder.Entity("ThongFastFood_Api.Data.Role", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"));
-
-                    b.Property<string>("RoleName")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Role");
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("ThongFastFood_Api.Data.User", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.HasOne("ThongFastFood_Api.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("ThongFastFood_Api.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("ComfirmPassword")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(100)");
+                    b.HasOne("ThongFastFood_Api.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PhoneNo")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<int>("Role_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Role_Id");
-
-                    b.ToTable("User");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("ThongFastFood_Api.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ThongFastFood_Api.Data.Cart", b =>
                 {
-                    b.HasOne("ThongFastFood_Api.Data.Combo", "Combo")
-                        .WithMany("Carts")
-                        .HasForeignKey("Combo_Id");
-
                     b.HasOne("ThongFastFood_Api.Data.Product", "Product")
                         .WithMany("GioHangs")
                         .HasForeignKey("Product_Id");
 
-                    b.HasOne("ThongFastFood_Api.Data.User", "User")
-                        .WithMany("Carts")
+                    b.HasOne("ThongFastFood_Api.Data.ApplicationUser", "User")
+                        .WithMany()
                         .HasForeignKey("User_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Combo");
 
                     b.Navigation("Product");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ThongFastFood_Api.Data.ComboItem", b =>
-                {
-                    b.HasOne("ThongFastFood_Api.Data.Combo", "Combo")
-                        .WithMany("ComboItems")
-                        .HasForeignKey("Combo_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ThongFastFood_Api.Data.Product", "Product")
-                        .WithMany("ComboItems")
-                        .HasForeignKey("Product_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Combo");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("ThongFastFood_Api.Data.Order", b =>
                 {
-                    b.HasOne("ThongFastFood_Api.Data.User", "User")
-                        .WithMany("Orders")
+                    b.HasOne("ThongFastFood_Api.Data.ApplicationUser", "User")
+                        .WithMany()
                         .HasForeignKey("Customer_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -412,10 +527,6 @@ namespace ThongFastFood_Api.Migrations
 
             modelBuilder.Entity("ThongFastFood_Api.Data.OrderDetail", b =>
                 {
-                    b.HasOne("ThongFastFood_Api.Data.Combo", "Combo")
-                        .WithMany()
-                        .HasForeignKey("Combo_Id");
-
                     b.HasOne("ThongFastFood_Api.Data.Order", "Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("Order_ID")
@@ -426,8 +537,6 @@ namespace ThongFastFood_Api.Migrations
                         .WithMany("OrderDetails")
                         .HasForeignKey("Product_Id");
 
-                    b.Navigation("Combo");
-
                     b.Navigation("Order");
 
                     b.Navigation("Product");
@@ -436,7 +545,7 @@ namespace ThongFastFood_Api.Migrations
             modelBuilder.Entity("ThongFastFood_Api.Data.Product", b =>
                 {
                     b.HasOne("ThongFastFood_Api.Data.Category", "Category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("Category_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -452,8 +561,8 @@ namespace ThongFastFood_Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ThongFastFood_Api.Data.User", "User")
-                        .WithMany("Reviews")
+                    b.HasOne("ThongFastFood_Api.Data.ApplicationUser", "User")
+                        .WithMany()
                         .HasForeignKey("User_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -463,22 +572,9 @@ namespace ThongFastFood_Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ThongFastFood_Api.Data.User", b =>
+            modelBuilder.Entity("ThongFastFood_Api.Data.Category", b =>
                 {
-                    b.HasOne("ThongFastFood_Api.Data.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("Role_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("ThongFastFood_Api.Data.Combo", b =>
-                {
-                    b.Navigation("Carts");
-
-                    b.Navigation("ComboItems");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("ThongFastFood_Api.Data.Order", b =>
@@ -488,25 +584,9 @@ namespace ThongFastFood_Api.Migrations
 
             modelBuilder.Entity("ThongFastFood_Api.Data.Product", b =>
                 {
-                    b.Navigation("ComboItems");
-
                     b.Navigation("GioHangs");
 
                     b.Navigation("OrderDetails");
-
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("ThongFastFood_Api.Data.Role", b =>
-                {
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("ThongFastFood_Api.Data.User", b =>
-                {
-                    b.Navigation("Carts");
-
-                    b.Navigation("Orders");
 
                     b.Navigation("Reviews");
                 });

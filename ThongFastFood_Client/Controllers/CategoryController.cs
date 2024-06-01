@@ -23,7 +23,7 @@ namespace ThongFastFood_Client.Controllers
 			if (id.HasValue)
 			{
 				// Nếu id có giá trị, tìm sản phẩm theo mã loại 
-				HttpResponseMessage apiMessage = await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetProductsByCategory/" + id.Value + "?search=" + search + "&sort=" + sort + "&priceRange=" + priceRange);
+				HttpResponseMessage apiMessage = await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetProductsByCategory/" + id.Value);
 				if (apiMessage.IsSuccessStatusCode)
 				{
 					string data = await apiMessage.Content.ReadAsStringAsync();

@@ -22,8 +22,9 @@ namespace ThongFastFood_Api.Data
         public int Product_Id { get; set; }
         public Product Product { get; set; }
 
-        [ForeignKey("User")]
-        public int User_Id { get; set; }
-        public User User { get; set; }
-    }
+		[ForeignKey("User")]
+		[Column(TypeName = "nvarchar(450)")]
+		public string User_Id { get; set; }
+		public ApplicationUser User { get; set; }
+	}
 }

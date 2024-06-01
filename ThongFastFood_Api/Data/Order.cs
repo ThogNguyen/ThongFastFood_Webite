@@ -21,10 +21,14 @@ namespace ThongFastFood_Api.Data
         public int TotalAmount { get; set; }
         [StringLength(400)]
         public string Note { get; set; }
-        //khóa ngoại
-        [ForeignKey("User")]
-        public int Customer_Id { get; set; }
-        public User User { get; set; }
+
+
+		//khóa ngoại
+		[ForeignKey("User")]
+		[Column(TypeName = "nvarchar(450)")]
+		public string Customer_Id { get; set; }
+		public ApplicationUser User { get; set; }
+		
 
         public ICollection<OrderDetail> OrderDetails { get; set; }
 

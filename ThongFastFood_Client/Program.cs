@@ -2,6 +2,7 @@
 using ThongFastFood_Api.Data;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace ThongFastFood_Client
 {
@@ -19,6 +20,21 @@ namespace ThongFastFood_Client
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("db"));
             });
+
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = false;
+
+                // Cấu hình các yêu cầu về mật khẩu
+                options.Password.RequireDigit = false;          // Không yêu cầu chứa ký số
+                options.Password.RequiredLength = 6;           // Độ dài tối thiểu là 6 ký tự
+                options.Password.RequireLowercase = false;     // Không yêu cầu chứa ký tự viết thường
+                options.Password.RequireUppercase = false;     // Không yêu cầu chứa ký tự viết hoa
+                options.Password.RequireNonAlphanumeric = false; // Không yêu cầu chứa ký tự đặc biệt
+            })
+            .AddEntityFrameworkStores<FoodStoreDbContext>();
+
+            builder.Services.AddRazorPages();
 
 
             // Add ToastNotification
@@ -44,6 +60,7 @@ namespace ThongFastFood_Client
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 			app.MapControllerRoute(
@@ -56,6 +73,7 @@ namespace ThongFastFood_Client
 
             app.UseNotyf();
 
+            app.MapRazorPages();
             app.Run();
         }
     }
