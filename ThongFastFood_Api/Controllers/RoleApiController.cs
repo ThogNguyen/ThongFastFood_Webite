@@ -48,7 +48,7 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<ActionResult<IdentityRole>> UpdateRole(string id, IdentityRole identityRole)
+		public async Task<ActionResult<IdentityRole>> PutRole(string id, IdentityRole identityRole)
 		{
 			if (id != identityRole.Id)
 			{
@@ -64,7 +64,7 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public async Task<ActionResult<IdentityRole>> DeleteRole(string id)
+		public async Task<ActionResult<IdentityRole>> RemoveRole(string id)
 		{
 			var role = await roleService.DeleteRoleAsync(id);
 			if (role == null)

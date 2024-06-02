@@ -5,7 +5,7 @@ using ThongFastFood_Api.Repositories.UserService;
 
 namespace ThongFastFood_Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class RoleManagerApiController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace ThongFastFood_Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUserRole(IdentityUserRole<string> userRole)
+        public async Task<IActionResult> PutUserRole(IdentityUserRole<string> userRole)
         {
             var result = await _userRoleService.UpdateAsync(userRole);
             if (result)

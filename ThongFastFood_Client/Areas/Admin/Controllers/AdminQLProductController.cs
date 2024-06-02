@@ -1,4 +1,5 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Hosting;
@@ -14,7 +15,8 @@ using ThongFastFood_Api.Models;
 namespace ThongFastFood_Client.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class AdminQLProductController : Controller
+	[Authorize(Roles = "Admin")]
+	public class AdminQLProductController : Controller
     {
         Uri baseUrl = new Uri("https://localhost:7244/api");
 
