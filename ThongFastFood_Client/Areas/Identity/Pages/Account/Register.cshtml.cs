@@ -20,32 +20,33 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+		private readonly SignInManager<ApplicationUser> _signInManager;
+		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly ILogger<RegisterModel> _logger;
+		private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-            _emailSender = emailSender;
-        }
+		public RegisterModel(
+			UserManager<ApplicationUser> userManager,
+			SignInManager<ApplicationUser> signInManager,
+			ILogger<RegisterModel> logger,
+			RoleManager<IdentityRole> roleManager)
+		{
+			_userManager = userManager;
+			_signInManager = signInManager;
+			_logger = logger;
+			_roleManager = roleManager;
+		}
 
-        [BindProperty]
+
+		[BindProperty]
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        public class InputModel
-        {
+		public class InputModel
+		{
 			[Required(ErrorMessage = "Email không được bỏ trống")]
 			[EmailAddress(ErrorMessage = "Định dạng email không hợp lệ")]
 			public string Email { get; set; }
@@ -73,26 +74,26 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
 			public string ConfirmPassword { get; set; }
 		}
 
-        public async Task OnGetAsync(string returnUrl = null)
-        {
-            ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+		public async Task OnGetAsync(string returnUrl = null)
+		{
+			//nếu đã đăng nhập sẽ tự về index khi vào register lại
+			if (User.Identity.IsAuthenticated)
+			{
+				Response.Redirect("/");
+			}
+
+			ReturnUrl = returnUrl;
+			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+		}
+
+		/*public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser 
-                { 
-                    UserName = Input.Username,
-                    Email = Input.Email,
-                    FullName = Input.FullName,
-                    PhoneNumber = Input.Phone,
-                    Address = Input.Address
-                };
+                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
@@ -127,6 +128,75 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
-        }
-    }
+        }*/
+		public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+		{
+			returnUrl ??= Url.Content("~/");
+			ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+			if (ModelState.IsValid)
+			{
+				var user = new ApplicationUser
+				{
+					UserName = Input.Username,
+					Email = Input.Email,
+					FullName = Input.FullName,
+					PhoneNumber = Input.Phone,
+					Address = Input.Address
+				};
+
+				// Kiểm tra xem vai trò "User" đã tồn tại chưa
+				var userRole = await _roleManager.FindByNameAsync("User");
+				if (userRole == null)
+				{
+					// Nếu vai trò "User" chưa tồn tại, tạo mới
+					userRole = new IdentityRole("User");
+					var roleResult = await _roleManager.CreateAsync(userRole);
+					if (!roleResult.Succeeded)
+					{
+						foreach (var error in roleResult.Errors)
+						{
+							ModelState.AddModelError(string.Empty, error.Description);
+						}
+						return Page();
+					}
+				}
+
+				// Thêm vai trò "User" cho người dùng
+				var result = await _userManager.CreateAsync(user, Input.Password);
+				if (result.Succeeded)
+				{
+					// Gán vai trò cho người dùng
+					var roleAssignResult = await _userManager.AddToRoleAsync(user, userRole.Name);
+					if (!roleAssignResult.Succeeded)
+					{
+						foreach (var error in roleAssignResult.Errors)
+						{
+							ModelState.AddModelError(string.Empty, error.Description);
+						}
+						return Page();
+					}
+
+					_logger.LogInformation("User created a new account with password.");
+
+					if (_userManager.Options.SignIn.RequireConfirmedAccount)
+					{
+						return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+					}
+					else
+					{
+						await _signInManager.SignInAsync(user, isPersistent: false);
+						return LocalRedirect(returnUrl);
+					}
+				}
+				foreach (var error in result.Errors)
+				{
+					ModelState.AddModelError(string.Empty, error.Description);
+				}
+			}
+
+			// If we got this far, something failed, redisplay form
+			return Page();
+		}
+
+	}
 }

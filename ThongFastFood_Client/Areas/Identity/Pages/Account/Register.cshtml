@@ -2,9 +2,7 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 <!-- Breadcrumb -->
 <div id="breadcrumb">
@@ -25,8 +23,8 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     Họ và Tên
-                <input asp-for="Input.FullName" class="form-control" />
-                <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                    <input asp-for="Input.FullName" class="form-control" />
+                    <span asp-validation-for="Input.FullName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     Tên đăng nhập
@@ -39,14 +37,14 @@
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                Số điện thoại
-                <input asp-for="Input.Phone" class="form-control" />
+                    Số điện thoại
+                    <input asp-for="Input.Phone" class="form-control" />
                     <span asp-validation-for="Input.Phone" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                Địa chỉ
-                <input asp-for="Input.Address" class="form-control" />
-                <span asp-validation-for="Input.Address" class="text-danger"></span>
+                    Địa chỉ
+                    <input asp-for="Input.Address" class="form-control" />
+                    <span asp-validation-for="Input.Address" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     Mật khẩu
@@ -71,6 +69,8 @@
         </div>
     </div>
 </div>
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

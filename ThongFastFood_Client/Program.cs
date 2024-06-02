@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ThongFastFood_Api.Data;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ThongFastFood_Client
 {
@@ -21,21 +22,35 @@ namespace ThongFastFood_Client
                 options.UseSqlServer(builder.Configuration.GetConnectionString("db"));
             });
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
 
-                // Cấu hình các yêu cầu về mật khẩu
-                options.Password.RequireDigit = false;          // Không yêu cầu chứa ký số
-                options.Password.RequiredLength = 6;           // Độ dài tối thiểu là 6 ký tự
-                options.Password.RequireLowercase = false;     // Không yêu cầu chứa ký tự viết thường
-                options.Password.RequireUppercase = false;     // Không yêu cầu chứa ký tự viết hoa
-                options.Password.RequireNonAlphanumeric = false; // Không yêu cầu chứa ký tự đặc biệt
+                // Password requirements...
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
             })
-            .AddEntityFrameworkStores<FoodStoreDbContext>();
+            .AddRoles<IdentityRole>()
+            .AddRoleManager<RoleManager<IdentityRole>>()
+            .AddEntityFrameworkStores<FoodStoreDbContext>()
+            .AddDefaultTokenProviders();
+
+            /*builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("UserOnly", policy => policy.RequireClaim("User"));
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
+            });*/
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            });
 
             builder.Services.AddRazorPages();
-
 
             // Add ToastNotification
             builder.Services.AddNotyf(config =>
@@ -51,7 +66,6 @@ namespace ThongFastFood_Client
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -63,11 +77,11 @@ namespace ThongFastFood_Client
             app.UseAuthentication();
             app.UseAuthorization();
 
-			app.MapControllerRoute(
-				name: "AdminArea",
-				pattern: "{area:exists}/{controller=AdminTrangChu}/{action=MainPage}/{id?}");
+            app.MapControllerRoute(
+                name: "AdminArea",
+                pattern: "{area:exists}/{controller=AdminTrangChu}/{action=MainPage}/{id?}");
 
-			app.MapControllerRoute(
+            app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=MainPage}/{action=Index}/{id?}");
 

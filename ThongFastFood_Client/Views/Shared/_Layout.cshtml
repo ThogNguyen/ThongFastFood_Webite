@@ -74,7 +74,7 @@
 						<!-- Search -->
 						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 							<div class="form-search">
-								<form asp-controller="Category" asp-action="ListProduct" method="get">
+								<form asp-area="" asp-controller="Category" asp-action="ListProduct" method="get">
 									<input type="text" class="form-input" placeholder="Search" name="search">
 									<button type="submit" class="fa fa-search"></button>
 								</form>
@@ -84,7 +84,7 @@
 						<!-- Logo -->
 						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 							<div class="logo">
-								<a asp-controller="MainPage" asp-action="Index">
+								<a asp-area="" asp-controller="MainPage" asp-action="Index">
 									<img class="img-responsive" src="~/img/logo.png" alt="Logo">
 								</a>
 							</div>
@@ -96,7 +96,7 @@
 						<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 							<div class="block-cart dropdown">
 								<div class="cart-title">
-									<a asp-controller="Cart" asp-action="CartInfo">
+									<a asp-area="" asp-controller="Cart" asp-action="CartInfo">
 										<i class="fa fa-shopping-basket"></i>
 									</a>
 								</div>
@@ -110,19 +110,19 @@
 			<div id="main-menu">
 				<ul class="menu">
 					<li>
-						<a asp-controller="MainPage" asp-action="Index">Trang Chủ</a>
+						<a asp-area="" asp-controller="MainPage" asp-action="Index">Trang Chủ</a>
 					</li>
 
 					<li>
-						<a asp-controller="Category" asp-action="ListProduct">Sản Phẩm</a>
+						<a asp-area="" asp-controller="Category" asp-action="ListProduct">Sản Phẩm</a>
 					</li>
 
 					<li>
-						<a asp-controller="MainPage" asp-action="About">Giới Thiệu</a>
+						<a asp-area="" asp-controller="MainPage" asp-action="About">Giới Thiệu</a>
 					</li>
 
 					<li>
-						<a asp-controller="MainPage" asp-action="Contact">Liên Hệ</a>
+						<a asp-area="" asp-controller="MainPage" asp-action="Contact">Liên Hệ</a>
 					</li>
 				</ul>
 			</div>
@@ -143,7 +143,7 @@
 							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
 								<div class="block text">
 									<div class="block-content">
-										<a asp-controller="MainPage" asp-action="Index" class="logo-footer">
+										<a asp-area="" asp-controller="MainPage" asp-action="Index" class="logo-footer">
 											<img src="~/img/logo.png" alt="Logo">
 										</a>
 

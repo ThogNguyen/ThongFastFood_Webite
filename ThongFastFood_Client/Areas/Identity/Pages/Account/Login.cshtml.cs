@@ -22,7 +22,7 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, 
+        public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
         {
@@ -30,6 +30,7 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
         }
+
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -53,10 +54,17 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
 
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            //nếu đã đăng nhập sẽ tự về index khi vào login lại
+            if (User.Identity.IsAuthenticated)
+            {
+                Response.Redirect("/");
+            }
+
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);

@@ -72,7 +72,16 @@
                         <li><a class="nav-link" asp-area="Admin" asp-controller="AdminQLProduct" asp-action="Product"><i data-feather="package"></i><span>Quản Lí Sản Phẩm</span></a></li>
                         <li><a class="nav-link" asp-area="Admin" asp-controller="AdminQLCategory" asp-action="Category"><i data-feather="list"></i><span>Quản Lí Loại Sản Phẩm</span></a></li>
                         <li><a class="nav-link" asp-area="Admin" asp-controller="AdminQLOrder" asp-action="Order"><i data-feather="shopping-bag"></i><span>Quản Lí Đơn Hàng</span></a></li>
-                        <li><a class="nav-link" asp-area="Admin" asp-controller="AdminQLUserData" asp-action="User"><i data-feather="users"></i><span>Quản Lí Người Dùng</span></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="menu-toggle nav-link has-dropdown">
+                                <i data-feather="shopping-bag"></i><span>Quản Lí Người Dùng</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="nav-link" asp-area="Admin" asp-controller="AdminQLUserData" asp-action="User"><i data-feather="users"></i><span>Quản Lí Người Dùng</span></a></li>
+                                <li><a class="nav-link" asp-area="Admin" asp-controller="Role" asp-action="Role"><i data-feather="users"></i><span>Vai Trò</span></a></li>
+                                <li><a class="nav-link" asp-area="Admin" asp-controller="RoleManager" asp-action="RoleManager"><i data-feather="users"></i><span>Quản Lí Vai Trò</span></a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </aside>
             </div>

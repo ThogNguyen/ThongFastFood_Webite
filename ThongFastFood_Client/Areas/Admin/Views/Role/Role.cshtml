@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Role";
+    Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
+}
+
+<div class="section-body">
+    <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Quản Lí Vai Trò</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-12 col-md-12">
+                        <a asp-action="CreateRole" class="btn btn-primary">Thêm vai trò mới</a>
+                    </div>
+                </div>
+                <table class="table" id="product-table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th scope="col">Id</th>
+                            <th scope="col">Tên Vai Trò</th>
+                            <th scope="col">Chức Năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="text-align: center;">
+                            <td>ID</td>
+                            <td>Name</td>
+                            <td>
+                                <a asp-action="EditRole" asp-route-id="" class="btn btn-primary">Sửa</a>
+                                <a asp-action="DeleteRole" asp-route-id="" class="btn btn-danger"
+                                   onclick="return confirm('Bạn có chắc là muốn xóa vai trò này?')">Xóa</a>
+                            </td>
+                        </tr>
+                        @* @foreach (var item in Model)
+                        {
+                            <tr style="text-align: center;">
+                                <td>@item.CategoryId</td>
+                                <td>@item.CategoryName</td>
+                                <td>
+                                    <a asp-action="EditCategory" asp-route-id="@item.CategoryId" class="btn btn-primary">Sửa</a>
+                                    <a asp-action="DeleteCategory" asp-route-id="@item.CategoryId" class="btn btn-danger"
+                                       onclick="return confirm('Bạn có chắc là muốn xóa loại sản phẩm này?')">Xóa</a>
+                                </td>
+                            </tr>
+                        } *@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
