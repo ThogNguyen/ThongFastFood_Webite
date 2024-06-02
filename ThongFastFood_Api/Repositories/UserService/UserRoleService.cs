@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ThongFastFood_Api.Data;
+using ThongFastFood_Api.Models;
 
 namespace ThongFastFood_Api.Repositories.UserService
 {
@@ -16,39 +17,86 @@ namespace ThongFastFood_Api.Repositories.UserService
             _roleManager = roleManager;
             db = context;
         }
-        public async Task<IEnumerable<IdentityUserRole<string>>> GetAllAsync()
+        public async Task<IEnumerable<UserRolesVM>> GetAll()
         {
             var allUserRoles = await db.UserRoles.ToListAsync();
+            var userRoleVM = new List<UserRolesVM>();
 
-            return allUserRoles;
+            foreach (var userRole in allUserRoles)
+            {
+                var user = await _userManager.FindByIdAsync(userRole.UserId);
+                var role = await _roleManager.FindByIdAsync(userRole.RoleId);
+
+                if (user != null && role != null)
+                {
+                    userRoleVM.Add(new UserRolesVM
+                    {
+                        UserId = userRole.UserId,
+                        UserName = user.FullName, 
+                        RoleId = userRole.RoleId,
+                        RoleName = role.Name
+                    });
+                }
+            }
+
+            return userRoleVM;
         }
 
 
-        public async Task<bool> UpdateAsync(IdentityUserRole<string> userRole)
+        public async Task<UserRolesVM> GetUserRolesByUserId(string id)
+        {
+            // Tìm hàng trong bảng dữ liệu UserRoles có UserId tương ứng
+            var userRole = await db.UserRoles.FirstOrDefaultAsync(ur => ur.UserId == id);
+
+            if (userRole == null)
+            {
+                return null; // Trả về null nếu không tìm thấy
+            }
+
+            // Lấy RoleId của người dùng từ hàng đã tìm được
+            var roleId = userRole.RoleId;
+
+            // Sử dụng RoleId để tìm tên của vai trò trong bảng dữ liệu Roles
+            var role = await db.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
+
+            if (role == null)
+            {
+                return null; // Trả về null nếu không tìm thấy
+            }
+
+            // Trả về thông tin người dùng và vai trò
+            return new UserRolesVM
+            {
+                UserId = userRole.UserId,
+                RoleId = role.Id,
+                RoleName = role.Name
+            };
+        }
+
+        public async Task<UserRolesVM> UpdateUserRole(string id, UserRolesVM userRole)
         {
             // Kiểm tra xem RoleId có tồn tại không
             var role = await _roleManager.FindByIdAsync(userRole.RoleId);
             if (role == null)
             {
-                return false; // Nếu không tìm thấy vai trò, trả về false
+                return null; // Trả về null nếu không tìm thấy vai trò
             }
 
             // Tìm người dùng
-            var user = await _userManager.FindByIdAsync(userRole.UserId);
+            var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
-                return false; // Nếu không tìm thấy người dùng, trả về false
+                return null; // Trả về null nếu không tìm thấy người dùng
             }
 
             // Tìm vai trò cũ của người dùng
-            var oldRole = await _userManager.GetRolesAsync(user);
-            if (oldRole != null && oldRole.Any())
+            var oldRoles = await _userManager.GetRolesAsync(user);
+            if (oldRoles.Any())
             {
-                // Xóa người dùng khỏi vai trò cũ
-                var removeResult = await _userManager.RemoveFromRoleAsync(user, oldRole.First());
+                var removeResult = await _userManager.RemoveFromRolesAsync(user, oldRoles);
                 if (!removeResult.Succeeded)
                 {
-                    return false; // Nếu không xóa được khỏi vai trò cũ, trả về false
+                    return null; // Trả về null nếu không thể xóa vai trò cũ
                 }
             }
 
@@ -56,11 +104,18 @@ namespace ThongFastFood_Api.Repositories.UserService
             var addResult = await _userManager.AddToRoleAsync(user, role.Name);
             if (!addResult.Succeeded)
             {
-                return false; // Nếu không thêm được vào vai trò mới, trả về false
+                return null; // Trả về null nếu không thể thêm người dùng vào vai trò mới
             }
 
-            return true; // Trả về true nếu cập nhật thành công
-
+            // Trả về thông tin người dùng và vai trò trong đối tượng UserRolesVM
+            return new UserRolesVM
+            {
+                UserId = user.Id,
+                UserName = user.FullName,
+                RoleId = role.Id,
+                RoleName = role.Name
+            };
         }
+
     }
 }

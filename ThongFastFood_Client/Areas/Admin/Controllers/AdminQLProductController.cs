@@ -238,7 +238,8 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
             // Gửi yêu cầu PUT đến API để cập nhật sản phẩm
-            HttpResponseMessage resMessage = await _httpClient.PutAsync(_httpClient.BaseAddress + "/ProductApi/PutProduct/" + id, content);
+            HttpResponseMessage resMessage = 
+                await _httpClient.PutAsync(_httpClient.BaseAddress + "/ProductApi/PutProduct/" + id, content);
 
             if (resMessage.IsSuccessStatusCode)
             {

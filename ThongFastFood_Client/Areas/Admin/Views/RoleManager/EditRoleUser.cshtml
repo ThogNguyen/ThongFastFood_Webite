@@ -1,8 +1,26 @@
-﻿
+﻿@model ThongFastFood_Api.Models.UserRolesVM
+
 @{
     ViewData["Title"] = "EditRoleUser";
     Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
 }
 
-<h2>EditRoleUser</h2>
+<h2>Sửa vai trò người dùng</h2>
 
+<a asp-controller="RoleManager" asp-action="RoleManager" class="btn btn-danger">Trở về</a>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="RoleManager" asp-action="EditRoleUser" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label class="control-label">Tên vai trò</label>
+                <select asp-for="RoleId" class="form-control" asp-items="@ViewBag.Role_Id"></select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary mr-1" type="submit">Sửa</button>
+            </div>
+        </form>
+    </div>
+</div>

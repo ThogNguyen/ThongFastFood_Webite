@@ -69,7 +69,8 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
 			[DataType(DataType.Password)]
 			public string Password { get; set; }
 
-			[DataType(DataType.Password)]
+            [Required(ErrorMessage = "Xác nhận mật khẩu không được bỏ trống")]
+            [DataType(DataType.Password)]
 			[Compare("Password", ErrorMessage = "Mật khẩu và xác nhận mật khẩu không khớp")]
 			public string ConfirmPassword { get; set; }
 		}

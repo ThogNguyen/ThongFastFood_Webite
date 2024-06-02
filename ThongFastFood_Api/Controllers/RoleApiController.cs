@@ -19,14 +19,14 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult<List<IdentityRole>> GetRoles()
+		public IActionResult GetRoles()
 		{
 			var roles = roleService.GetRoles();
 			return Ok(roles);
 		}
 
 		[HttpGet("{id}")]
-		public async Task<ActionResult<IdentityRole>> GetRoleById(string id)
+		public async Task<IActionResult> GetRoleById(string id)
 		{
 			var role = await roleService.GetIdentityRoleAsync(id);
 			if (role == null)
@@ -37,7 +37,7 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult<IdentityRole>> AddRole(IdentityRole identityRole)
+		public async Task<IActionResult> AddRole(IdentityRole identityRole)
 		{
 			var role = await roleService.AddRoleAsync(identityRole);
 			if (role == null)
@@ -48,7 +48,7 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<ActionResult<IdentityRole>> PutRole(string id, IdentityRole identityRole)
+		public async Task<IActionResult> PutRole(string id, IdentityRole identityRole)
 		{
 			if (id != identityRole.Id)
 			{
@@ -64,7 +64,7 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public async Task<ActionResult<IdentityRole>> RemoveRole(string id)
+		public async Task<IActionResult> RemoveRole(string id)
 		{
 			var role = await roleService.DeleteRoleAsync(id);
 			if (role == null)

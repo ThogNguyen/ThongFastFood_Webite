@@ -13,15 +13,14 @@
             </div>
 
             <div class="card-body">
-                <div class="row mb-3">
+                <div class="row mb-3 mx-auto">
                     <div class="col-sm-12 col-md-12">
                         <a asp-action="CreateRole" class="btn btn-primary">Thêm vai trò mới</a>
                     </div>
                 </div>
-                <table class="table" id="role-table">
+                <table class="table">
                     <thead>
                         <tr style="text-align: center;">
-                            <th scope="col">Id</th>
                             <th scope="col">Tên Vai Trò</th>
                             <th scope="col">Chức Năng</th>
                         </tr>
@@ -30,7 +29,6 @@
                         @foreach (var role in Model)
                         {
                             <tr style="text-align: center;">
-                                <td>@role.Id</td>
                                 <td>@role.Name</td>
                                 <td>
                                     <a asp-action="EditRole" asp-route-id="@role.Id" class="btn btn-primary">Sửa</a>

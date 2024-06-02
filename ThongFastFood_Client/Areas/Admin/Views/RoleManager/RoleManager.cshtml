@@ -1,8 +1,40 @@
-﻿
+﻿@model IEnumerable<ThongFastFood_Api.Models.UserRolesVM>
+
 @{
-    ViewData["Title"] = "RoleManager";
+    ViewData["Title"] = "Role Manager";
     Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
 }
 
-<h2>RoleManager</h2>
+<div class="section-body">
+    <div class="col-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Phân Quyền Người Dùng</h2>
+            </div>
 
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th scope="col">Tên người dùng</th>
+                            <th scope="col">Tên Vai Trò</th>
+                            <th scope="col">Chức Năng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var userRole in Model)
+                        {
+                            <tr style="text-align: center;">
+                                <td>@userRole.UserName</td>
+                                <td>@userRole.RoleName</td>
+                                <td>
+                                    <a asp-action="EditRoleUser" asp-route-id="@userRole.UserId" class="btn btn-primary">Sửa</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
