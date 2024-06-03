@@ -40,7 +40,7 @@ namespace ThongFastFood_Api.Controllers
         }
 
 		[HttpGet("{id}")]
-		public ActionResult<List<ProductVM>> GetProductsByCategory(int id)
+		public IActionResult GetProductsByCategory(int id)
 		{
 			var products = _productSer.GetProductByCategoryId(id);
 			return Ok(products);

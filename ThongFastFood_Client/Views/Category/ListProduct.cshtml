@@ -3,8 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model IEnumerable<ThongFastFood_Api.Models.ProductVM>
-
+@model IPagedList<ThongFastFood_Api.Models.ProductVM>
+@using PagedList;
 
 <!-- Breadcrumb -->
 <div id="breadcrumb">
@@ -126,17 +126,54 @@
                             }
                         </div>
                     </div>
-
                     <!-- Pagination Bar -->
-                    <div class="pagination-bar">
+                    <div class="pagination-bar" style="text-align: center;">
                         <div class="row">
-                            <div class="col-md-8 col-sm-8 col-xs-12">
+                            <div class="col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-12">
                                 <div class="pagination">
-                                    <ul class="page-list">
-                                        <li><a href="#" class="prev"></a></li>
-                                        <li><a href="#" class="current">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#" class="next">Next</a></li>
+                                    <ul class="page-list" style="display: inline-block;">
+                                        @if (Model.HasPreviousPage)
+                                        {
+                                            <li>
+                                                <a class="prev" asp-controller="Category" asp-action="ListProduct" 
+                                                    asp-route-page="@(Model.PageNumber - 1)" asp-route-sort="@ViewData["CurrentSort"]" 
+                                                    asp-route-priceRange="@ViewData["CurrentPriceRange"]">
+                                                    Trước
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="disabled">
+                                                <a class="prev">Trước</a>
+                                            </li>
+                                        }
+                                        @for (int i = 1; i <= Model.PageCount; i++)
+                                        {
+                                            <li>
+                                                <a class="@(i == Model.PageNumber ? "current" : "")" asp-controller="Category" 
+                                                    asp-action="ListProduct" asp-route-page="@i" asp-route-sort="@ViewData["CurrentSort"]" 
+                                                    asp-route-priceRange="@ViewData["CurrentPriceRange"]">
+                                                    @i
+                                                </a>
+                                            </li>
+                                        }
+                                        @if (Model.HasNextPage)
+                                        {
+                                            <li>
+                                                <a class="next" asp-controller="Category" asp-action="ListProduct" 
+                                                    asp-route-page="@(Model.PageNumber + 1)" asp-route-sort="@ViewData["CurrentSort"]"
+                                                    asp-route-priceRange="@ViewData["CurrentPriceRange"]">
+                                                    Sau
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="disabled">
+                                                <a class="next">Sau</a>
+                                            </li>
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -147,8 +184,8 @@
         </div>
     </div>
 
-    <input type="hidden" name="sort" value="@ViewBag.CurrentSort" />
-    <input type="hidden" name="priceRange" value="@ViewBag.CurrentPriceRange" />
+    <input type="hidden" name="sort" value="@ViewData["CurrentSort"]" />
+    <input type="hidden" name="priceRange" value="@ViewData["CurrentPriceRange"]" />
 </form>
 
 
