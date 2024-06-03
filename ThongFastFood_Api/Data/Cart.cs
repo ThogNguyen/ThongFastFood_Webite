@@ -14,13 +14,13 @@ namespace ThongFastFood_Api.Data
         [Required]
         [Range(0, 50)]
         public int Quantity { get; set; }
-        [Required]
+
+		[Required]
+		public int Price { get; set; }
+		[Required]
         [StringLength(400)]
         public string Image { get; set; }
-        [Required]
-        public int Subtotal { get; set; }
-        [Required]
-        public int TotalAmount { get; set; }
+
         //khóa ngoại
         [ForeignKey("User")]
         [Column(TypeName = "nvarchar(450)")]
@@ -31,5 +31,5 @@ namespace ThongFastFood_Api.Data
         [ForeignKey("Product")]
         public int? Product_Id { get; set; }
         public Product Product { get; set; }
-    }
+	}
 }

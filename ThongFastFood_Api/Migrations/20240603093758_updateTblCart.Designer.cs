@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThongFastFood_Api.Data;
 
@@ -11,9 +12,11 @@ using ThongFastFood_Api.Data;
 namespace ThongFastFood_Api.Migrations
 {
     [DbContext(typeof(FoodStoreDbContext))]
-    partial class FoodStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240603093758_updateTblCart")]
+    partial class updateTblCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,7 +268,7 @@ namespace ThongFastFood_Api.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("Cart", (string)null);
+                    b.ToTable("Cart");
                 });
 
             modelBuilder.Entity("ThongFastFood_Api.Data.Category", b =>
@@ -282,7 +285,7 @@ namespace ThongFastFood_Api.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("ThongFastFood_Api.Data.Order", b =>
@@ -332,7 +335,7 @@ namespace ThongFastFood_Api.Migrations
 
                     b.HasIndex("Customer_Id");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("ThongFastFood_Api.Data.OrderDetail", b =>
@@ -361,7 +364,7 @@ namespace ThongFastFood_Api.Migrations
 
                     b.HasIndex("Product_Id");
 
-                    b.ToTable("OrderDetail", (string)null);
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("ThongFastFood_Api.Data.Product", b =>
@@ -400,7 +403,7 @@ namespace ThongFastFood_Api.Migrations
 
                     b.HasIndex("Category_Id");
 
-                    b.ToTable("Product", (string)null);
+                    b.ToTable("Product");
                 });
 
             modelBuilder.Entity("ThongFastFood_Api.Data.Review", b =>
@@ -437,7 +440,7 @@ namespace ThongFastFood_Api.Migrations
 
                     b.HasIndex("User_Id");
 
-                    b.ToTable("Review", (string)null);
+                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

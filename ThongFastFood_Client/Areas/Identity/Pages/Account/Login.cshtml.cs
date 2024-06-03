@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using ThongFastFood_Api.Data;
+using System.Security.Claims;
+using AspNetCoreHero.ToastNotification.Abstractions;
 
 namespace ThongFastFood_Client.Areas.Identity.Pages.Account
 {
@@ -22,7 +24,7 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager,
+		public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
         {
@@ -69,8 +71,9 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
+			
 
-            returnUrl ??= Url.Content("~/");
+			returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -93,18 +96,23 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("Đăng nhập thành công!.");
-                    return LocalRedirect(returnUrl);
-                }
-                /*if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
-                }*/
+					var user = await _userManager.FindByNameAsync(Input.Username);
+
+					var claims = new List<Claim>
+	                {
+	                	new Claim(ClaimTypes.NameIdentifier, user.Id),
+						new Claim(ClaimTypes.Name, user.UserName),
+                        // Các claim khác bạn muốn thêm vào đây
+                    };
+
+					var claimsIdentity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
+					var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);  
+
+					await HttpContext.SignInAsync(IdentityConstants.ApplicationScheme, claimsPrincipal);
+
+					_logger.LogInformation("Đăng nhập thành công!.");
+					return LocalRedirect(returnUrl);
+				}
                 else
                 {
                     ModelState.AddModelError(string.Empty, "*Thông tin đăng nhập không hợp lệ.");

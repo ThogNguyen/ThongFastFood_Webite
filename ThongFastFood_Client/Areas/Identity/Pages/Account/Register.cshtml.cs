@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -125,6 +126,9 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
 				var result = await _userManager.CreateAsync(user, Input.Password);
 				if (result.Succeeded)
 				{
+					// Thêm claim cho người dùng
+					await _userManager.AddClaimAsync(user, new Claim(ClaimTypes.NameIdentifier, user.Id));
+
 					// Gán vai trò cho người dùng
 					var roleAssignResult = await _userManager.AddToRoleAsync(user, userRole.Name);
 					if (!roleAssignResult.Succeeded)

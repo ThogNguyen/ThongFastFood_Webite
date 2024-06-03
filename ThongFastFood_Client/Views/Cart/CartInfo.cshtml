@@ -3,6 +3,8 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model List<ThongFastFood_Api.Models.CartVM>
+
 <!-- Breadcrumb -->
 <div id="breadcrumb">
 	<div class="container">
@@ -31,36 +33,39 @@
 				</thead>
 
 				<tbody>
-					<tr>
-						<td class="product-remove text-center">
-							<a title="Remove this item" class="remove">
-								<i class="fa fa-times"></i>
-							</a>
-						</td>
-						<td class="text-center">
-							<a asp-controller="Category" asp-action="DetailProduct">
-								<img width="80px" alt="Product Image" src="~/img/product/combaroichiengion.jpg">
-							</a>
-						</td>
-						<td class="text-center">
-							<a asp-controller="Category" asp-action="DetailProduct" class="product-name">Organic Strawberry Fruits</a>
-						</td>
-						<td class="text-center">
-							$265
-						</td>
-						<td class="text-center">
-							<div class="product-quantity">
-								<div class="qty">
-									<div class="input-group">
-										<input type="number" name="qty" value="1" data-min="1">
+					@foreach(var item in Model)
+					{
+						<tr>
+							<td class="product-remove text-center">
+								<a title="Remove this item" class="remove">
+									<i class="fa fa-times"></i>
+								</a>
+							</td>
+							<td class="text-center">
+								<a asp-controller="Category" asp-action="DetailProduct">
+									<img width="80px" alt="Product Image" src="~/img/product/@item.Image">
+								</a>
+							</td>
+							<td class="text-center">
+								<a asp-controller="Category" asp-action="DetailProduct" class="product-name">@item.Name</a>
+							</td>
+							<td class="text-center">
+								@String.Format("{0:N0}", @item.Price)đ
+							</td>
+							<td class="text-center">
+								<div class="product-quantity">
+									<div class="qty">
+										<div class="input-group">
+											<input type="number" name="qty" value="@item.Quantity" data-min="1">
+										</div>
 									</div>
 								</div>
-							</div>
-						</td>
-						<td class="text-center">
-							$265
-						</td>
-					</tr>
+							</td>
+							<td class="text-center">
+								@item.Subtotal
+							</td>
+						</tr>
+					}
 				</tbody>
 
 				<tfoot>

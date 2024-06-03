@@ -61,11 +61,11 @@
 							</div>
 
 							<div class="product-buttons">
-								<a class="add-to-cart" asp-controller="Cart" asp-action="CartInfo">
+								<a class="add-to-cart" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.ProductId">
 									<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 								</a>
 
-								<a class="quickview" asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
+								<a class="quickview" asp-controller="Category" asp-action="DetailProduct" asp-route-productId="@item.ProductId">
 									<i class="fa fa-eye" aria-hidden="true"></i>
 								</a>
 							</div>
