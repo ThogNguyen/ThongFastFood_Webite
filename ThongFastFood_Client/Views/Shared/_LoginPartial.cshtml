@@ -1,8 +1,21 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using ThongFastFood_Api.Data
+@using System.Threading.Tasks
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+
+@{
+	bool isAdmin = false;
+	if (SignInManager.IsSignedIn(User))
+	{
+		var user = await UserManager.GetUserAsync(User);
+		if (user != null)
+		{
+			isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
+		}
+	}
+}
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -14,11 +27,14 @@
 					Chào, @UserManager.GetUserName(User)!
 				</div>
 				<div class="dropdown-menu">
-					<div class="item">
-						<a asp-area="Admin" asp-controller="AdminMainPage" asp-action="MainPage">
-							<i class="fa fa-user-secret"></i>Admin
-						</a>
-					</div>
+					@if (isAdmin)
+					{
+						<div class="item">
+							<a asp-area="Admin" asp-controller="AdminMainPage" asp-action="MainPage">
+								<i class="fa fa-user-secret"></i>Admin
+							</a>
+						</div>
+					}
 					<div class="item">
 						<a asp-controller="MainPage" asp-action="UserInfo">
 							<i class="fa fa-user"></i>Thông Tin

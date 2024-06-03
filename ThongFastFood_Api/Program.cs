@@ -44,7 +44,6 @@ namespace ThongFastFood_Api
 			builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 			builder.Services.AddScoped<IRoleService, RoleService>();
-            builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IUserRoleService, UserRoleService>();
 
             var app = builder.Build();
