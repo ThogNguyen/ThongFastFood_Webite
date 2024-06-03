@@ -46,28 +46,26 @@
 							<div class="product-short-description">
 								@Model.Description
 							</div>
-
-							<div class="product-add-to-cart border-bottom">
-								<div class="product-quantity">
-									<span class="control-label">Số lượng:</span>
-									<div class="qty">
-										<div class="input-group">
-											<input type="number" name="qty" value="1" min="1">
+							<form asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.ProductId">
+								<div class="product-add-to-cart border-bottom">
+									<div class="product-quantity">
+										<span class="control-label">Số lượng:</span>
+										<div class="qty">
+											<div class="input-group">
+												<input type="number" name="quantity" value="1" min="1">
+											</div>
 										</div>
 									</div>
 								</div>
-
-
-							</div>
-
-							<div class="product-share">
-								<div class="product-buttons">
-									<a class="add-to-cart" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.ProductId">
-										<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-										<span>Thêm vào giỏ</span>
-									</a>
+								<div class="product-share">
+									<button class="btn btn-secondary" type="submit">
+										<a class="add-to-cart">
+											<i class="fa fa-shopping-basket" aria-hidden="true"></i>
+											<span>Thêm vào giỏ</span>
+										</a>
+									</button>
 								</div>
-							</div>
+							</form>
 						</div>
 					</div>
 

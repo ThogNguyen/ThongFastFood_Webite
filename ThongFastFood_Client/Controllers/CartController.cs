@@ -54,7 +54,7 @@ namespace ThongFastFood_Client.Controllers
 		}
 
 		
-		public async Task<IActionResult> AddToCart(int productId, int quantity = 1)
+		public async Task<IActionResult> AddToCart(int productId, int quantity)
 		{
 			// Lấy userId của người dùng hiện tại
 			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -79,7 +79,7 @@ namespace ThongFastFood_Client.Controllers
 			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
 			HttpResponseMessage apiMessage =
-				await _httpClient.PostAsync(_httpClient.BaseAddress + "/CartApi/AddItem?userId=" + userId + "&productId=" + productId, content);
+				await _httpClient.PostAsync(_httpClient.BaseAddress + "/CartApi/AddItem?userId=" + userId + "&productId=" + productId + "&quantity=" + quantity, content);
 
 			if (apiMessage.IsSuccessStatusCode)
 			{
