@@ -15,16 +15,13 @@ namespace ThongFastFood_Client.Controllers
 		Uri baseUrl = new Uri("https://localhost:7244/api");
 
 		private readonly HttpClient _httpClient;
-		private readonly IWebHostEnvironment _environment;
 		private readonly INotyfService _notyf;
-		public CartController(HttpClient httpClient, IWebHostEnvironment environment, INotyfService noty)
+		public CartController(HttpClient httpClient, INotyfService noty)
 		{
 			_httpClient = httpClient;
 			_httpClient.BaseAddress = baseUrl;
-			_environment = environment;
 			_notyf = noty;
 		}
-
 
 		public async Task<IActionResult> CartInfo()
 		{
@@ -52,7 +49,6 @@ namespace ThongFastFood_Client.Controllers
 
 			return View(carts);
 		}
-
 		
 		public async Task<IActionResult> AddToCart(int productId, int quantity = 1)
 		{
@@ -94,10 +90,42 @@ namespace ThongFastFood_Client.Controllers
 			return RedirectToAction("CartInfo");
 		}
 
-		public async Task<IActionResult> UpdateCart(int productId, int quantity)
+		public async Task<IActionResult> UpdateCart(int cartId, int quantity)
 		{
 			// Lấy userId của người dùng hiện tại
 			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			// Kiểm tra nếu userId là null
+			if (userId == null)
+			{
+				_notyf.Error("Bạn cần đăng nhập để thực hiện.");
+				// Chuyển hướng người dùng đến trang đăng nhập trong khu vực Identity
+				return RedirectToAction("Login", "Account", new { area = "Identity" });
+			}
+
+			var requestBody = new CartVM
+			{
+				User_Id = userId,
+				CartId = cartId,
+				Quantity = quantity
+			};
+
+			string data = JsonConvert.SerializeObject(requestBody);
+			Console.WriteLine(data);
+			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+
+			HttpResponseMessage apiMessage =
+				await _httpClient.PutAsync(_httpClient.BaseAddress + "/CartApi/UpdateItem?userId=" + userId + "&cartId=" + cartId + "&quantity=" + quantity, content);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				_notyf.Success("Sản phẩm đã được cập nhật");
+			}
+			else
+			{
+				string errorMessage = await apiMessage.Content.ReadAsStringAsync();
+				_notyf.Error("Có lỗi xảy ra: " + errorMessage);
+			}
 
 			return RedirectToAction("CartInfo");
 		}

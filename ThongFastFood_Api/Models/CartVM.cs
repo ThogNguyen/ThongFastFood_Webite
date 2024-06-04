@@ -22,17 +22,17 @@ namespace ThongFastFood_Api.Models
 			get { return Quantity * Price; }
 			set { } 
 		}
-		public int Product_Id { get; set; }
+		public int? Product_Id { get; set; }
 		public string User_Id { get; set; }
 
 
-		/*[NotMapped]*/
-		/*public int TotalAmount { get; set; }
+		[NotMapped]
+		public int TotalAmount { get; set; }
 
 		// Tính toán TotalAmount động
 		public static int CalculateTotalAmount(IEnumerable<CartVM> cartItems)
 		{
 			return cartItems.Sum(item => item.Subtotal);
-		}*/
+		}
 	}
 }

@@ -105,6 +105,15 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
                         // Các claim khác bạn muốn thêm vào đây
                     };
 
+					// Lấy các role của user 
+					var userRoles = await _userManager.GetRolesAsync(user);
+
+					// Thêm claim role của role user đó
+					foreach (var role in userRoles)
+					{
+						claims.Add(new Claim(ClaimTypes.Role, role));
+					}
+
 					var claimsIdentity = new ClaimsIdentity(claims, IdentityConstants.ApplicationScheme);
 					var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);  
 

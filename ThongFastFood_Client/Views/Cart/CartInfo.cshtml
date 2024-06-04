@@ -4,7 +4,10 @@
 }
 
 @model List<ThongFastFood_Api.Models.CartVM>
-
+@{
+	var totalAmount = ThongFastFood_Api.Models.CartVM.CalculateTotalAmount(Model);
+}
+	
 <!-- Breadcrumb -->
 <div id="breadcrumb">
 	<div class="container">
@@ -24,12 +27,13 @@
 			<table class="cart-summary table table-bordered">
 				<thead>
 					<tr>
-						<th class="col-1"></th>
 						<th class="col-1 text-center"><strong>Hình</strong></th>
-						<th class="col-4 text-center"><strong>Tên</strong></th>
+						<th class="col-3 text-center"><strong>Tên</strong></th>
 						<th class="col-2 text-center"><strong>Giá</strong></th>
 						<th class="col-2 text-center"><strong>Số Lượng</strong></th>
-						<th class="col-2 text-center"><strong>Tổng</strong></th>
+						<th class="col-2 text-center"><strong>Thành Tiền</strong></th>
+						<th class="col-1"></th>
+						<th class="col-1"></th>
 					</tr>
 				</thead>
 
@@ -37,33 +41,40 @@
 					@foreach(var item in Model)
 					{
 						<tr>
-							<td class="product-remove text-center">
-								<a title="Remove this item" class="remove" asp-controller="Cart" asp-action="RemoveItem" asp-route-cartId="@item.CartId">
-									<i class="fa fa-times"></i>
-								</a>
-							</td>
 							<td class="text-center">
-								<a asp-controller="Category" asp-action="DetailProduct">
+								<a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.Product_Id">
 									<img width="80px" alt="Product Image" src="~/img/product/@item.Image">
 								</a>
 							</td>
 							<td class="text-center">
-								<a asp-controller="Category" asp-action="DetailProduct" class="product-name">@item.Name</a>
+								<a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.Product_Id" class="product-name">@item.Name</a>
 							</td>
 							<td class="text-center">
 								@String.Format("{0:N0}", @item.Price)đ
 							</td>
-							<td class="text-center">
-								<div class="product-quantity">
-									<div class="qty">
-										<div class="input-group">
-											<input type="number" name="quantity" value="@item.Quantity" min="1">
+							<form asp-controller="Cart" asp-action="UpdateCart" asp-route-cartId="@item.CartId">
+								<td class="text-center">
+									<div class="product-quantity">
+										<div class="qty">
+											<div class="input-group">
+												<input type="number" name="quantity" value="@item.Quantity" min="1">
+											</div>
 										</div>
 									</div>
-								</div>
-							</td>
-							<td class="text-center">
-								@item.Subtotal
+								</td>
+								<td class="text-center">
+										@item.Subtotal
+								</td>
+								<td class="product-remove text-center">
+									<button type="submit" class="btn btn-secondary">
+									<i class="fa fa-edit" style="font-size: 20px"></i>
+									</button>
+								</td>
+							</form>
+							<td class="product-remove text-center">
+								<a title="Remove this item" class="remove" asp-controller="Cart" asp-action="RemoveItem" asp-route-cartId="@item.CartId">
+									<i class="fa fa-times" style="font-size: 20px"></i>
+								</a>
 							</td>
 						</tr>
 					}
@@ -71,17 +82,9 @@
 
 				<tfoot>
 					<tr class="cart-total">
-						<td rowspan="3" colspan="3"></td>
-						<td colspan="2" class="text-right">Thành tiền</td>
-						<td colspan="1" class="text-center">$565</td>
-					</tr>
-					<tr class="cart-total">
-						<td colspan="2" class="text-right">Phí Ship</td>
-						<td colspan="1" class="text-center">$10</td>
-					</tr>
-					<tr class="cart-total">
-						<td colspan="2" class="total text-right">Tổng Tiền</td>
-						<td colspan="1" class="total text-center">$575</td>
+						<td rowspan="3" colspan="2"></td>
+						<td colspan="2" class="text-right text-danger"><h4>Tổng Tiền</h4></td>
+						<td colspan="1" class="text-center text-danger"><strong>@String.Format("{0:N0}", totalAmount)đ</strong></td>
 					</tr>
 				</tfoot>
 			</table>
@@ -90,9 +93,6 @@
 		<div class="checkout-btn">
 			<a asp-controller="Cart" asp-action="ClearItem" class="btn btn-primary pull-left">
 				<span>Xóa Tất Cả</span>
-			</a>
-			<a asp-controller="Cart" asp-action="UpdateCart" asp-route-cartId="" class="btn btn-primary pull-left">
-				<span>Cập Nhật Giỏ Hàng</span>
 			</a>
 			<a asp-controller="Cart" asp-action="CheckOut" class="btn btn-primary pull-right">
 				<span>Tiến Hành Thanh Toán</span>

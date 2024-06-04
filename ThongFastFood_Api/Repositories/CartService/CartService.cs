@@ -98,7 +98,8 @@ namespace ThongFastFood_Api.Repositories.CartService
 				Quantity = c.Quantity,
 				Price = c.Price,
 				Image = c.Image,
-				Subtotal = c.Quantity * c.Price
+				Subtotal = c.Quantity * c.Price,
+				Product_Id = c.Product_Id
 			}).ToListAsync();
 
 			return cartItems;
