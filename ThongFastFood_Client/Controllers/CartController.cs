@@ -54,7 +54,7 @@ namespace ThongFastFood_Client.Controllers
 		}
 
 		
-		public async Task<IActionResult> AddToCart(int productId, int quantity)
+		public async Task<IActionResult> AddToCart(int productId, int quantity = 1)
 		{
 			// Lấy userId của người dùng hiện tại
 			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -67,10 +67,10 @@ namespace ThongFastFood_Client.Controllers
 				return RedirectToAction("Login", "Account", new { area = "Identity" });
 			}
 
-			var requestBody = new AddtoCartRequest
+			var requestBody = new CartVM
 			{
-				UserId = userId,
-				ProductId = productId,
+				User_Id = userId,
+				Product_Id = productId,
 				Quantity = quantity
 			};
 
@@ -91,6 +91,53 @@ namespace ThongFastFood_Client.Controllers
 				_notyf.Error("Có lỗi xảy ra: " + errorMessage);
 			}
 
+			return RedirectToAction("CartInfo");
+		}
+
+		public async Task<IActionResult> UpdateCart(int productId, int quantity)
+		{
+			// Lấy userId của người dùng hiện tại
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			return RedirectToAction("CartInfo");
+		}
+
+		public async Task<IActionResult> RemoveItem(int cartId)
+		{
+			// Lấy userId của người dùng hiện tại
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+			HttpResponseMessage apiMessage =
+				await _httpClient.DeleteAsync(_httpClient.BaseAddress + "/CartApi/RemoveItem?userId=" + userId + "&cartId=" + cartId);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				_notyf.Success("Sản phẩm đã được xóa");
+			}
+			else
+			{
+				string errorMessage = await apiMessage.Content.ReadAsStringAsync();
+				_notyf.Error("Có lỗi xảy ra: " + errorMessage);
+			}
+
+			return RedirectToAction("CartInfo");
+		}
+
+		public async Task<IActionResult> ClearItem()
+		{
+			// Lấy userId của người dùng hiện tại
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+			HttpResponseMessage apiMessage =
+				await _httpClient.DeleteAsync(_httpClient.BaseAddress + "/CartApi/ClearCart?userId=" + userId);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				_notyf.Success("Danh sách sản phẩm đã được xóa.");
+			}
+			else
+			{
+				string errorMessage = await apiMessage.Content.ReadAsStringAsync();
+				_notyf.Error("Có lỗi xảy ra: " + errorMessage);
+			}
 			return RedirectToAction("CartInfo");
 		}
 

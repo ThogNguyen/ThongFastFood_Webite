@@ -31,7 +31,7 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpDelete]
-		public async Task<IActionResult> ClearCart([FromQuery] string userId)
+		public async Task<IActionResult> ClearCart(string userId)
 		{
 			var result = await _cartService.ClearCart(userId);
 
@@ -46,14 +46,14 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> GetCartItemsByUser([FromQuery] string userId)
+		public async Task<IActionResult> GetCartItemsByUser(string userId)
 		{
 			var cartItems = await _cartService.GetCartItemsByUser(userId);
 			return Ok(cartItems);
 		}
 
-		[HttpDelete("remove")]
-		public async Task<IActionResult> RemoveItem([FromQuery] string userId, [FromQuery] int cartId)
+		[HttpDelete]
+		public async Task<IActionResult> RemoveItem(string userId, int cartId)
 		{
 			var result = await _cartService.RemoveFromCart(userId, cartId);
 
@@ -67,8 +67,8 @@ namespace ThongFastFood_Api.Controllers
 			}
 		}
 
-		[HttpPut("update")]
-		public async Task<IActionResult> UpdateItem([FromQuery] string userId, [FromQuery] int cartId, [FromQuery] int quantity)
+		[HttpPut]
+		public async Task<IActionResult> UpdateItem(string userId, int cartId, int quantity)
 		{
 			var result = await _cartService.UpdateQuantity(userId, cartId, quantity);
 

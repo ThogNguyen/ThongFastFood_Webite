@@ -22,6 +22,9 @@ namespace ThongFastFood_Api.Models
 			get { return Quantity * Price; }
 			set { } 
 		}
+		public int Product_Id { get; set; }
+		public string User_Id { get; set; }
+
 
 		/*[NotMapped]*/
 		/*public int TotalAmount { get; set; }

@@ -24,7 +24,7 @@ namespace ThongFastFood_Api.Data
         //khóa ngoại
         [ForeignKey("User")]
         [Column(TypeName = "nvarchar(450)")]
-        public string User_Id { get; set; }
+        public string User_Id { get; set; } 
         public ApplicationUser User { get; set; }
 
         // Cho phép null nếu chỉ có combo trong giỏ hàng
