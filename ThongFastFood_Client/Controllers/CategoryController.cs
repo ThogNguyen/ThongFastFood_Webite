@@ -51,9 +51,10 @@ namespace ThongFastFood_Client.Controllers
 
 			ViewData["CurrentSort"] = sort;
 			ViewData["CurrentPriceRange"] = priceRange;
-            ViewBag.CurrentCategory = id;
+			ViewData["CurrentCategoryId"] = id;
+			ViewBag.CurrentCategory = id;
 
-            return View(pagedProducts);
+			return View(pagedProducts);
 		}
 
 		/*GetIdProduct*/

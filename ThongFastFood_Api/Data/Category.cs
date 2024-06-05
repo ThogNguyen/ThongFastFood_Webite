@@ -8,7 +8,9 @@ namespace ThongFastFood_Api.Data
     {
         [Key]
         public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
+		
+		[Column(TypeName = "nvarchar(50)")]
+		public string CategoryName { get; set; }
         public ICollection<Product> Products { get; set; }
     }
 }

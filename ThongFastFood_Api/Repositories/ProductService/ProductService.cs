@@ -76,7 +76,7 @@ namespace ThongFastFood_Api.Repositories.ProductService
 
 		public List<ProductVM> GetProductByCategoryId(int id)
 		{
-			var products = db.Products
+			var products = db.Products  
 				.Where(p => p.Category_Id == id)
 				.Select(p => new ProductVM
 				{

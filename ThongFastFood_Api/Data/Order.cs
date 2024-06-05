@@ -29,7 +29,6 @@ namespace ThongFastFood_Api.Data
 		public string Customer_Id { get; set; }
 		public ApplicationUser User { get; set; }
 		
-
         public ICollection<OrderDetail> OrderDetails { get; set; }
 
     }

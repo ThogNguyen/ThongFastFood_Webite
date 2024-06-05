@@ -27,9 +27,8 @@ namespace ThongFastFood_Api.Data
         public string User_Id { get; set; } 
         public ApplicationUser User { get; set; }
 
-        // Cho phép null nếu chỉ có combo trong giỏ hàng
         [ForeignKey("Product")]
-        public int? Product_Id { get; set; }
+        public int Product_Id { get; set; }
         public Product Product { get; set; }
 	}
 }
