@@ -47,14 +47,14 @@
 								<td class="text-center">@order.OrderId</td>
 								<td class="text-center">@order.OrderTime</td>
 								<td class="text-center">@order.Status</td>
-								<td class="text-center">@order.TotalAmount</td>
+								<td class="text-center">@String.Format("{0:N0}", @order.TotalAmount)đ</td>
 								<td class="text-center">
 									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_@order.OrderId">
 										Xem
 									</button>
 								</td>
 								<td class="text-center">
-									@if (order.Status != "Đã hủy")
+									@if (order.Status == "Đang xử lí")
 									{
 										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicModal_@order.OrderId">
 											Hủy đơn

@@ -11,7 +11,7 @@ namespace ThongFastFood_Api.Models
 		public string? Note { get; set; }
 
 	}
-
+		
 	public static class OrderStatus
 	{
 		public const string Pending = "Đang xử lí";
@@ -20,6 +20,7 @@ namespace ThongFastFood_Api.Models
 		public const string Delivered = "Đã giao";
 		public const string Cancelled = "Đã hủy";
 
-		public static readonly List<string> AdminStatuses = new List<string> { Pending, Completed, InProgress, Delivered };
+		public static readonly List<string> AdminStatuses = new List<string> 
+		{ Pending, Completed, InProgress, Delivered };
 	}
 }

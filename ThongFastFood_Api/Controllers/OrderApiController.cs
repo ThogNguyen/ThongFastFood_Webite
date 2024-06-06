@@ -16,8 +16,20 @@ namespace ThongFastFood_Api.Controllers
 			_orderSer = orderSer;
 		}
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _orderSer.GetAllOrdersAsync();
 
-		[HttpPost]
+            if (orders == null || !orders.Any())
+            {
+                return NotFound(new { Message = "Không có đơn hàng nào được tìm thấy." });
+            }
+
+            return Ok(orders);
+        }
+
+        [HttpPost]
 		public async Task<IActionResult> CreateOrder(string userId, OrderVM orderVM)
 		{
 			var response = await _orderSer.CreateOrderAsync(userId, orderVM);
@@ -75,5 +87,20 @@ namespace ThongFastFood_Api.Controllers
 				return BadRequest(response.Message);
 			}
 		}
-	}
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrderStatus(int orderId, string newStatus)
+        {
+            var response = await _orderSer.UpdateOrderStatusAsync(orderId, newStatus);
+
+            if (response.IsSuccess)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response.Message);
+            }
+        }
+    }
 }

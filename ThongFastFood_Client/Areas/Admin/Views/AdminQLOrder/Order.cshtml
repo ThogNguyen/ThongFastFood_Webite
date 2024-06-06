@@ -1,8 +1,10 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Order";
     Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
 }
+
+@model IPagedList<ThongFastFood_Api.Models.OrderView>
+@using PagedList;
 
 <div class="section-body">
     <div class="col-12 col-md-12 col-lg-12">
@@ -14,44 +16,77 @@
                 <table class="table" id="product-table">
                     <thead>
                         <tr>
-                            <th class="col-2 text-center">Mã Đơn Hàng</th>
-                            <th class="col-1 text-center">Mã Sản Phẩm</th>
-                            <th class="col-2 text-center">Ngày Mua</th>
-                            <th class="col-2 text-center">Số Lượng</th>
-                            <th class="col-2 text-center">Thành Tiền</th>
-                            <th class="col-2 text-center">Trạng Thái</th>
-                            <th scope="col-1">Chức Năng</th>
+                            <th class="text-center">Mã Đơn Hàng</th>
+                            <th class="text-center">Ngày mua</th>
+                            <th class="text-center">Tên khách hàng</th>
+                            <th class="text-center">Trạng Thái</th>
+                            <th class="text-center">Tổng Tiền</th>
+                            <th class="text-center">Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="text-center">
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                1/1/2024
-                            </td>
-                            <td>
-                                1
-                            </td>
-                            <td>
-                                $265
-                            </td>
-                            <td>
-                                Mai giao
-                            </td>
-                            <td>
-                                <a href="#" class="btn btn-primary">Xem</a>
-                            </td>
-                        </tr>
+                        @foreach(var order in Model)
+                        {
+                            <tr class="text-center">
+                                <td>
+                                    @order.OrderId
+                                </td>
+                                <td>
+                                    @order.OrderTime
+                                </td>
+                                <td>
+                                    @order.CustomerName
+                                </td>
+                                <td>
+                                    @order.Status
+                                </td>
+                                <td>
+                                    @String.Format("{0:N0}", @order.TotalAmount)đ
+                                </td>
+                                <td>
+                                    <a asp-controller="AdminQLOrder" asp-action="EditOrder" asp-route-orderId="@order.OrderId" class="btn btn-primary">Sửa</a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
+                <div class="card-body">
+                    <nav style="float: right;">
+                        <ul class="pagination">
+                            @if (Model.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-controller="AdminQLOrder" asp-action="Order" asp-route-page="@(Model.PageNumber - 1)">Trước</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <a class="page-link">Trước</a>
+                                </li>
+                            }
+                            @for (int i = 1; i <= Model.PageCount; i++)
+                            {
+                                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                    <a class="page-link" asp-controller="AdminQLOrder" asp-action="Order" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+                            @if (Model.HasNextPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-controller="AdminQLOrder" asp-action="Order" asp-route-page="@(Model.PageNumber + 1)">Sau</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <a class="page-link">Sau</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
-

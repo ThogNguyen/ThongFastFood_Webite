@@ -9,6 +9,9 @@ namespace ThongFastFood_Api.Repositories.OrderService
 		Task<ResponseMessage> CreateOrderAsync(string userId, OrderVM orderVM);
 		Task<List<OrderView>> GetOrdersByUserIdAsync(string userId);
 		Task<OrderView> GetOrderByIdAsync(int orderId);
-		Task<ResponseMessage> CancelOrderAsync(int orderId);	
-	}
+		Task<ResponseMessage> CancelOrderAsync(int orderId);
+        Task<List<OrderView>> GetAllOrdersAsync();
+        Task<ResponseMessage> UpdateOrderStatusAsync(int orderId, string newStatus);
+
+    }
 }

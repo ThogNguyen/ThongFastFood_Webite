@@ -186,5 +186,75 @@ namespace ThongFastFood_Api.Repositories.OrderService
 				IsSuccess = true
 			};
 		}
-	}
+
+        public async Task<List<OrderView>> GetAllOrdersAsync()
+        {
+            var allOrders = db.Orders.ToList();
+            List<OrderView> orderViews = new List<OrderView>();
+
+            foreach (var order in allOrders)
+            {
+                var orderView = new OrderView
+                {
+                    OrderId = order.OrderId,
+                    OrderTime = order.OrderTime,
+                    CustomerName = order.CustomerName,
+                    DeliveryAddress = order.DeliveryAddress,
+                    PhoneNo = order.PhoneNo,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmount,
+                    Note = order.Note
+                };
+
+                orderViews.Add(orderView);
+            }
+
+            return orderViews;
+        }
+
+        public async Task<ResponseMessage> UpdateOrderStatusAsync(int orderId, string newStatus)
+        {
+            var order = await db.Orders.FindAsync(orderId);
+
+            if (order == null)
+            {
+                return new ResponseMessage { 
+					IsSuccess = false, 
+					Message = "Không tìm thấy đơn hàng." 
+				};
+            }
+
+            if (!OrderStatus.AdminStatuses.Contains(newStatus))
+            {
+                return new ResponseMessage { 
+					IsSuccess = false, 
+					Message = "Trạng thái mới không hợp lệ." 
+				};
+            }
+
+            #region Kiểm tra xem đơn hàng với trạng thái đã hủy không
+            var cancelledOrder = await db.Orders.FirstOrDefaultAsync
+                    (o => o.OrderId == orderId && o.Status == OrderStatus.Cancelled);
+
+            if (cancelledOrder != null)
+            {
+                return new ResponseMessage
+                {
+                    IsSuccess = false,
+                    Message = "Không thể cập nhật đơn hàng đã hủy."
+                };
+            }
+            #endregion
+
+            order.Status = newStatus;
+            db.Orders.Update(order);
+            await db.SaveChangesAsync();
+
+            return new ResponseMessage { 
+				IsSuccess = true, 
+				Message = "Cập nhật trạng thái đơn hàng thành công." 
+			};
+        }
+
+    }
 }

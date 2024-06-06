@@ -1,0 +1,27 @@
+﻿@model ThongFastFood_Api.Models.OrderVM
+@{
+    ViewData["Title"] = "EditOrder";
+    Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
+}
+
+<h2>Sửa Trạng Thái Đơn Hàng</h2>
+<a asp-action="Order" class="btn btn-danger">Trở về</a>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="orderId" value="@ViewData["OrderId"]" />
+            
+            <div class="form-group">
+                <label class="control-label">Trạng thái đơn hàng</label>
+                <select name="newStatus" class="form-control" asp-items="ViewBag.AdminStatuses"></select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary mb-4 w-100" type="submit">Lưu thay đổi</button>
+            </div>
+        </form>
+    </div>
+</div>
+
