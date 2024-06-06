@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Repositories.CartService;
 using ThongFastFood_Api.Repositories.CategoryService;
+using ThongFastFood_Api.Repositories.OrderService;
 using ThongFastFood_Api.Repositories.ProductService;
 using ThongFastFood_Api.Repositories.UserService;
 
@@ -47,8 +48,9 @@ namespace ThongFastFood_Api
 			builder.Services.AddScoped<IRoleService, RoleService>();
             builder.Services.AddScoped<IUserRoleService, UserRoleService>();
             builder.Services.AddScoped<ICartService, CartService>();
+			builder.Services.AddScoped<IOrderService, OrderService>();
 
-            var app = builder.Build();
+			var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

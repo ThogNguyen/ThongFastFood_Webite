@@ -3,6 +3,8 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@model ThongFastFood_Api.Models.CustomerOrderView
+
 <!-- Breadcrumb -->
 <div id="breadcrumb">
 	<div class="container">
@@ -21,35 +23,81 @@
 			<table class="cart-summary table table-bordered">
 				<thead>
 					<tr>
-						<th class="col-1 text-center"><strong>Mã Đơn Hàng</strong></th>
-						<th class="col-4 text-center"><strong>Mã Sản Phẩm</strong></th>
-						<th class="col-2 text-center"><strong>Ngày Mua</strong></th>
-						<th class="col-2 text-center"><strong>Số Lượng</strong></th>
-						<th class="col-2 text-center"><strong>Thành Tiền</strong></th>
+						<th class="text-center"><strong>Mã Đơn Hàng</strong></th>
+						<th class="text-center"><strong>Thời Gian Đặt</strong></th>
+						<th class="text-center"><strong>Trạng Thái </strong></th>
+						<th class="text-center"><strong>Tổng Tiền</strong></th>
+						<th class="text-center"><strong>Xem Chi Tiết</strong></th>
+						<th class="text-center"><strong>Hủy Đơn</strong></th>
 					</tr>
 				</thead>
 
 				<tbody>
-					<tr>
-						<td class="text-center">
-							1
-						</td>
-						<td class="text-center">
-							1
-						</td>
-						<td class="text-center">
-							1/1/2024
-						</td>
-						<td class="text-center">
-							1
-						</td>
-						<td class="text-center">
-							$265
-						</td>
-					</tr>
+					@foreach(var order in Model.Orders)
+					{
+						<tr>
+							<td class="text-center">@order.OrderId</td>
+							<td class="text-center">@order.OrderTime</td>
+							<td class="text-center">@order.Status</td>
+							<td class="text-center">@order.TotalAmount</td>
+							<td class="text-center">
+								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_@order.OrderId">
+									Xem
+								</button>
+							</td>
+							<td class="text-center">
+								<a href="#" class="btn btn-danger" onclick="return confirm('Bạn có chắc là muốn xóa sản phẩm này?')">Hủy</a>
+							</td>
+						</tr>
+					}
 				</tbody>
 			</table>
 		</div>
 	</div>
 </div>
 
+@foreach(var order in Model.Orders)
+{
+	<div class="modal fade" id="myModal_@order.OrderId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_@order.OrderId" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title text-center" id="myModalLabel_@order.OrderId"><strong>Chi Tiết Đơn Hàng</strong></h4>
+				</div>
+				<div class="modal-body">
+					<p class="text-center"><strong>Tên khách hàng:</strong> @order.CustomerName</p>
+					<p class="text-center"><strong>Địa chỉ giao:</strong> @order.DeliveryAddress</p>
+					<p class="text-center"><strong>Số điện thoại:</strong> @order.PhoneNo</p>
+					<p class="text-center"><strong>Ghi chú:</strong> @order.Note</p>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th class="text-center">Hình</th>
+								<th class="text-center">Tên sản phẩm</th>
+								<th class="text-center">Giá</th>
+								<th class="text-center">Số lượng</th>
+								<th class="text-center">Thành tiền</th>
+							</tr>
+						</thead>
+						<tbody>
+							@foreach (var detail in order.OrderDetails)
+							{
+								<tr class="text-center">
+									<td><img src="~/img/product/@detail.ProductImage" alt="product-image" width="50" /></td>
+									<td>@detail.ProductName</td>
+									<td>@detail.ProductPrice</td>
+									<td>@detail.Quantity</td>
+									<td>@detail.SubTotal</td>
+								</tr>
+							}
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}

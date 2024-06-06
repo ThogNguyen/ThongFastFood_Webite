@@ -1,6 +1,7 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using System.Text;
@@ -28,7 +29,7 @@ namespace ThongFastFood_Client.Controllers
 			List<CartVM> carts = new List<CartVM>();
 
 			// Lấy userId của người dùng hiện tại
-			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			// Kiểm tra nếu userId là null
 			if (userId == null)
@@ -169,9 +170,61 @@ namespace ThongFastFood_Client.Controllers
 			return RedirectToAction("CartInfo");
 		}
 
-		public IActionResult CheckOut()
+
+		[HttpGet]
+		public async Task<IActionResult> CheckOut()
 		{
-			return View();
+			List<CartVM> carts = new List<CartVM>();
+
+			// Lấy userId của người dùng hiện tại
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			HttpResponseMessage apiMessage =
+				await _httpClient.GetAsync(_httpClient.BaseAddress 
+				+ "/CartApi/GetCartItemsByUser?userId=" + userId);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				string data = await apiMessage.Content.ReadAsStringAsync();
+				carts = JsonConvert.DeserializeObject<List<CartVM>>(data);
+			}
+
+			return View(carts);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> CheckOut(OrderVM model)
+		{
+			// Lấy userId của người dùng hiện tại từ claims
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			var requestBody = new OrderVM
+			{
+				CustomerName = model.CustomerName,
+				DeliveryAddress = model.DeliveryAddress,
+				PhoneNo = model.PhoneNo,
+				Note = model.Note
+			};
+
+			string data = JsonConvert.SerializeObject(requestBody);
+			Console.WriteLine(data);
+			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+
+			HttpResponseMessage apiMessage =
+				await _httpClient.PostAsync(_httpClient.BaseAddress 
+				+ "/OrderApi/CreateOrder?userId=" + userId, content);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				_notyf.Success("Thanh toán thành công!");
+			}
+			else
+			{
+				string errorMessage = await apiMessage.Content.ReadAsStringAsync();
+				_notyf.Error("Có lỗi xảy ra: " + errorMessage);
+			}
+
+			return RedirectToAction("Index","MainPage");
 		}
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
+using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Models;
 
 namespace ThongFastFood_Client.Controllers
@@ -42,9 +44,44 @@ namespace ThongFastFood_Client.Controllers
 		{
 			return View();
 		}
-		public IActionResult CustomerOrder()
+		public async Task<IActionResult> CustomerOrder()
 		{
-			return View();
+			// Lấy userId của người dùng hiện tại
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			List<OrderView> orders = new List<OrderView>();
+
+			HttpResponseMessage apiMessage = 
+				await _httpClient.GetAsync(_httpClient.BaseAddress + "/OrderApi/GetOrdersByUserId?userId=" + userId);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				string data = await apiMessage.Content.ReadAsStringAsync();
+				orders = JsonConvert.DeserializeObject<List<OrderView>>(data);
+			}
+
+			var customerOrderView = new CustomerOrderView
+			{
+				Orders = orders
+			};
+
+			return View(customerOrderView);
 		}
+
+		public async Task<IActionResult> GetOrder(int id)
+		{
+			HttpResponseMessage apiMessage =
+				await _httpClient.GetAsync(_httpClient.BaseAddress + "/OrderApi/GetOrdersByUserId/" + id);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				string data = await apiMessage.Content.ReadAsStringAsync();
+				var order = JsonConvert.DeserializeObject<OrderView>(data);
+				return View(order);
+			}
+
+			return NotFound();
+		}
+
 	}
 }
