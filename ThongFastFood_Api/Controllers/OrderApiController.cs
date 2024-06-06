@@ -61,10 +61,10 @@ namespace ThongFastFood_Api.Controllers
 			return Ok(order);
 		}
 
-		[HttpDelete]
-		public async Task<IActionResult> DeleteOrder(int orderId)
+		[HttpPut]
+		public async Task<IActionResult> CancelOrder(int orderId)
 		{
-			var response = await _orderSer.DeleteOrderAsync(orderId);
+			var response = await _orderSer.CancelOrderAsync(orderId);
 
 			if (response.IsSuccess)
 			{

@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net;
 using System.Security.Claims;
 using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Models;
+using ThongFastFood_Api.Models.Response;
 
 namespace ThongFastFood_Client.Controllers
 {
@@ -12,11 +15,13 @@ namespace ThongFastFood_Client.Controllers
 
 		private readonly HttpClient _httpClient;
 		private readonly IWebHostEnvironment _environment;
-		public MainPageController(HttpClient httpClient, IWebHostEnvironment environment)
+		private readonly INotyfService _notyf;
+		public MainPageController(HttpClient httpClient, IWebHostEnvironment environment, INotyfService noty)
 		{
 			_httpClient = httpClient;
 			_httpClient.BaseAddress = baseUrl;
 			_environment = environment;
+			_notyf = noty;
 		}
 
 		public async Task<IActionResult> Index()
@@ -44,6 +49,8 @@ namespace ThongFastFood_Client.Controllers
 		{
 			return View();
 		}
+
+		// danh sách đơn hàng
 		public async Task<IActionResult> CustomerOrder()
 		{
 			// Lấy userId của người dùng hiện tại
@@ -68,20 +75,40 @@ namespace ThongFastFood_Client.Controllers
 			return View(customerOrderView);
 		}
 
-		public async Task<IActionResult> GetOrder(int id)
+
+		// hủy đơn hàng
+		public async Task<IActionResult> CancelCustomerOrder(int orderId)
 		{
-			HttpResponseMessage apiMessage =
-				await _httpClient.GetAsync(_httpClient.BaseAddress + "/OrderApi/GetOrdersByUserId/" + id);
+			var content = new StringContent(string.Empty);
+
+			HttpResponseMessage apiMessage = await 
+				_httpClient.PutAsync(_httpClient.BaseAddress + "/OrderApi/CancelOrder/?orderId="
+				+ orderId, content);
 
 			if (apiMessage.IsSuccessStatusCode)
 			{
-				string data = await apiMessage.Content.ReadAsStringAsync();
-				var order = JsonConvert.DeserializeObject<OrderView>(data);
-				return View(order);
+				_notyf.Success("Đơn hàng đã được hủy");
+				return RedirectToAction("CustomerOrder");
 			}
+			else
+			{
+				if (apiMessage.StatusCode == HttpStatusCode.NotFound)
+				{
+					_notyf.Error("Đơn hàng không tồn tại.");
+				}
+				else if (apiMessage.StatusCode == HttpStatusCode.BadRequest)
+				{
+					string errorMessage = await apiMessage.Content.ReadAsStringAsync();
+					_notyf.Error(errorMessage);
+				}
+				else
+				{
+					_notyf.Error("Có lỗi xảy ra khi gửi yêu cầu.");
+				}
 
-			return NotFound();
+				// You might want to handle other potential errors here as needed
+				return RedirectToAction("CustomerOrder");
+			}
 		}
-
 	}
 }

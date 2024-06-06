@@ -147,24 +147,43 @@ namespace ThongFastFood_Api.Repositories.OrderService
 			return orderView;
 		}
 
-		public async Task<ResponseMessage> DeleteOrderAsync(int orderId)
+		public async Task<ResponseMessage> CancelOrderAsync(int orderId)
 		{
 			var order = await db.Orders.FindAsync(orderId);
 			if (order == null)
 			{
-				return new ResponseMessage 
-				{ 
-					Message = "Đơn hàng không tồn tại.", 
-					IsSuccess = false 
+				return new ResponseMessage
+				{
+					Message = "Đơn hàng không tồn tại.",
+					IsSuccess = false
 				};
 			}
 
-			db.Orders.Remove(order);
+			if (order.Status == OrderStatus.Cancelled)
+			{
+				return new ResponseMessage
+				{
+					Message = "Đơn hàng đã bị hủy trước đó.",
+					IsSuccess = false
+				};
+			}
+
+			if (order.Status == OrderStatus.Completed || order.Status == OrderStatus.InProgress || order.Status == OrderStatus.Delivered)
+			{
+				return new ResponseMessage
+				{
+					Message = "Không thể hủy đơn hàng sau khi đã xác nhận",
+					IsSuccess = false
+				};
+			}
+
+			order.Status = OrderStatus.Cancelled;
 			await db.SaveChangesAsync();
-			return new ResponseMessage 
-			{ 
-				Message = "Xóa đơn hàng thành công.", 
-				IsSuccess = true 
+
+			return new ResponseMessage
+			{
+				Message = "Đơn hàng đã được hủy.",
+				IsSuccess = true
 			};
 		}
 	}

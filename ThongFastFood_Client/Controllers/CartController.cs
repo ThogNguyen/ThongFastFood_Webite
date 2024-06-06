@@ -170,7 +170,6 @@ namespace ThongFastFood_Client.Controllers
 			return RedirectToAction("CartInfo");
 		}
 
-
 		[HttpGet]
 		public async Task<IActionResult> CheckOut()
 		{

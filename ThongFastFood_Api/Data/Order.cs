@@ -16,7 +16,7 @@ namespace ThongFastFood_Api.Data
         public string DeliveryAddress { get; set; }
         [StringLength(10)]
         public string PhoneNo { get; set; }
-        [StringLength(10)]
+        [StringLength(20)]
         public string Status { get; set; }  
         public int TotalAmount { get; set; }
         [StringLength(400)]

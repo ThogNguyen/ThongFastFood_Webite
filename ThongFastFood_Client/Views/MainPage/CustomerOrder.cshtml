@@ -19,45 +19,60 @@
 
 <div class="container">
 	<div class="page-cart">
-		<div class="table-responsive">
-			<table class="cart-summary table table-bordered">
-				<thead>
-					<tr>
-						<th class="text-center"><strong>Mã Đơn Hàng</strong></th>
-						<th class="text-center"><strong>Thời Gian Đặt</strong></th>
-						<th class="text-center"><strong>Trạng Thái </strong></th>
-						<th class="text-center"><strong>Tổng Tiền</strong></th>
-						<th class="text-center"><strong>Xem Chi Tiết</strong></th>
-						<th class="text-center"><strong>Hủy Đơn</strong></th>
-					</tr>
-				</thead>
-
-				<tbody>
-					@foreach(var order in Model.Orders)
-					{
+		@if(Model.Orders.Count == 0)
+		{
+			<div class="alert alert-warning" role="alert">
+				<h3 class="text-center">Bạn chưa đặt món ăn nào.</h3>
+			</div>
+		}
+		else
+		{
+			<div class="table-responsive">
+				<table class="cart-summary table table-bordered">
+					<thead>
 						<tr>
-							<td class="text-center">@order.OrderId</td>
-							<td class="text-center">@order.OrderTime</td>
-							<td class="text-center">@order.Status</td>
-							<td class="text-center">@order.TotalAmount</td>
-							<td class="text-center">
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_@order.OrderId">
-									Xem
-								</button>
-							</td>
-							<td class="text-center">
-								<a href="#" class="btn btn-danger" onclick="return confirm('Bạn có chắc là muốn xóa sản phẩm này?')">Hủy</a>
-							</td>
+							<th class="text-center"><strong>Mã Đơn Hàng</strong></th>
+							<th class="text-center"><strong>Thời Gian Đặt</strong></th>
+							<th class="text-center"><strong>Trạng Thái </strong></th>
+							<th class="text-center"><strong>Tổng Tiền</strong></th>
+							<th class="text-center"><strong>Xem</strong></th>
+							<th class="text-center"><strong>Hủy</strong></th>
 						</tr>
-					}
-				</tbody>
-			</table>
-		</div>
+					</thead>
+
+					<tbody>
+						@foreach (var order in Model.Orders)
+						{
+							<tr>
+								<td class="text-center">@order.OrderId</td>
+								<td class="text-center">@order.OrderTime</td>
+								<td class="text-center">@order.Status</td>
+								<td class="text-center">@order.TotalAmount</td>
+								<td class="text-center">
+									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal_@order.OrderId">
+										Xem
+									</button>
+								</td>
+								<td class="text-center">
+									@if (order.Status != "Đã hủy")
+									{
+										<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicModal_@order.OrderId">
+											Hủy đơn
+										</button>
+									}
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		}
 	</div>
 </div>
 
 @foreach(var order in Model.Orders)
 {
+	<!-- Modal Chi Tiết Đơn Hàng -->
 	<div class="modal fade" id="myModal_@order.OrderId" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_@order.OrderId" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
@@ -86,9 +101,9 @@
 								<tr class="text-center">
 									<td><img src="~/img/product/@detail.ProductImage" alt="product-image" width="50" /></td>
 									<td>@detail.ProductName</td>
-									<td>@detail.ProductPrice</td>
+									<td>@String.Format("{0:N0}", @detail.ProductPrice)đ</td>
 									<td>@detail.Quantity</td>
-									<td>@detail.SubTotal</td>
+									<td>@String.Format("{0:N0}", @detail.SubTotal)đ</td>
 								</tr>
 							}
 						</tbody>
@@ -96,6 +111,28 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal Hủy Đơn -->
+	<div class="modal fade" id="basicModal_@order.OrderId" tabindex="-1" role="dialog" aria-labelledby="basicModal_@order.OrderId" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title text-center" id="basicModalLabel_@order.OrderId">Thông Báo</h4>
+				</div>
+				<div class="modal-body text-center">
+					<h3>Bạn có chắc chắn muốn hủy đơn hàng này không?</h3>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Thoát</button>
+					<form asp-controller="MainPage" asp-action="CancelCustomerOrder" method="post" style="display:inline;">
+						<input type="hidden" name="orderId" value="@order.OrderId" />
+						<button type="submit" class="btn btn-primary">Đồng ý</button>
+					</form>
 				</div>
 			</div>
 		</div>
