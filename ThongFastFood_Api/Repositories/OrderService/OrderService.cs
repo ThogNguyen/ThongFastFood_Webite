@@ -48,7 +48,7 @@ namespace ThongFastFood_Api.Repositories.OrderService
 				DeliveryAddress = orderVM.DeliveryAddress,
 				PhoneNo = orderVM.PhoneNo,
 				Status = OrderStatus.Pending,
-				Note = orderVM.Note,
+				Note = orderVM.Note ?? null,
 				Customer_Id = userId,
 				TotalAmount = userCartItems.Sum(c => c.Quantity * c.Price),
 				OrderDetails = userCartItems.Select(c => new OrderDetail

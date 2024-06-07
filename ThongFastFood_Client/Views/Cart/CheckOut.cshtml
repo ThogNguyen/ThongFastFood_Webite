@@ -93,12 +93,12 @@
 											{
 												<tr>
 													<td>
-														<a asp-controller="Category" asp-action="DetailProduct">
+														<a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.Product_Id">
 															<img width="80" alt="Product Image" class="img-responsive" src="~/img/product/@item.Image">
 														</a>
 													</td>
 													<td>
-														<a asp-controller="Category" asp-action="DetailProduct" class="product-name">@item.Name</a>
+														<a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.Product_Id" class="product-name">@item.Name</a>
 													</td>
 													<td class="text-center">
 														@String.Format("{0:N0}", @item.Price)đ

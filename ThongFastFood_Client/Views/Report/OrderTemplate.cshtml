@@ -1,122 +1,117 @@
 ﻿@model ThongFastFood_Api.Models.OrderView
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>In Đơn Hàng</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
 
-        .container {
-            width: 80%;
-            margin: 50px auto;
-            background-color: #fff;
-            border-radius: 10px;
-            padding: 30px;
-        }
+    .container {
+        width: 80%;
+        margin: 50px auto;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 30px;
+    }
 
-        .title {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #d9534f;
-        }
+    .title {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #d9534f;
+    }
 
-        .row {
-            display: flex;
-            justify-content: space-between;
-        }
+    h3 {
+        color: #5bc0de;
+        margin-bottom: 10px;
+    }
 
-        .col {
-            width: 48%;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-        h3 {
-            color: #5bc0de;
-            margin-bottom: 10px;
-        }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+    th {
+        background-color: #f2f2f2;
+    }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
+    .text-center {
+        text-align: center;
+    }
 
-        th {
-            background-color: #f2f2f2;
-        }
+    .text-danger {
+        color: #d9534f;
+    }
 
-        .product-image {
-            max-width: 50px;
-            max-height: 50px;
-        }
+    .no-border {
+        border: none;
+        vertical-align: top;
+        text-align: left;
+    }
 
-        .text-center {
-            text-align: center;
-        }
-
-        .text-danger {
-            color: #d9534f;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2 class="title">Hóa Đơn</h2>
-        <div class="row">
-            <div class="col">
+    .thank-you {
+        margin-top: 30px;
+        text-align: center;
+        color: #5bc0de;
+    }
+</style>
+    
+<div class="container">
+    <h2 class="title">Hóa Đơn</h2>
+    <table>
+        <tr>
+            <td class="no-border" colspan="3">
                 <h3>Thông tin Đơn Hàng</h3>
                 <p><strong>Mã hóa đơn:</strong> @Model.OrderId</p>
                 <p><strong>Thời Gian Đặt:</strong> @Model.OrderTime</p>
-            </div>
-            <div class="col">
+            </td>
+            <td class="no-border" colspan="2">
                 <h3>Thông tin Khách Hàng</h3>
                 <p><strong>Tên khách hàng:</strong> @Model.CustomerName</p>
                 <p><strong>Địa chỉ giao:</strong> @Model.DeliveryAddress</p>
                 <p><strong>Số điện thoại:</strong> @Model.PhoneNo</p>
                 <p><strong>Ghi chú:</strong> @Model.Note</p>
-            </div>
-        </div>
-        <table>
-            <thead>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderDetail in Model.OrderDetails)
+            {
                 <tr>
-                    <th>Tên sản phẩm</th>
-                    <th>Giá</th>
-                    <th>Số lượng</th>
-                    <th>Thành tiền</th>
+                    <td>@orderDetail.ProductName</td>
+                    <td>@orderDetail.ProductPrice</td>
+                    <td>@orderDetail.Quantity</td>
+                    <td>@orderDetail.SubTotal</td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var orderDetail in Model.OrderDetails)
-                {
-                    <tr>
-                        <td>@orderDetail.ProductName</td>
-                        <td>@orderDetail.ProductPrice</td>
-                        <td>@orderDetail.Quantity</td>
-                        <td>@orderDetail.SubTotal</td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="2"></td>
-                    <td class="text-center"><strong>Tổng tiền</strong></td>
-                    <td class="text-center text-danger"><strong>@Model.TotalAmount đ</strong></td>
-                </tr>
-            </tfoot>
-        </table>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2"></td>
+                <td class="text-center"><strong>Tổng tiền</strong></td>
+                <td class="text-center text-danger"><strong>@Model.TotalAmount đ</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+    <div class="thank-you">
+        <h4>Cảm ơn quý khách đã mua hàng!</h4>
     </div>
-</body>
-</html>
+</div>
