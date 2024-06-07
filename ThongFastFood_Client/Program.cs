@@ -4,6 +4,9 @@ using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using ThongFastFood_Client.Services;
 
 namespace ThongFastFood_Client
 {
@@ -38,11 +41,8 @@ namespace ThongFastFood_Client
             .AddEntityFrameworkStores<FoodStoreDbContext>()
             .AddDefaultTokenProviders();
 
-            /*builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("UserOnly", policy => policy.RequireClaim("User"));
-                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
-            });*/
+            builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            builder.Services.AddTransient<IPDFService, PDFService>();
 
             builder.Services.ConfigureApplicationCookie(options =>
             {

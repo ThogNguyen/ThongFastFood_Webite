@@ -110,6 +110,15 @@
 					</table>
 				</div>
 				<div class="modal-footer">
+					@* In hóa đơn *@
+					@* @if(order.Status == "Đã giao")
+					{
+						
+					} *@
+					<a asp-controller="Report" asp-action="ExportPdfOrder"
+					   asp-route-orderId="@order.OrderId" class="btn btn-primary"
+					   target="_blank">In Hóa Đơn</a>
+
 					<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
 				</div>
 			</div>

@@ -16,7 +16,7 @@
             
             <div class="form-group">
                 <label class="control-label">Trạng thái đơn hàng</label>
-                <select name="newStatus" class="form-control" asp-items="ViewBag.AdminStatuses"></select>
+                <select name="newStatus" asp-for="Status" class="form-control" asp-items="ViewBag.AdminStatuses"></select>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary mb-4 w-100" type="submit">Lưu thay đổi</button>
