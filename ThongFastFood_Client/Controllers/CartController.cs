@@ -76,7 +76,7 @@ namespace ThongFastFood_Client.Controllers
 			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
 			HttpResponseMessage apiMessage =
-				await _httpClient.PostAsync(_httpClient.BaseAddress + "/CartApi/AddItem?userId=" + userId + "&productId=" + productId + "&quantity=" + quantity, content);
+				await _httpClient.PostAsync(_httpClient.BaseAddress + "/CartApi/PostItem?userId=" + userId + "&productId=" + productId + "&quantity=" + quantity, content);
 
 			if (apiMessage.IsSuccessStatusCode)
 			{
@@ -116,7 +116,7 @@ namespace ThongFastFood_Client.Controllers
 			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
 			HttpResponseMessage apiMessage =
-				await _httpClient.PutAsync(_httpClient.BaseAddress + "/CartApi/UpdateItem?userId=" + userId + "&cartId=" + cartId + "&quantity=" + quantity, content);
+				await _httpClient.PutAsync(_httpClient.BaseAddress + "/CartApi/PutItem?userId=" + userId + "&cartId=" + cartId + "&quantity=" + quantity, content);
 
 			if (apiMessage.IsSuccessStatusCode)
 			{
@@ -211,7 +211,7 @@ namespace ThongFastFood_Client.Controllers
 
 			HttpResponseMessage apiMessage =
 				await _httpClient.PostAsync(_httpClient.BaseAddress 
-				+ "/OrderApi/CreateOrder?userId=" + userId, content);
+				+ "/OrderApi/PostOrder?userId=" + userId, content);
 
 			if (apiMessage.IsSuccessStatusCode)
 			{
@@ -219,11 +219,11 @@ namespace ThongFastFood_Client.Controllers
 			}
 			else
 			{
-				string errorMessage = await apiMessage.Content.ReadAsStringAsync();
-				_notyf.Error("Có lỗi xảy ra: " + errorMessage);
+				_notyf.Error("Thông tin không được để trống.");
+				return RedirectToAction(nameof(CheckOut));
 			}
 
-			return RedirectToAction("Index","MainPage");
+			return RedirectToAction("Index", "MainPage");
 		}
 	}
 }

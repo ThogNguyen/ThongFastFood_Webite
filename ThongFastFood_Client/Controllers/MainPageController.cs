@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
 using System.Security.Claims;
+using System.Text;
 using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Models;
 using ThongFastFood_Api.Models.Response;
@@ -45,9 +46,49 @@ namespace ThongFastFood_Client.Controllers
 		{
 			return View();
 		}
-		public IActionResult UserInfo()
+
+		[HttpGet]
+		public async Task<IActionResult> UserInfo()
 		{
-			return View();
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			UserVM user = new UserVM();
+
+			HttpResponseMessage apiMessage =
+			   await _httpClient.GetAsync(_httpClient.BaseAddress + "/AccountApi/GetUserById?id=" + userId);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				string data = await apiMessage.Content.ReadAsStringAsync();
+				user = JsonConvert.DeserializeObject<UserVM>(data);
+			}
+			else
+			{
+				_notyf.Error("Không load được user này!.");
+				return RedirectToAction("Index");
+			}
+
+			return View(user);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> UserInfo(UserVM model)
+		{
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			string data = JsonConvert.SerializeObject(model);
+			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+
+			HttpResponseMessage apiMessage =
+				await _httpClient.PutAsync(_httpClient.BaseAddress + "/AccountApi/PutUser?id=" + userId, content);
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				_notyf.Success("Cập nhật thông tin thành công");
+				return RedirectToAction(nameof(UserInfo));
+			}
+
+			return View(model);
 		}
 
 		// danh sách đơn hàng

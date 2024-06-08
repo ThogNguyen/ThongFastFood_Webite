@@ -12,8 +12,6 @@ namespace ThongFastFood_Client.Services
             _converter = converter;
         }
 
-        public IConverter Converter { get; }
-
         public byte[] GeneratePdf(string contentHTML, 
                                 Orientation orientation = Orientation.Portrait,
                                 DinkToPdf.PaperKind paperKind = DinkToPdf.PaperKind.A4)

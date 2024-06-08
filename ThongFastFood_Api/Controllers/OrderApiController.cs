@@ -30,7 +30,7 @@ namespace ThongFastFood_Api.Controllers
         }
 
         [HttpPost]
-		public async Task<IActionResult> CreateOrder(string userId, OrderVM orderVM)
+		public async Task<IActionResult> PostOrder(string userId, OrderVM orderVM)
 		{
 			var response = await _orderSer.CreateOrderAsync(userId, orderVM);
 
@@ -89,7 +89,7 @@ namespace ThongFastFood_Api.Controllers
 		}
 
         [HttpPut]
-        public async Task<IActionResult> UpdateOrderStatus(int orderId, string newStatus)
+        public async Task<IActionResult> PutOrderStatus(int orderId, string newStatus)
         {
             var response = await _orderSer.UpdateOrderStatusAsync(orderId, newStatus);
 

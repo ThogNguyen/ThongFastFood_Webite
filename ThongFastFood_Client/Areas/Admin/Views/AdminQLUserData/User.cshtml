@@ -1,8 +1,10 @@
-﻿
+﻿@model IPagedList<ThongFastFood_Api.Models.UserVM>
+@using PagedList;
 @{
     ViewData["Title"] = "User";
     Layout = "~/Areas/Admin/Views/_LayoutAdmin.cshtml";
 }
+
 
 <div class="section-body">
     <div class="col-12 col-md-12 col-lg-12">
@@ -10,17 +12,10 @@
             <div class="card-header">
                 <h2>Quản Lí Người Dùng</h2>
             </div>
-            
             <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-sm-12 col-md-12">
-                        <a asp-action="CreateUser" class="btn btn-primary">Thêm người dùng mới</a>
-                    </div>
-                </div>
                 <table class="table" id="product-table">
                     <thead>
                         <tr style="text-align: center;">
-                            <th scope="col">STT</th>
                             <th scope="col">Họ và tên</th>
                             <th scope="col">Email</th>
                             <th scope="col">SĐT</th>
@@ -29,23 +24,60 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr style="text-align: center;">
-                            <td>MaNguoiDung</td>
-                            <td>HoTen</td>
-                            <td>Email</td>
-                            <td>Sdt</td>
-                            <td>DiaChi</td>
-                            <td>
-                                <a asp-action="EditUser" class="btn btn-primary">Sửa</a>
-                                <a href="#" class="btn btn-danger">Xóa </a>
-                            </td>
-                        </tr>
+                        @foreach (var user in Model)
+                        {
+                            <tr style="text-align: center;">
+                                <td>@user.FullName</td>
+                                <td>@user.Email</td>
+                                <td>@user.PhoneNumber</td>
+                                <td>@user.Address</td>
+                                <td>
+                                    <a asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-primary">Sửa</a>
+                                    <a asp-action="DeleteUser" asp-route-id="@user.Id" class="btn btn-danger">Xóa</a>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
+                <div class="card-body">
+                    <nav style="float: right;">
+                        <ul class="pagination">
+                            @if (Model.HasPreviousPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-controller="AdminQLUserData" asp-action="User" asp-route-page="@(Model.PageNumber - 1)">Trước</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <a class="page-link">Trước</a>
+                                </li>
+                            }
+                            @for (int i = 1; i <= Model.PageCount; i++)
+                            {
+                                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                    <a class="page-link" asp-controller="AdminQLUserData" asp-action="User" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+                            @if (Model.HasNextPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-controller="AdminQLUserData" asp-action="User" asp-route-page="@(Model.PageNumber + 1)">Sau</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item disabled">
+                                    <a class="page-link">Sau</a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 
 

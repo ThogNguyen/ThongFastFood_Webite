@@ -19,7 +19,7 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> AddItem(string userId, int productId, int quantity = 1)
+		public async Task<IActionResult> PostItem(string userId, int productId, int quantity = 1)
 		{
 			var cartItem = await _cartService.AddToCart(userId, productId, quantity);
 
@@ -71,7 +71,7 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpPut]
-		public async Task<IActionResult> UpdateItem(string userId, int cartId, int quantity)
+		public async Task<IActionResult> PutItem(string userId, int cartId, int quantity)
 		{
 			var result = await _cartService.UpdateQuantity(userId, cartId, quantity);
 

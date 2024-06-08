@@ -74,7 +74,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
             {
                 string data = apiMessage.Content.ReadAsStringAsync().Result;
                 CategoryVM category = JsonConvert.DeserializeObject<CategoryVM>(data);
-
+                    
                 return View(category);
             }
 

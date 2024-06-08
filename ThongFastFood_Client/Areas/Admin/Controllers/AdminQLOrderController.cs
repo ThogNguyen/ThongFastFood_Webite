@@ -62,11 +62,11 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
                 string data = await apiMessage.Content.ReadAsStringAsync();
                 OrderView order = JsonConvert.DeserializeObject<OrderView>(data);
 
-                orderVM.Status = order.Status; // Assign status to orderVM
+                orderVM.Status = order.Status; // Gán trạng thái vào orderVM
 
                 ViewData["OrderId"] = order.OrderId;
 
-                // Convert AdminStatuses list to SelectListItems
+                // chuyển list trạng thái dành cho Admin thanh selectlist items
                 var adminStatuses = OrderStatus.AdminStatuses
                     .Select(status => new SelectListItem { Text = status, Value = status });
 
@@ -93,8 +93,8 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             // Gửi yêu cầu POST đến API để cập nhật trạng thái đơn hàng
             HttpResponseMessage resMessage =
-                await _httpClient.PutAsync(_httpClient.BaseAddress + 
-                "/OrderApi/UpdateOrderStatus?orderId=" + orderId + "&newStatus=" + newStatus, content);
+                await _httpClient.PutAsync(_httpClient.BaseAddress +
+				"/OrderApi/PutOrderStatus?orderId=" + orderId + "&newStatus=" + newStatus, content);
 
             if (resMessage.IsSuccessStatusCode)
             {

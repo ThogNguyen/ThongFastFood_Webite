@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ThongFastFood_Api.Data;
 using AspNetCoreHero.ToastNotification;
 using AspNetCoreHero.ToastNotification.Extensions;
@@ -41,6 +41,7 @@ namespace ThongFastFood_Client
             .AddEntityFrameworkStores<FoodStoreDbContext>()
             .AddDefaultTokenProviders();
 
+            // dịch vụ xuất file .pdf
             builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
             builder.Services.AddTransient<IPDFService, PDFService>();
 
@@ -52,7 +53,7 @@ namespace ThongFastFood_Client
 
             builder.Services.AddRazorPages();
 
-            // Add ToastNotification
+            // dịch vụ thông báo
             builder.Services.AddNotyf(config =>
             {
                 config.DurationInSeconds = 3;
