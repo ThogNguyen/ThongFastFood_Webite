@@ -2,7 +2,7 @@
 	ViewData["Title"] = "Detail Product";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@model ThongFastFood_Api.Models.ProductVM
+@model ThongFastFood_Api.Models.DetailProductVM
 
 
 <!-- Breadcrumb -->
@@ -13,7 +13,7 @@
 		<ul class="breadcrumb">
 			<li><a asp-controller="MainPage" asp-action="Index">Trang Chủ</a></li>
 			<li><a asp-controller="Category" asp-action="ListProduct">Danh Mục Sản Phẩm</a></li>
-			<li><span>Name</span></li>
+			<li><span>@Model.ProductName</span></li>
 		</ul>
 	</div>
 </div>
@@ -110,44 +110,48 @@
 					<div class="tab-content">
 						<!-- Description -->
 						<div role="tabpanel" class="tab-pane fade in active" id="description">
-							<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
-							<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
+							<p>@Model.Description</p>
 						</div>
 
 						<!-- Review -->
 						<div role="tabpanel" class="tab-pane fade" id="review">
 							<div class="reviews">
 								<div class="comments-list">
-									<div class="item">
-										<div class="comment-body">
-											<div class="comment-meta">
-												<span class="author">Peter</span> - <span class="time">June 02, 2018</span>
+									@foreach (var comment in Model.Comments)
+                                    {
+                                        <div class="row">
+											<div class="col-md-12">
+												<div class="item">
+													<div class="comment-body">
+														<div class="comment-meta">
+															<span class="author">@comment.CustomerName</span> -
+															<span class="time">@comment.ReviewDate.ToString("MMMM dd, yyyy")</span> - <!-- Định dạng ngày tháng -->
+															<span>
+																<a href="#">
+																	<i class="fa fa-trash" aria-hidden="true"></i> <!-- Gọi hàm xóa -->
+																</a>
+															</span>
+														</div>
+														<div class="comment-content">@comment.Comment</div>
+													</div>
+												</div>
 											</div>
-											<div class="comment-content">Look at the sunset, life is amazing, life is beautiful, life is what you make it. To succeed you must believe. When you believe, you will succeed. In life there will be road blocks but we will over come it. Celebrate success right, the only way, apple. The ladies always say Khaled you smell good, I use no cologne. Cocoa butter is the key. </div>
 										</div>
-									</div>
-
-									<div class="item">
-										<div class="comment-body">
-											<div class="comment-meta">
-												<span class="author">Merry</span> - <span class="time">June 17, 2018</span>
-											</div>
-											<div class="comment-content">Look at the sunset, life is amazing, life is beautiful, life is what you make it. To succeed you must believe. When you believe, you will succeed. In life there will be road blocks but we will over come it. Celebrate success right, the only way, apple. The ladies always say Khaled you smell good, I use no cologne. Cocoa butter is the key. </div>
-										</div>
-									</div>
+                                    }
 								</div>
 
 								<div class="review-form">
-									<h4 class="title">Write a review</h4>
+									<h4 class="title">Viết đánh giá</h4>
 
-									<form action="#" method="post" class="form-validate">
+									<form id="commentForm" asp-controller="Category" asp-action="WriteComment" method="post" class="form-validate">
+										<input type="hidden" name="productId" value="@Model.ProductId" />
 										<div class="form-group">
-											<div class="text">You review<sup class="required">*</sup></div>
+											<div class="text">Nhận xét của bạn <sup class="required">*</sup></div>
 											<textarea id="comment" name="comment" cols="45" rows="6" aria-required="true"></textarea>
 										</div>
 
 										<div class="form-group">
-											<button class="btn btn-primary">Send your review</button>
+											<button class="btn btn-primary" type="submit">Gửi đánh giá của bạn</button>
 										</div>
 									</form>
 								</div>

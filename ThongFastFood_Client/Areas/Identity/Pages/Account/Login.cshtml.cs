@@ -102,6 +102,7 @@ namespace ThongFastFood_Client.Areas.Identity.Pages.Account
 	                {
 	                	new Claim(ClaimTypes.NameIdentifier, user.Id),
 						new Claim(ClaimTypes.Name, user.UserName),
+						new Claim("FullName", user.FullName),
                         // Các claim khác bạn muốn thêm vào đây
                     };
 
