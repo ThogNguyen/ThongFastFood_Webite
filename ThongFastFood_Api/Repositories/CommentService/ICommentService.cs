@@ -6,6 +6,6 @@ namespace ThongFastFood_Api.Repositories.CommentService
 	public interface ICommentService
 	{
 		List<CommentVM> GetCommentsByProductID(int productId);
-		ResponseMessage AddComment(int productId, string userId, string comment);
+		ResponseMessage AddComment(int productId, string userId, CommentVM model);
 	}
 }

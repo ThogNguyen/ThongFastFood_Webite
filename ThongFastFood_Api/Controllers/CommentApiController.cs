@@ -24,9 +24,9 @@ namespace ThongFastFood_Api.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult PostComment(int productId, string userId, string comment)
+		public IActionResult PostComment(int productId, string userId, CommentVM model)
 		{
-			var result = _commentService.AddComment(productId, userId, comment);
+			var result = _commentService.AddComment(productId, userId, model.Comment);
 			if (result.IsSuccess)
 			{
 				return Ok(result);

@@ -14,7 +14,7 @@ namespace ThongFastFood_Api.Repositories.CommentService
 			db = context;
 		}
 
-		public ResponseMessage AddComment(int productId, string userId, string comment)
+		public ResponseMessage AddComment(int productId, string userId, CommentVM model)
 		{
 			var user = db.Users.FirstOrDefault(u => u.Id == userId);
 			if (user == null)
@@ -40,7 +40,7 @@ namespace ThongFastFood_Api.Repositories.CommentService
 			{
 				CustomerName = user.FullName,
 				ReviewDate = DateTime.Now,
-				Comment = comment,
+				Comment = model.Comment,
 				Product_Id = productId,
 				User_Id = userId
 			};

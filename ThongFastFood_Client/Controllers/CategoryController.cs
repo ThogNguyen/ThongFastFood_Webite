@@ -129,9 +129,10 @@ namespace ThongFastFood_Client.Controllers
 			}
 			else
 			{
-				// Thông báo lỗi
-				_notyf.Error("Không thực hiện bình luận được."); ;
-				return View(model);
+                // Thông báo lỗi
+                string errorMessage = await apiMessage.Content.ReadAsStringAsync();
+                _notyf.Error(errorMessage);
+                return View(model);
 			}
 		}
 	}
