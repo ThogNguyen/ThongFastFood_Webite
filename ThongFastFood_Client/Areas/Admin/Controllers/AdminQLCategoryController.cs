@@ -65,7 +65,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
             return View(category);
         }
 
-
         [HttpGet]
         public IActionResult EditCategory(int id)
         {
@@ -82,7 +81,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditCategory(int id, Category category)
+        public IActionResult EditCategory(int id, CategoryVM category)
         {
             string data = JsonConvert.SerializeObject(category);
             StringContent content = new StringContent(data, Encoding.UTF8, "application/json");

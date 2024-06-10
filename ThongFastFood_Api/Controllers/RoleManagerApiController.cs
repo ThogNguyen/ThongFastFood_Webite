@@ -44,7 +44,6 @@ namespace ThongFastFood_Api.Controllers
             }
         }
 
-
         [HttpPut]
         public async Task<IActionResult> PutUserRole(string id, UserRolesVM userRole)
         {

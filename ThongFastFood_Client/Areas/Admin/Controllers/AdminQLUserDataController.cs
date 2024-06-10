@@ -41,7 +41,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 			IPagedList<UserVM> pagedUsers = users.ToPagedList(pageNumber, pageSize);
 			return View(pagedUsers);
 		}
-
 		[HttpGet]
         public async Task<IActionResult> EditUser(string id)
         {
@@ -64,7 +63,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             return View(user);
         }
-
         [HttpPost]
         public async Task<IActionResult> EditUser(string id, UserVM model)
         {

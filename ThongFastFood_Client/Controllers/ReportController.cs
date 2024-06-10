@@ -22,11 +22,6 @@ namespace ThongFastFood_Client.Controllers
             _pdfService = pdfService;
         }
 
-        public IActionResult Report()
-        {
-            return View();
-        }
-
         public async Task<IActionResult> ExportPdfOrder(int orderId)
         {
             OrderView order = new OrderView();

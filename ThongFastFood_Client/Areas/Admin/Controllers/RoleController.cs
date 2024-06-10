@@ -75,7 +75,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             return NotFound();
         }
-
         [HttpPost]
         public async Task<IActionResult> EditRole(string id, IdentityRole role)
         {
@@ -93,8 +92,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             return View(role);
         }
-
-        
         public async Task<IActionResult> DeleteRole(string id)
         {
             HttpResponseMessage apiMessage = 

@@ -28,7 +28,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
             _notyf = noty;
         }
 
-        // load sản phẩm
         public async Task<IActionResult> Order(int? page)
         {
             List<OrderView> orders = new List<OrderView>();

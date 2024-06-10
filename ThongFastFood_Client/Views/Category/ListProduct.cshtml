@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<form id="sortForm" asp-controller="Category" asp-action="ListProduct" asp-route-id="@ViewData["CurrentCategoryId"]" method="get">
+<form id="sortForm" asp-controller="Category" asp-action="ListProduct" method="get">
     <div class="container">
         <div class="row">
             <!-- Sidebar -->
@@ -192,26 +192,6 @@
             </div>
         </div>
     </div>
-
-    <input type="hidden" name="sort" value="@ViewData["CurrentSort"]" />
-    <input type="hidden" name="priceRange" value="@ViewData["CurrentPriceRange"]" />
 </form>
-
-
-<script>
-    document.getElementById('sortForm').addEventListener('submit', function (event) {
-        event.preventDefault(); // Ngăn chặn việc submit mặc định của form
-
-        var form = this;
-        var sortValue = form.querySelector('[name="sort"]').value;
-        var priceRangeValue = form.querySelector('[name="priceRange"]:checked') ? form.querySelector('[name="priceRange"]:checked').value : 'all'; // Lấy giá trị đã chọn hoặc giá trị mặc định 'all'
-
-        // Thêm giá trị của sort và priceRange vào URL
-        var actionUrl = form.getAttribute('action') + '?sort=' + sortValue + '&priceRange=' + priceRangeValue;
-
-        // Chuyển hướng đến URL đã được cập nhật
-        window.location.href = actionUrl;
-    });
-</script>
 
 

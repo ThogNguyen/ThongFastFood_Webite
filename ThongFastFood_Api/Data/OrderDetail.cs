@@ -18,6 +18,5 @@ namespace ThongFastFood_Api.Data
         [ForeignKey("Product")]
         public int Product_Id { get; set; }
         public Product Product { get; set; }
-        
     }
 }

@@ -13,8 +13,8 @@ namespace ThongFastFood_Client.Services
         }
 
         public byte[] GeneratePdf(string contentHTML, 
-                                Orientation orientation = Orientation.Portrait,
-                                DinkToPdf.PaperKind paperKind = DinkToPdf.PaperKind.A4)
+                                Orientation orientation = Orientation.Portrait, // bố cục dọc
+                                DinkToPdf.PaperKind paperKind = DinkToPdf.PaperKind.A4) // loại trang giấy A4
         {
             var globalSetting = new GlobalSettings
             {

@@ -116,7 +116,6 @@ namespace ThongFastFood_Client.Controllers
 			return View(customerOrderView);
 		}
 
-
 		// hủy đơn hàng
 		public async Task<IActionResult> CancelCustomerOrder(int orderId)
 		{

@@ -42,7 +42,6 @@ namespace ThongFastFood_Api.Repositories.UserService
             return userRoleVM;
         }
 
-
         public async Task<UserRolesVM> GetUserRolesByUserId(string id)
         {
             // Tìm hàng trong bảng dữ liệu UserRoles có UserId tương ứng

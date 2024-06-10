@@ -3,8 +3,6 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        background-color: #f9f9f9;
-        color: #333;
         margin: 0;
         padding: 0;
     }
@@ -97,9 +95,9 @@
             {
                 <tr>
                     <td>@orderDetail.ProductName</td>
-                    <td>@orderDetail.ProductPrice</td>
+                    <td>@String.Format("{0:N0}", @orderDetail.ProductPrice)đ</td>
                     <td>@orderDetail.Quantity</td>
-                    <td>@orderDetail.SubTotal</td>
+                    <td>@String.Format("{0:N0}", @orderDetail.SubTotal)đ</td>
                 </tr>
             }
         </tbody>
@@ -107,7 +105,7 @@
             <tr>
                 <td colspan="2"></td>
                 <td class="text-center"><strong>Tổng tiền</strong></td>
-                <td class="text-center text-danger"><strong>@Model.TotalAmount đ</strong></td>
+                <td class="text-center text-danger"><strong> @String.Format("{0:N0}", @Model.TotalAmount)đ</strong></td>
             </tr>
         </tfoot>
     </table>

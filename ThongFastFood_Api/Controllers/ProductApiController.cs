@@ -16,7 +16,6 @@ namespace ThongFastFood_Api.Controllers
             _productSer = productSer;
         }
 
-
         [HttpGet]
         public IActionResult GetProducts(int id, string? sort, string? search, string? priceRange)
         {
@@ -83,7 +82,6 @@ namespace ThongFastFood_Api.Controllers
             }
             return Ok(model);
         }
-
 
         [HttpDelete("{id}")]
         public IActionResult RemoveProduct(int id)

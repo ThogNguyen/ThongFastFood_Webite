@@ -119,7 +119,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 			return View(model);
         }
 
-
         //sửa sản phẩm (view)
         [HttpGet]
         public async Task<IActionResult> EditProduct(int id)
@@ -157,7 +156,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             return NotFound();
         }
-
 
         //sửa sản phẩm (update)
         [HttpPost]
@@ -251,7 +249,6 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
             // Nếu có lỗi xảy ra hoặc dữ liệu không hợp lệ, hiển thị lại form sửa sản phẩm với dữ liệu hiện tại
             return View(model);
         }
-
 
         //xoá sản phẩm (delete)
         public async Task<IActionResult> DeleteProduct(int id)
