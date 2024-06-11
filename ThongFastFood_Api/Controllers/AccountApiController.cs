@@ -39,20 +39,6 @@ namespace ThongFastFood_Api.Controllers
 			return Ok(user);
 		}
 
-		[HttpDelete]
-		public async Task<IActionResult> RemoveUser(string id)
-		{
-			var response = await _accountService.DeleteUserAsync(id);
-			if (response.IsSuccess)
-			{
-				return Ok(response);		
-			}
-			else
-			{
-				return BadRequest(response);
-			}
-		}
-
 		[HttpPut]
 		public async Task<IActionResult> PutUser(string id, UserVM userVM)
 		{

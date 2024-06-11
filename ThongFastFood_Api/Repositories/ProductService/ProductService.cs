@@ -40,19 +40,6 @@ namespace ThongFastFood_Api.Repositories.ProductService
             return model;
         }
 
-
-        public void DeleteProduct(int id)
-        {
-            // Xóa sản phẩm từ cơ sở dữ liệu
-            var product = db.Products.Find(id);
-            if (product != null)
-            {
-                // Remove the product from the database
-                db.Products.Remove(product);
-                db.SaveChanges();
-            }
-        }
-
         public ProductVM GetIdProduct(int id)
         {
             // Lấy thông tin của sản phẩm theo ID từ cơ sở dữ liệu
@@ -104,7 +91,6 @@ namespace ThongFastFood_Api.Repositories.ProductService
 			}
 
 			#endregion
-
 			#region Lọc sản phẩm theo giá
 			if (!string.IsNullOrEmpty(priceRange))
 			{

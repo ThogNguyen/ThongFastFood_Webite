@@ -37,7 +37,6 @@
                                 <td><img src="~/img/product/@item.ProductImage" width="100px" style="padding:15px" /></td>
                                 <td>
                                     <a asp-action="EditProduct" asp-route-id="@item.ProductId" class="btn btn-primary">Sửa</a>
-                                    <a asp-action="DeleteProduct" asp-route-id="@item.ProductId" class="btn btn-danger" onclick="return confirm('Bạn có chắc là muốn xóa sản phẩm này?')">Xóa</a>
                                 </td>
                             </tr>
                         }

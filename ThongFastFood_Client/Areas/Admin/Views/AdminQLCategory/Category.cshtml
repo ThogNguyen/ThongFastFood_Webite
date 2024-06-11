@@ -34,8 +34,6 @@
                                 <td>@item.CategoryName</td>
                                 <td>
                                     <a asp-action="EditCategory" asp-route-id="@item.CategoryId" class="btn btn-primary">Sửa</a>
-                                    <a asp-action="DeleteCategory" asp-route-id="@item.CategoryId" class="btn btn-danger"
-                                       onclick="return confirm('Bạn có chắc là muốn xóa loại sản phẩm này?')">Xóa</a>
                                 </td>
                             </tr>
                         }

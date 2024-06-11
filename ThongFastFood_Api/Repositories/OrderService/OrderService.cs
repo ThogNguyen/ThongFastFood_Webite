@@ -75,10 +75,11 @@ namespace ThongFastFood_Api.Repositories.OrderService
 		public async Task<List<OrderView>> GetOrdersByUserIdAsync(string userId)
 		{
 			var orders = await db.Orders
-		.Include(o => o.OrderDetails)
-			.ThenInclude(od => od.Product)  // Include product details
-		.Where(o => o.Customer_Id == userId)
-		.ToListAsync();
+				.Include(o => o.OrderDetails)
+				.ThenInclude(od => od.Product)  // Include product details
+				.Where(o => o.Customer_Id == userId)
+                .OrderByDescending(o => o.OrderId)
+                .ToListAsync();
 
 			if (orders == null || !orders.Any())
 			{

@@ -14,26 +14,6 @@ namespace ThongFastFood_Api.Repositories.UserService
 			db = context;
 		}
 
-		public async Task<ResponseMessage> DeleteUserAsync(string id)
-		{
-			var user = await db.Users.FindAsync(id);
-			if (user == null)
-			{
-				return new ResponseMessage { 
-					IsSuccess = false, 
-					Message = "Không tìm thấy người dùng." 
-				};
-			}
-
-			db.Users.Remove(user);
-			await db.SaveChangesAsync();
-
-			return new ResponseMessage { 
-				IsSuccess = true, 
-				Message = "Xóa người dùng thành công." 
-			};
-		}
-
 		public async Task<UserVM> GetUserByIdAsync(string id)
 		{
 			var user = await db.Users.FindAsync(id);

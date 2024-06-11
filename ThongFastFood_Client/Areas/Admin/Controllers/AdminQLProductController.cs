@@ -249,19 +249,5 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
             // Nếu có lỗi xảy ra hoặc dữ liệu không hợp lệ, hiển thị lại form sửa sản phẩm với dữ liệu hiện tại
             return View(model);
         }
-
-        //xoá sản phẩm (delete)
-        public async Task<IActionResult> DeleteProduct(int id)
-        {
-            HttpResponseMessage apiMessage =
-                await _httpClient.DeleteAsync(_httpClient.BaseAddress + "/ProductApi/RemoveProduct/" + id);
-
-            if (apiMessage.IsSuccessStatusCode)
-            {
-                _notyf.Success("Xóa sản phẩm thành công");
-                return RedirectToAction("Product");
-            }
-            return View();
-        }
     }
 }

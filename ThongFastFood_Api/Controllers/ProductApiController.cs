@@ -17,7 +17,7 @@ namespace ThongFastFood_Api.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetProducts(int id, string? sort, string? search, string? priceRange)
+        public IActionResult GetProducts(string? sort, string? search, string? priceRange)
         {
             var products = _productSer.GetProducts(sort, search, priceRange);
             return Ok(products);
@@ -81,21 +81,6 @@ namespace ThongFastFood_Api.Controllers
                 }
             }
             return Ok(model);
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult RemoveProduct(int id)
-        {
-            var product = _productSer.GetIdProduct(id);
-            if (product != null)
-            {
-                _productSer.DeleteProduct(id);
-                return Ok("Xóa thành công");
-            }
-            else
-            {
-                return BadRequest("Xóa thất bại");
-            }
         }
     }
 }

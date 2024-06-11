@@ -97,21 +97,5 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             return View(category);
         }
-
-        public IActionResult DeleteCategory(int id)
-        {
-            HttpResponseMessage apiMessage = _httpClient.DeleteAsync(_httpClient.BaseAddress + "/CategoryApi/RemoveCategory/" + id).Result;
-
-            if (apiMessage.IsSuccessStatusCode)
-            {
-                _notyf.Success("Xóa loại thành công");
-                return RedirectToAction("Category");
-            }
-            else
-            {
-                _notyf.Warning("Đã có sản phẩm trong loại này");
-                return RedirectToAction("Category"); 
-            }
-        }
     }
 }

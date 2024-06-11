@@ -81,17 +81,5 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             return View(model);
         }
-        public async Task<IActionResult> DeleteUser(string id)
-        {
-            HttpResponseMessage apiMessage = 
-                await _httpClient.DeleteAsync(_httpClient.BaseAddress +
-                "/AccountApi/RemoveUser?id=" + id);
-
-            if (apiMessage.IsSuccessStatusCode)
-            {
-                _notyf.Success("Xóa người dùng thành công");
-            }
-            return RedirectToAction("User");
-        }
     }
 }

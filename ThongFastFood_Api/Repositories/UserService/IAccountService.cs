@@ -9,6 +9,5 @@ namespace ThongFastFood_Api.Repositories.UserService
 		Task<List<UserVM>> GetUsersAsync();
 		Task<UserVM> GetUserByIdAsync(string id);
 		Task<ResponseMessage> UpdateUserAsync(string id, UserVM userVM);
-		Task<ResponseMessage> DeleteUserAsync(string id);
 	}
 }

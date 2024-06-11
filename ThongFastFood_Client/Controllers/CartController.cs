@@ -223,7 +223,7 @@ namespace ThongFastFood_Client.Controllers
 				return RedirectToAction(nameof(CheckOut));
 			}
 
-			return RedirectToAction("Index", "MainPage");
+			return RedirectToAction("CustomerOrder", "MainPage");
 		}
 	}
 }

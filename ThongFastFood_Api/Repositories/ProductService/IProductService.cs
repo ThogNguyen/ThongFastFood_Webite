@@ -10,6 +10,5 @@ namespace ThongFastFood_Api.Repositories.ProductService
         ProductVM GetIdProduct(int id);
 		List<ProductVM> GetProductByCategoryId(int id);
 		ProductVM UpdateProduct(int id, ProductVM model);
-		void DeleteProduct(int id);
     }
 }
