@@ -80,9 +80,17 @@ namespace ThongFastFood_Api.Repositories.ProductService
 			return products;
 		}
 
-		public List<ProductVM> GetProducts(string? sort, string? search, string? priceRange)
+		public List<ProductVM> GetProducts(int? categoryId, string? sort, string? search, string? priceRange)
         {
             IQueryable<Product> query = db.Products;
+
+
+            #region Lọc sản phẩm theo loại
+            if (categoryId != null)
+            {
+                query = query.Where(p => p.Category_Id == categoryId);
+            }
+            #endregion
 
             #region Lọc sản phẩm theo tên
             if (!string.IsNullOrEmpty(search))

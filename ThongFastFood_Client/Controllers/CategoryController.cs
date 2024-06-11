@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using PagedList;
 using System.Security.Claims;
 using System.Text;
+using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Models;
 
 namespace ThongFastFood_Client.Controllers
@@ -20,48 +21,34 @@ namespace ThongFastFood_Client.Controllers
 			_httpClient.BaseAddress = baseUrl;
 			_notyf = noty;
 		}
-		public async Task<IActionResult> ListProduct(int? page, int? id, string search, string sort, string priceRange)
+		public async Task<IActionResult> ListProduct(int? page, int? categoryId, string search, string sort, string priceRange)
 		{
-			List<ProductVM> products = new List<ProductVM>();
-			int totalProducts = 0;
+            List<ProductVM> products = new List<ProductVM>();
+            int totalProducts = 0;
 
-			if (id.HasValue)
-			{
-				// Nếu id có giá trị, tìm sản phẩm theo mã loại 
-				HttpResponseMessage apiMessage = 
-					await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetProductsByCategory/" + id);
-				if (apiMessage.IsSuccessStatusCode)
-				{
-					string data = await apiMessage.Content.ReadAsStringAsync();
-					products = JsonConvert.DeserializeObject<List<ProductVM>>(data);
-					totalProducts = products.Count;
-				}
-			}
-			else
-			{
-				// Nếu id không có giá trị, lấy tất cả sản phẩm
-				HttpResponseMessage apiMessage = 
-					await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetProducts?search=" 
-					+ search + "&sort=" + sort + "&priceRange=" + priceRange);
-				if (apiMessage.IsSuccessStatusCode)
-				{
-					string data = await apiMessage.Content.ReadAsStringAsync();
-					products = JsonConvert.DeserializeObject<List<ProductVM>>(data);
-					totalProducts = products.Count;
-				}
-			}
+            // Nếu id không có giá trị, lấy tất cả sản phẩm
+            HttpResponseMessage apiMessage =
+                await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetProducts?categoryId="
+                + categoryId + "&sort=" + sort + "&search=" + search + "&priceRange=" + priceRange);
+            if (apiMessage.IsSuccessStatusCode)
+            {
+                string data = await apiMessage.Content.ReadAsStringAsync();
+                products = JsonConvert.DeserializeObject<List<ProductVM>>(data);
+                totalProducts = products.Count;
+            }
 
             int pageSize = 6;
             int pageNumber = page ?? 1;
             IPagedList<ProductVM> pagedProducts = products.ToPagedList(pageNumber, pageSize);
 
-			ViewData["CurrentSort"] = sort;
-			ViewData["CurrentPriceRange"] = priceRange;
-			ViewData["CurrentCategoryId"] = id;
-			ViewData["TotalProducts"] = totalProducts;
+            ViewData["CurrentSort"] = sort;
+            ViewData["CurrentPriceRange"] = priceRange;
+            ViewData["CurrentCategoryId"] = categoryId;
+            ViewData["CurrentSearch"] = search;
+            ViewData["TotalProducts"] = totalProducts;
 
-			return View(pagedProducts);
-		}
+            return View(pagedProducts);
+        }
 
 		/*GetIdProduct*/
 		public async Task<IActionResult> DetailProduct(int id)

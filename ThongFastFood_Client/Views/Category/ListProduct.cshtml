@@ -137,8 +137,9 @@
                                             <li>
                                                 <a class="prev" asp-controller="Category" 
                                                     asp-action="ListProduct"
-                                                    asp-route-id="@ViewData["CurrentCategoryId"]"
-                                                    asp-route-page="@(Model.PageNumber - 1)" 
+                                                    asp-route-categoryId="@ViewData["CurrentCategoryId"]"
+                                                    asp-route-page="@(Model.PageNumber - 1)"
+                                                    asp-route-search="@ViewData["CurrentSearch"]"
                                                     asp-route-sort="@ViewData["CurrentSort"]" 
                                                     asp-route-priceRange="@ViewData["CurrentPriceRange"]">
                                                     Trước
@@ -156,9 +157,11 @@
                                             <li>
                                                 <a class="@(i == Model.PageNumber ? "current" : "")" 
                                                     asp-controller="Category"
-                                                    asp-route-id="@ViewData["CurrentCategoryId"]"
+                                                    asp-route-categoryId="@ViewData["CurrentCategoryId"]"
                                                     asp-action="ListProduct" 
-                                                    asp-route-page="@i" asp-route-sort="@ViewData["CurrentSort"]" 
+                                                    asp-route-page="@i"
+                                                    asp-route-search="@ViewData["CurrentSearch"]"
+                                                    asp-route-sort="@ViewData["CurrentSort"]" 
                                                     asp-route-priceRange="@ViewData["CurrentPriceRange"]">
                                                     @i
                                                 </a>
@@ -169,9 +172,10 @@
                                             <li>
                                                 <a class="next" asp-controller="Category" 
                                                     asp-action="ListProduct"
-                                                    asp-route-id="@ViewData["CurrentCategoryId"]"
+                                                    asp-route-categoryId="@ViewData["CurrentCategoryId"]"
                                                     asp-route-page="@(Model.PageNumber + 1)" 
                                                     asp-route-sort="@ViewData["CurrentSort"]"
+                                                    asp-route-search="@ViewData["CurrentSearch"]"
                                                     asp-route-priceRange="@ViewData["CurrentPriceRange"]">
                                                     Sau
                                                 </a>
@@ -192,6 +196,8 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" name="categoryId" value="@ViewData["CurrentCategoryId"]" />
 </form>
 
 

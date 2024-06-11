@@ -9,8 +9,12 @@
 			<div class="item">
 				<a class="category-title" 
 				asp-controller="Category" 
-				asp-action="ListProduct" 
-				asp-route-id="@item.CategoryId">@item.CategoryName</a>
+				asp-action="ListProduct"
+				asp-route-categoryId="@item.CategoryId"
+				asp-route-sort="@ViewData["CurrentSort"]"
+				asp-route-priceRange="@ViewData["CurrentPriceRange"]"
+				asp-route-search="@ViewData["CurrentSearch"]">
+				@item.CategoryName</a>
 			</div>
 		}
 	</div>
