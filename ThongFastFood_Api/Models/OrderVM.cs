@@ -9,7 +9,6 @@ namespace ThongFastFood_Api.Models
 		public string? PhoneNo { get; set; }
 		public string? Status { get; set; }
 		public string? Note { get; set; }
-
 	}
 		
 	public static class OrderStatus
@@ -22,5 +21,14 @@ namespace ThongFastFood_Api.Models
 
 		public static readonly List<string> AdminStatuses = new List<string> 
 		{ Pending, Completed, InProgress, Delivered };
+	}
+
+	public static class TypeOfPayment
+	{
+		public const string COD = "Ship (COD)";
+		public const string VNPAY = "VNPAY";
+
+		public static readonly List<string> ListPayments = new List<string>
+		{ COD, VNPAY };
 	}
 }

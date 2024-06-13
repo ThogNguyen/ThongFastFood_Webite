@@ -51,6 +51,8 @@ namespace ThongFastFood_Client
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
             });
 
+            builder.Services.AddSingleton<IVNPayService, VNPayService>();
+
             builder.Services.AddRazorPages();
 
             // dịch vụ thông báo

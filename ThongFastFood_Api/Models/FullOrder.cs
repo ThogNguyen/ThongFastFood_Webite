@@ -12,6 +12,7 @@
 		public string CustomerName { get; set; }
 		public string DeliveryAddress { get; set; }
 		public string PhoneNo { get; set; }
+		public string PaymentType { get; set; }
 		public string Status { get; set; }
 		public int TotalAmount { get; set; }
 		public string Note { get; set; }

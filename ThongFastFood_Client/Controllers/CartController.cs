@@ -8,6 +8,8 @@ using System.Text;
 using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Models;
 using ThongFastFood_Api.Models.Response;
+using ThongFastFood_Client.Models;
+using ThongFastFood_Client.Services;
 
 namespace ThongFastFood_Client.Controllers
 {
@@ -17,11 +19,14 @@ namespace ThongFastFood_Client.Controllers
 
 		private readonly HttpClient _httpClient;
 		private readonly INotyfService _notyf;
-		public CartController(HttpClient httpClient, INotyfService noty)
+		private readonly IVNPayService _vnPayService;
+
+		public CartController(HttpClient httpClient, INotyfService noty, IVNPayService vnPayService)
 		{
 			_httpClient = httpClient;
 			_httpClient.BaseAddress = baseUrl;
 			_notyf = noty;
+			_vnPayService = vnPayService;
 		}
 
 		public async Task<IActionResult> CartInfo()
@@ -192,10 +197,42 @@ namespace ThongFastFood_Client.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CheckOut(OrderVM model)
+		public async Task<IActionResult> CheckOut(OrderVM model, string payment)
 		{
 			// Lấy userId của người dùng hiện tại từ claims
 			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+			#region Lấy tổng tiền sản phẩm trong giỏ hàng
+			HttpResponseMessage cartApiMessage =
+				await _httpClient.GetAsync(_httpClient.BaseAddress
+				+ "/CartApi/GetCartItemsByUser?userId=" + userId);
+
+			List<CartVM> carts = new List<CartVM>();
+			if (cartApiMessage.IsSuccessStatusCode)
+			{
+				string redata = await cartApiMessage.Content.ReadAsStringAsync();
+				carts = JsonConvert.DeserializeObject<List<CartVM>>(redata);
+			}
+
+			// Calculate the total amount
+			double totalAmount = CartVM.CalculateTotalAmount(carts);
+			#endregion
+
+			if (payment == "VNPAY")
+			{
+				var vnPayModel = new VnPaymentRequestModel
+				{
+					Amount = totalAmount,
+					CreatedDate = DateTime.Now,
+					Description = $"{model.CustomerName} {model.PhoneNo}",
+					FullName = model.CustomerName, 
+					DeliveryAddress = model.DeliveryAddress,
+					PhoneNo = model.PhoneNo,
+					Note = model.Note,
+					OrderId = new Random().Next(1000, 10000),
+				};
+				return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
+			}
 
 			var requestBody = new OrderVM
 			{
@@ -211,7 +248,7 @@ namespace ThongFastFood_Client.Controllers
 
 			HttpResponseMessage apiMessage =
 				await _httpClient.PostAsync(_httpClient.BaseAddress 
-				+ "/OrderApi/PostOrder?userId=" + userId, content);
+				+ "/OrderApi/PostOrder?userId=" + userId + "&payment=" + payment, content);
 
 			if (apiMessage.IsSuccessStatusCode)
 			{
@@ -224,6 +261,54 @@ namespace ThongFastFood_Client.Controllers
 			}
 
 			return RedirectToAction("CustomerOrder", "MainPage");
+		}
+
+		[Authorize]
+		public IActionResult PaymentCallBack()
+		{
+			var response = _vnPayService.PaymentExecute(Request.Query);
+
+			// nếu kết quả không bằng 00 => thanh toán thành công
+			if (response == null || response.VnPayResponseCode != "00")
+			{
+				if(response.VnPayResponseCode == "24")
+				{
+					_notyf.Success("Hủy thanh toán thành công");
+					return RedirectToAction("Index", "MainPage");
+				}
+				else
+				{
+					_notyf.Error($"Lỗi thanh toán với VNPay: {response.VnPayResponseCode}");
+					return RedirectToAction("Index", "MainPage");
+				}
+			}
+
+			// Lấy userId của người dùng hiện tại từ claims
+			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+			string payment = TypeOfPayment.VNPAY;
+
+			// Tạo đối tượng OrderVM để lưu trữ thông tin đơn hàng
+			var order = new OrderVM
+			{
+				CustomerName = response.FullName,
+				DeliveryAddress = response.DeliveryAddress,
+				PhoneNo = response.PhoneNo,
+				Note = response.Note
+			};
+
+			string data = JsonConvert.SerializeObject(order);
+			Console.WriteLine(data);
+			StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+
+			HttpResponseMessage apiMessage =
+				_httpClient.PostAsync(_httpClient.BaseAddress
+				+ "/OrderApi/PostOrder?userId=" + userId + "&payment=" + payment, content).Result;
+
+			if (apiMessage.IsSuccessStatusCode)
+			{
+				_notyf.Success("Thanh toán thành công!");
+			}
+			return RedirectToAction("Index", "MainPage");
 		}
 	}
 }

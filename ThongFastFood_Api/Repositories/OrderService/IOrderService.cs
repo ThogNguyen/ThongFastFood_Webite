@@ -6,7 +6,7 @@ namespace ThongFastFood_Api.Repositories.OrderService
 {
 	public interface IOrderService
 	{
-		Task<ResponseMessage> CreateOrderAsync(string userId, OrderVM orderVM);
+		Task<ResponseMessage> CreateOrderAsync(string userId, string payment, OrderVM orderVM);
 		Task<List<OrderView>> GetOrdersByUserIdAsync(string userId);
 		Task<OrderView> GetOrderByIdAsync(int orderId);
 		Task<ResponseMessage> CancelOrderAsync(int orderId);

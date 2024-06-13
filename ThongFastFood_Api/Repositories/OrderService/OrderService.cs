@@ -15,7 +15,7 @@ namespace ThongFastFood_Api.Repositories.OrderService
 			db = context;
 		}
 
-		public async Task<ResponseMessage> CreateOrderAsync(string userId, OrderVM orderVM)
+		public async Task<ResponseMessage> CreateOrderAsync(string userId, string payment, OrderVM orderVM)
 		{
 			var userExists = await db.Users.AnyAsync(u => u.Id == userId);
 			if (!userExists)
@@ -41,12 +41,23 @@ namespace ThongFastFood_Api.Repositories.OrderService
 				};
 			}
 
+			// kiểm tra hình thức thanh toán
+			if (!TypeOfPayment.ListPayments.Contains(payment))
+			{
+				return new ResponseMessage
+				{
+					Message = "Hình thức thanh toán không tồn tại",
+					IsSuccess = false,
+				};
+			}
+
 			var order = new Order
 			{
 				OrderTime = DateTime.Now,
 				CustomerName = orderVM.CustomerName,
 				DeliveryAddress = orderVM.DeliveryAddress,
 				PhoneNo = orderVM.PhoneNo,
+				PaymentType = payment,
 				Status = OrderStatus.Pending,
 				Note = orderVM.Note ?? null,
 				Customer_Id = userId,
@@ -93,6 +104,7 @@ namespace ThongFastFood_Api.Repositories.OrderService
 				CustomerName = o.CustomerName,
 				DeliveryAddress = o.DeliveryAddress,
 				PhoneNo = o.PhoneNo,
+				PaymentType = o.PaymentType,
 				Status = o.Status,
 				TotalAmount = o.TotalAmount,
 				Note = o.Note,
@@ -130,6 +142,7 @@ namespace ThongFastFood_Api.Repositories.OrderService
 				CustomerName = order.CustomerName,
 				DeliveryAddress = order.DeliveryAddress,
 				PhoneNo = order.PhoneNo,
+				PaymentType = order.PaymentType,
 				Status = order.Status,
 				TotalAmount = order.TotalAmount,
 				Note = order.Note,
@@ -160,6 +173,7 @@ namespace ThongFastFood_Api.Repositories.OrderService
 				};
 			}
 
+			#region Đơn hàng đã hủy thì không được huỷ đơn nữa
 			if (order.Status == OrderStatus.Cancelled)
 			{
 				return new ResponseMessage
@@ -168,8 +182,9 @@ namespace ThongFastFood_Api.Repositories.OrderService
 					IsSuccess = false
 				};
 			}
-
-			if (order.Status == OrderStatus.Completed || order.Status == OrderStatus.InProgress || order.Status == OrderStatus.Delivered)
+			#endregion
+			#region Không hủy đơn khi đơn khác trạng thái đang xử lí
+			if (order.Status != OrderStatus.Pending)
 			{
 				return new ResponseMessage
 				{
@@ -177,6 +192,17 @@ namespace ThongFastFood_Api.Repositories.OrderService
 					IsSuccess = false
 				};
 			}
+			#endregion
+			#region Kiểm tra xem đơn hàng có hình thức thanh toán là "Đã thanh toán với VNPay" chưa
+			if (order.PaymentType == TypeOfPayment.VNPAY)
+			{
+				return new ResponseMessage
+				{
+					Message = "Không thể hủy đơn hàng khi đã được thanh toán",
+					IsSuccess = false
+				};
+			}
+			#endregion
 
 			order.Status = OrderStatus.Cancelled;
 			await db.SaveChangesAsync();
@@ -202,7 +228,8 @@ namespace ThongFastFood_Api.Repositories.OrderService
                     CustomerName = order.CustomerName,
                     DeliveryAddress = order.DeliveryAddress,
                     PhoneNo = order.PhoneNo,
-                    Status = order.Status,
+					PaymentType = order.PaymentType,
+					Status = order.Status,
                     TotalAmount = order.TotalAmount,
                     Note = order.Note
                 };
@@ -245,9 +272,9 @@ namespace ThongFastFood_Api.Repositories.OrderService
                     Message = "Không thể cập nhật đơn hàng đã hủy."
                 };
             }
-            #endregion
+			#endregion
 
-            order.Status = newStatus;
+			order.Status = newStatus;
             db.Orders.Update(order);
             await db.SaveChangesAsync();
 

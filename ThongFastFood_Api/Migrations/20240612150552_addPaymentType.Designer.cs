@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ThongFastFood_Api.Data;
 
@@ -11,9 +12,11 @@ using ThongFastFood_Api.Data;
 namespace ThongFastFood_Api.Migrations
 {
     [DbContext(typeof(FoodStoreDbContext))]
-    partial class FoodStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240612150552_addPaymentType")]
+    partial class addPaymentType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

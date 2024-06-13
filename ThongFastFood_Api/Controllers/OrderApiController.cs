@@ -30,9 +30,9 @@ namespace ThongFastFood_Api.Controllers
         }
 
         [HttpPost]
-		public async Task<IActionResult> PostOrder(string userId, OrderVM orderVM)
+		public async Task<IActionResult> PostOrder(string userId, string payment, OrderVM orderVM)
 		{
-			var response = await _orderSer.CreateOrderAsync(userId, orderVM);
+			var response = await _orderSer.CreateOrderAsync(userId, payment, orderVM);
 
 			// nếu đặt thành công
 			if (response.IsSuccess)

@@ -33,6 +33,7 @@
 						<tr>
 							<th class="text-center"><strong>Mã Đơn Hàng</strong></th>
 							<th class="text-center"><strong>Thời Gian Đặt</strong></th>
+							<th class="text-center"><strong>Hình thức thanh toán</strong></th>
 							<th class="text-center"><strong>Trạng Thái </strong></th>
 							<th class="text-center"><strong>Tổng Tiền</strong></th>
 							<th class="text-center"><strong>Xem</strong></th>
@@ -46,6 +47,7 @@
 							<tr>
 								<td class="text-center">@order.OrderId</td>
 								<td class="text-center">@order.OrderTime</td>
+								<td class="text-center">@order.PaymentType</td>
 								<td class="text-center">@order.Status</td>
 								<td class="text-center">@String.Format("{0:N0}", @order.TotalAmount)đ</td>
 								<td class="text-center">
