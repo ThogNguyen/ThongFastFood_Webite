@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Models;
 
 namespace ThongFastFood_Client.ViewComponents
@@ -26,6 +27,9 @@ namespace ThongFastFood_Client.ViewComponents
 			{
 				string data = await apiMessage.Content.ReadAsStringAsync();
 				categories = JsonConvert.DeserializeObject<List<CategoryVM>>(data);
+
+				// Lọc danh sách loại sản phẩm có IsActive là true
+				categories = categories.Where(p => p.IsActive).ToList();
 			}
 			return View(categories);
 		}

@@ -157,7 +157,7 @@ namespace ThongFastFood_Api.Repositories.ProductService
                 Description = p.Description,
                 IsActive = p.IsActive,
                 Category_Id = p.Category_Id
-            }).ToList();
+                }).ToList();
 
             return productVM;
         }

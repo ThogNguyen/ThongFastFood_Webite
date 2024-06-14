@@ -13,7 +13,7 @@ namespace ThongFastFood_Api.Models
 
         [Range(1, double.MaxValue, ErrorMessage = "Giá sản phẩm phải lớn hơn 1")]
         public int ProductPrice { get; set; }
-        public string? ProductImage { get; set; } // Đường dẫn lưu trữ ảnh
+        public string? ProductImage { get; set; } 
         public DateTime? AddDate { get; set; }
         public string? Description { get; set; }
         public bool IsActive { get; set; }

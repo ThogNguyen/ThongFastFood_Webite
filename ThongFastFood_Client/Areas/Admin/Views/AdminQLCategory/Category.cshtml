@@ -23,6 +23,7 @@
                         <tr style="text-align: center;">
                             <th scope="col">Mã Loại Sản Phẩm</th>
                             <th scope="col">Tên Loại Sản Phẩm</th>
+                            <th scope="col">Tình trạng</th>
                             <th scope="col">Chức Năng</th>
                         </tr>
                     </thead>
@@ -32,6 +33,16 @@
                             <tr style="text-align: center;">
                                 <td>@item.CategoryId</td>
                                 <td>@item.CategoryName</td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge badge-success">Còn hàng</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Hết hàng</span>
+                                    }
+                                </td>
                                 <td>
                                     <a asp-action="EditCategory" asp-route-id="@item.CategoryId" class="btn btn-primary">Sửa</a>
                                 </td>

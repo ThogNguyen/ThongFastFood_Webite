@@ -16,8 +16,8 @@ namespace ThongFastFood_Api.Repositories.CategoryService
         {
             var category = new Category
             {
-                CategoryId = model.CategoryId,
-                CategoryName = model.CategoryName
+                CategoryName = model.CategoryName,
+                IsActive = true
             };
 
             db.Categories.Add(category);
@@ -34,7 +34,8 @@ namespace ThongFastFood_Api.Repositories.CategoryService
                 var categoryVM = new CategoryVM 
                 {
                     CategoryId = category.CategoryId,
-                    CategoryName = category.CategoryName 
+                    CategoryName = category.CategoryName,
+                    IsActive = category.IsActive
                 };
                 return categoryVM;
             }
@@ -49,8 +50,9 @@ namespace ThongFastFood_Api.Repositories.CategoryService
             var categories = db.Categories.Select(c => 
                 new CategoryVM { 
                     CategoryId = c.CategoryId,
-                    CategoryName = c.CategoryName 
-                }).ToList();
+                    CategoryName = c.CategoryName,
+					IsActive = c.IsActive
+				}).ToList();
             return categories;
         }
 
@@ -61,6 +63,14 @@ namespace ThongFastFood_Api.Repositories.CategoryService
             if(category != null)
             {
                 category.CategoryName = model.CategoryName;
+                category.IsActive = model.IsActive;
+
+                // chỉnh trạng thái loại thì các sản phẩm giống trạng thái của loại
+                var relatedProducts = db.Products.Where(p => p.Category_Id == id).ToList();
+                foreach (var product in relatedProducts)
+                {
+                    product.IsActive = model.IsActive;
+                }
 
                 db.SaveChanges();
             }

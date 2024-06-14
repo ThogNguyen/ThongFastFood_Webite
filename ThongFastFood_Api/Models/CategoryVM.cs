@@ -7,5 +7,8 @@ namespace ThongFastFood_Api.Models
         public int CategoryId { get; set; }
         [Required(ErrorMessage = "Tên loại sản phẩm không được trống")]
         public string CategoryName { get; set; }
-    }
+
+		[Required]
+		public bool IsActive { get; set; }
+	}
 }
