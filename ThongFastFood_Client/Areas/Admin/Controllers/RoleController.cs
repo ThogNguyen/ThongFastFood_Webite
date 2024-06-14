@@ -39,7 +39,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 		}
 
 		[HttpGet]
-        public async Task<IActionResult> CreateRole()
+        public IActionResult CreateRole()
         {
             return View();
         }

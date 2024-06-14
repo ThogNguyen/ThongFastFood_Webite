@@ -71,13 +71,14 @@
                 <h3>Thông tin Đơn Hàng</h3>
                 <p><strong>Mã hóa đơn:</strong> @Model.OrderId</p>
                 <p><strong>Thời Gian Đặt:</strong> @Model.OrderTime</p>
+                <p><strong>Hình thức thanh toán:</strong> @Model.PaymentType</p>
             </td>
             <td class="no-border" colspan="2">
                 <h3>Thông tin Khách Hàng</h3>
                 <p><strong>Tên khách hàng:</strong> @Model.CustomerName</p>
                 <p><strong>Địa chỉ giao:</strong> @Model.DeliveryAddress</p>
                 <p><strong>Số điện thoại:</strong> @Model.PhoneNo</p>
-                <p><strong>Ghi chú:</strong> @Model.Note</p>
+                <p><strong>Ghi chú:</strong> @(Model.Note ?? "(trống)")</p>
             </td>
         </tr>
     </table>
@@ -103,7 +104,7 @@
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="2"></td>
+                <td class="no-border" colspan="2"></td>
                 <td class="text-center"><strong>Tổng tiền</strong></td>
                 <td class="text-center text-danger"><strong> @String.Format("{0:N0}", @Model.TotalAmount)đ</strong></td>
             </tr>

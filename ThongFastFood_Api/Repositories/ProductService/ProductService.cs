@@ -7,6 +7,7 @@ using System.Drawing.Printing;
 using System.Net.Http;
 using ThongFastFood_Api.Data;
 using ThongFastFood_Api.Models;
+using ThongFastFood_Api.Models.Response;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ThongFastFood_Api.Repositories.ProductService
@@ -29,6 +30,7 @@ namespace ThongFastFood_Api.Repositories.ProductService
                 ProductImage = model.ProductImage,
                 AddDate = model.AddDate,
                 Description = model.Description,
+                IsActive = true,
                 Category_Id = model.Category_Id
             };
 
@@ -55,6 +57,7 @@ namespace ThongFastFood_Api.Repositories.ProductService
                     ProductImage = product.ProductImage,
                     AddDate = product.AddDate,
                     Description = product.Description,
+                    IsActive = product.IsActive,
                     Category_Id = product.Category_Id,
                 };
             }
@@ -73,7 +76,8 @@ namespace ThongFastFood_Api.Repositories.ProductService
 					ProductImage = p.ProductImage,
 					AddDate = p.AddDate,
 					Description = p.Description,
-					Category_Id = p.Category_Id
+                    IsActive = p.IsActive,
+                    Category_Id = p.Category_Id
 				})
 				.ToList();
 
@@ -83,7 +87,6 @@ namespace ThongFastFood_Api.Repositories.ProductService
 		public List<ProductVM> GetProducts(int? categoryId, string? sort, string? search, string? priceRange)
         {
             IQueryable<Product> query = db.Products;
-
 
             #region Lọc sản phẩm theo loại
             if (categoryId != null)
@@ -99,6 +102,7 @@ namespace ThongFastFood_Api.Repositories.ProductService
 			}
 
 			#endregion
+
 			#region Lọc sản phẩm theo giá
 			if (!string.IsNullOrEmpty(priceRange))
 			{
@@ -148,9 +152,10 @@ namespace ThongFastFood_Api.Repositories.ProductService
                 ProductId = p.ProductId,
                 ProductName = p.ProductName,
                 ProductPrice = p.ProductPrice,
-                ProductImage = p.ProductImage, // Ensure only the filename is returned
+                ProductImage = p.ProductImage,
                 AddDate = p.AddDate,
                 Description = p.Description,
+                IsActive = p.IsActive,
                 Category_Id = p.Category_Id
             }).ToList();
 
@@ -167,13 +172,14 @@ namespace ThongFastFood_Api.Repositories.ProductService
                 product.ProductImage = model.ProductImage;
                 product.AddDate = model.AddDate;
 				product.Description = model.Description;
-				product.Category_Id = model.Category_Id;
+                product.IsActive = model.IsActive;
+                product.Category_Id = model.Category_Id;
 
 				db.SaveChanges();
 
 				return model;
 			}
-			return null;
+			return null;    
 		}
-	}
+    }
 }

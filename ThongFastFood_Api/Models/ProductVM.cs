@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using ThongFastFood_Api.Data;
+using Microsoft.CodeAnalysis.Elfie.Diagnostics;
 
 namespace ThongFastFood_Api.Models
 {
@@ -15,6 +16,7 @@ namespace ThongFastFood_Api.Models
         public string? ProductImage { get; set; } // Đường dẫn lưu trữ ảnh
         public DateTime? AddDate { get; set; }
         public string? Description { get; set; }
+        public bool IsActive { get; set; }
         public int Category_Id { get; set; }
     }
 }

@@ -34,6 +34,11 @@ namespace ThongFastFood_Client.Controllers
             {
                 string data = await apiMessage.Content.ReadAsStringAsync();
                 products = JsonConvert.DeserializeObject<List<ProductVM>>(data);
+
+                // Lọc danh sách sản phẩm có IsActive là true
+                products = products.Where(p => p.IsActive).ToList();
+
+                // Đếm tổng số sản phẩm
                 totalProducts = products.Count;
             }
 

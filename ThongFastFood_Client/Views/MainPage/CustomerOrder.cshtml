@@ -86,7 +86,7 @@
 					<p class="text-center"><strong>Tên khách hàng:</strong> @order.CustomerName</p>
 					<p class="text-center"><strong>Địa chỉ giao:</strong> @order.DeliveryAddress</p>
 					<p class="text-center"><strong>Số điện thoại:</strong> @order.PhoneNo</p>
-					<p class="text-center"><strong>Ghi chú:</strong> @order.Note</p>
+					<p class="text-center"><strong>Ghi chú:</strong> @(@order.Note ?? "(trống)")</p>
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -100,12 +100,12 @@
 						<tbody>
 							@foreach (var detail in order.OrderDetails)
 							{
-								<tr class="text-center">
-									<td><img src="~/img/product/@detail.ProductImage" alt="product-image" width="50" /></td>
-									<td>@detail.ProductName</td>
-									<td>@String.Format("{0:N0}", @detail.ProductPrice)đ</td>
-									<td>@detail.Quantity</td>
-									<td>@String.Format("{0:N0}", @detail.SubTotal)đ</td>
+								<tr>
+									<td style="text-align: center; vertical-align: middle;"><img src="~/img/product/@detail.ProductImage" alt="product-image" width="50" /></td>
+									<td style="text-align: center; vertical-align: middle;">@detail.ProductName</td>
+									<td style="text-align: center; vertical-align: middle;">@String.Format("{0:N0}", @detail.ProductPrice)đ</td>
+									<td style="text-align: center; vertical-align: middle;">@detail.Quantity</td>
+									<td style="text-align: center; vertical-align: middle;">@String.Format("{0:N0}", @detail.SubTotal)đ</td>
 								</tr>
 							}
 						</tbody>

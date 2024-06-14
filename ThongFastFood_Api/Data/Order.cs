@@ -22,7 +22,7 @@ namespace ThongFastFood_Api.Data
         public string Status { get; set; }  
         public int TotalAmount { get; set; }
         [StringLength(400)]
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
 
 		//khóa ngoại

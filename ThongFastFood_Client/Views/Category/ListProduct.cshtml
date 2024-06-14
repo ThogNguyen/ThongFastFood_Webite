@@ -93,36 +93,39 @@
                         <div class="row">
                             @foreach (var item in Model)
                             {
-                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                    <div class="product-item">
-                                        <div class="product-image">
-                                            <a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
-                                                <img class="img-responsive" src="~/img/product/@item.ProductImage" alt="Product Image">
-                                            </a>
-                                        </div>
+                                @if (item.IsActive)
+                                {
+                                    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                        <div class="product-item">
+                                            <div class="product-image">
+                                                <a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
+                                                    <img class="img-responsive" src="~/img/product/@item.ProductImage" alt="Product Image">
+                                                </a>
+                                            </div>
 
-                                        <div class="product-title">
-                                            <a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
-                                                @item.ProductName
-                                            </a>
-                                        </div>
+                                            <div class="product-title">
+                                                <a asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
+                                                    @item.ProductName
+                                                </a>
+                                            </div>
 
-                                        <div class="product-price">
-                                            <span class="sale-price">@String.Format("{0:N0}", item.ProductPrice)đ</span>
+                                            <div class="product-price">
+                                                <span class="sale-price">@String.Format("{0:N0}", item.ProductPrice)đ</span>
 
-                                        </div>
+                                            </div>
 
-                                        <div class="product-buttons">
-                                            <a class="add-to-cart" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.ProductId">
-                                                <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-                                            </a>
+                                            <div class="product-buttons">
+                                                <a class="add-to-cart" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.ProductId">
+                                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                                                </a>
 
-                                            <a class="quickview" asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
-                                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>
+                                                <a class="quickview" asp-controller="Category" asp-action="DetailProduct" asp-route-id="@item.ProductId">
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                }
                             }
                         </div>
                     </div>

@@ -70,7 +70,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
             return View();
         }
 
-        //thêm sản phẩm (thêm)
+        //thêm sản phẩm (create)
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductVM model, IFormFile file)
         {
@@ -123,17 +123,20 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> EditProduct(int id)
         {
+            #region Lấy danh sách loại sản phẩm
+
             // Khởi tạo danh sách loại sản phẩm
             List<Category> categories = new List<Category>();
 
             // Gọi API để lấy danh sách loại sản phẩm
-            HttpResponseMessage cateMessage = 
+            HttpResponseMessage cateMessage =
                 await _httpClient.GetAsync(_httpClient.BaseAddress + "/CategoryApi/GetCategories");
             if (cateMessage.IsSuccessStatusCode)
             {
                 string cateData = await cateMessage.Content.ReadAsStringAsync();
                 categories = JsonConvert.DeserializeObject<List<Category>>(cateData);
             }
+            #endregion
 
             // Gọi API để lấy thông tin sản phẩm theo id
             HttpResponseMessage apiMessage =
@@ -168,39 +171,10 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
                 {
                     // Nếu không, đặt TempData để thông báo lỗi
                     TempData["ImageNull"] = "Vui lòng chọn ảnh sản phẩm.";
-                    return RedirectToAction("EditProduct", new { id = id });
+                    return RedirectToAction(nameof(EditProduct));
                 }
-                // Gọi API để lấy thông tin sản phẩm theo ID
-                HttpResponseMessage apiMessage =
-                    await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetIdProduct/" + id);
-                if (apiMessage.IsSuccessStatusCode)
-                {
-                    string redata = await apiMessage.Content.ReadAsStringAsync();
-                    ProductVM res = JsonConvert.DeserializeObject<ProductVM>(redata);
 
-                    // Gọi API để lấy danh sách loại sản phẩm
-                    List<Category> categories = new List<Category>();
-                    HttpResponseMessage cateMessage =
-                        await _httpClient.GetAsync(_httpClient.BaseAddress + "/CategoryApi/GetCategories");
-                    if (cateMessage.IsSuccessStatusCode)
-                    {
-                        string cateData = await cateMessage.Content.ReadAsStringAsync();
-                        categories = JsonConvert.DeserializeObject<List<Category>>(cateData);
-                    }
-
-                    // Truyền danh sách loại sản phẩm và thông tin sản phẩm vào ViewBag hoặc ViewData
-                    ViewBag.Category_Id = new SelectList(categories, "CategoryId", "CategoryName");
-                    ViewData["ProductImage"] = res.ProductImage;
-                    ViewData["ProductId"] = res.ProductId;
-                    ViewData["AddedDate"] = res.AddDate;
-
-                    // Trả về view với model đã nhận và dữ liệu từ API để hiển thị lại form sửa sản phẩm
-                    return View(model);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return RedirectToAction(nameof(EditProduct));
             }
 
             // Lấy tên ảnh cũ từ ViewData và đảm bảo không bị null

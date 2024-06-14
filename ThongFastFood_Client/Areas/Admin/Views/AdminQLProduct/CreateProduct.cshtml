@@ -13,6 +13,7 @@
     <div class="col-md-6 mx-auto">
         <form asp-action="CreateProduct" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input hidden asp-for="IsActive" class="form-control" />
             <div class="row">
                 <div class="form-group col-md-6">
                     <label class="control-label">Tên sản phẩm</label>

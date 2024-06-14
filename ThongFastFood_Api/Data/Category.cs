@@ -11,6 +11,9 @@ namespace ThongFastFood_Api.Data
 		
 		[Column(TypeName = "nvarchar(50)")]
 		public string CategoryName { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
         public ICollection<Product> Products { get; set; }
     }
 }

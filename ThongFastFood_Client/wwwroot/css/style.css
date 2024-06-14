@@ -9021,10 +9021,10 @@ input {
     width: 26.25pt;
 }
 
-[class~=header-top] [class~=form-search] form input[type="text"],
+/*[class~=header-top] [class~=form-search] form input[type="text"],
 [class~=category-tab] [class~=tab-nav] ul li a {
     text-transform: uppercase;
-}
+}*/
 
 [class~=home-4] [class~=header-top] {
     border-image: none;

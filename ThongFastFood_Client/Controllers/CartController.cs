@@ -308,7 +308,7 @@ namespace ThongFastFood_Client.Controllers
 			{
 				_notyf.Success("Thanh toán thành công!");
 			}
-			return RedirectToAction("Index", "MainPage");
-		}
+            return RedirectToAction("CustomerOrder", "MainPage");
+        }
 	}
 }

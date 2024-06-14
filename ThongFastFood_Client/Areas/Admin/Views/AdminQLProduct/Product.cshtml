@@ -21,20 +21,33 @@
                     <thead>
                         <tr style="text-align: center;">
                             <th scope="col">Mã sản phẩm</th>
+                            <th scope="col">Hình</th>
                             <th scope="col">Tên Sản Phẩm</th>
                             <th scope="col">Giá</th>
-                            <th scope="col">Hình</th>
+                            <th scope="col">Tình trạng</th>
                             <th scope="col">Chức Năng</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach(var item in Model)
+                        @foreach (var item in Model)
                         {
                             <tr style="text-align: center;">
                                 <td>@item.ProductId</td>
+                                <td>
+                                    <img src="~/img/product/@item.ProductImage" width="100px" style="padding:15px" />
+                                </td>
                                 <td>@item.ProductName</td>
                                 <td>@item.ProductPrice</td>
-                                <td><img src="~/img/product/@item.ProductImage" width="100px" style="padding:15px" /></td>
+                                <td>
+                                    @if (item.IsActive)
+                                    {
+                                        <span class="badge badge-success">Còn hàng</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Hết hàng</span>
+                                    }
+                                </td>
                                 <td>
                                     <a asp-action="EditProduct" asp-route-id="@item.ProductId" class="btn btn-primary">Sửa</a>
                                 </td>

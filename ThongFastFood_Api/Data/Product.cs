@@ -32,6 +32,8 @@ namespace ThongFastFood_Api.Data
         [StringLength(400)]
         public string Description { get; set; }
 
+        [Required]
+        public bool IsActive { get; set; }
 
         //khóa ngoại
         [ForeignKey("Category")]
