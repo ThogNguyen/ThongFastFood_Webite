@@ -1,10 +1,10 @@
-﻿@{
+﻿@model ThongFastFood_Api.Models.CheckoutVM
+
+@{
 	ViewData["Title"] = "CheckOut";
 	Layout = "~/Views/Shared/_Layout.cshtml";
-}
-@model List<ThongFastFood_Api.Models.CartVM>
-@{
-	var totalAmount = ThongFastFood_Api.Models.CartVM.CalculateTotalAmount(Model);
+
+	var totalAmount = ThongFastFood_Api.Models.CartVM.CalculateTotalAmount(Model.CartItems);
 }
 
 <!-- Breadcrumb -->
@@ -24,8 +24,9 @@
 	<div class="page-checkout">
 		<div class="row">
 			<div class="checkout-left col-lg-9 col-md-9 col-sm-9 col-xs-12">
-				<p>Khách hàng trở lại? Đăng nhập tại <a class="login" asp-controller="User" asp-action="Login"> đây</a>.</p>
 				<form asp-action="CheckOut" asp-controller="Cart" method="post" id="formcheckout" method="post" class="form-horizontal">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
 					<div class="panel-group" id="accordion">
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -41,28 +42,27 @@
 									<div class="form-group">
 										<div class="col-md-12">
 											<label>Tên Khách Hàng</label>
-											<input type="text" name="CustomerName" class="form-control">
+											<input asp-for="Order.CustomerName" class="form-control">
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-md-12">
 											<label>Địa Chỉ</label>
-											<input type="text" name="DeliveryAddress" class="form-control">
+											<input asp-for="Order.DeliveryAddress" class="form-control">
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-md-12">
 											<label>Số Điện Thoại </label>
-											<input type="text" name="PhoneNo" class="form-control">
+											<input asp-for="Order.PhoneNo" class="form-control">
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="col-md-12">
 											<label>Ghi Chú </label>
-											<input type="text" name="Note" class="form-control">
+											<input asp-for="Order.Note" class="form-control">
 										</div>
 									</div>
-
 								</div>
 							</div>
 						</div>
@@ -89,7 +89,7 @@
 										</thead>
 
 										<tbody>
-											@foreach(var item in Model)
+											@foreach (var item in Model.CartItems)
 											{
 												<tr>
 													<td>
@@ -161,3 +161,8 @@
 	</div>
 </div>
 
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

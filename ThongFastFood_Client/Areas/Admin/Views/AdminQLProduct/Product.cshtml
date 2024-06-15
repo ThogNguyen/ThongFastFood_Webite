@@ -13,8 +13,24 @@
             </div>
             <div class="card-body">
                 <div class="row mb-3">
-                    <div class="col-sm-12 col-md-12">
+                    <div class="col-sm-6 col-md-6">
                         <a asp-action="CreateProduct" class="btn btn-primary">Thêm sản phẩm mới</a>
+                    </div>
+                    <div class="col-sm-6 col-md-6 ml-auto">
+                        <form asp-area="Admin" 
+                        asp-controller="AdminQLProduct" 
+                        asp-action="Product" method="get" 
+                        class="form-inline justify-content-end">
+                            <div class="search-element">
+                                <input class="form-control" name="search" 
+                                type="text" placeholder="Nhập từ khóa sản phẩm...">
+                                <button class="btn" type="submit">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+
+                            <input type="hidden" name="sort" value="@ViewData["CurrentSort"]" />
+                        </form>
                     </div>
                 </div>
                 <table class="table" id="product-table">
@@ -22,8 +38,36 @@
                         <tr style="text-align: center;">
                             <th scope="col">Mã sản phẩm</th>
                             <th scope="col">Hình</th>
-                            <th scope="col">Tên Sản Phẩm</th>
-                            <th scope="col">Giá</th>
+                            <th scope="col">
+                                <a asp-action="Product" 
+                                asp-route-sort="@ViewData["NameSort"]" 
+                                asp-route-search="@ViewData["CurrentSearch"]">
+                                    Tên Sản Phẩm
+                                    @if (ViewData["CurrentSort"] as string == "name_desc")
+                                    {
+                                        <i class="fas fa-sort-down"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-sort-up"></i>
+                                    }
+                                </a>
+                            </th>
+                            <th scope="col">
+                                <a asp-action="Product" 
+                                asp-route-sort="@ViewData["PriceSort"]" 
+                                asp-route-search="@ViewData["CurrentSearch"]">
+                                    Giá
+                                    @if (ViewData["CurrentSort"] as string == "price_desc")
+                                    {
+                                        <i class="fas fa-sort-down"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-sort-up"></i>
+                                    }
+                                </a>
+                            </th>
                             <th scope="col">Tình trạng</th>
                             <th scope="col">Chức Năng</th>
                         </tr>
@@ -61,7 +105,12 @@
                             @if (Model.HasPreviousPage)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" asp-controller="AdminQLProduct" asp-action="Product" asp-route-page="@(Model.PageNumber - 1)">Trước</a>
+                                    <a class="page-link" 
+                                    asp-controller="AdminQLProduct" 
+                                    asp-action="Product" 
+                                    asp-route-page="@(Model.PageNumber - 1)"
+                                    asp-route-search="@ViewData["CurrentSearch"]" 
+                                    asp-route-sort="@ViewData["CurrentSort"]">Trước</a>
                                 </li>
                             }
                             else
@@ -73,13 +122,23 @@
                             @for (int i = 1; i <= Model.PageCount; i++)
                             {
                                 <li class="page-item @(i == Model.PageNumber ? "active" : "")">
-                                    <a class="page-link" asp-controller="AdminQLProduct" asp-action="Product" asp-route-page="@i">@i</a>
+                                    <a class="page-link" 
+                                    asp-controller="AdminQLProduct" 
+                                    asp-action="Product" 
+                                    asp-route-page="@i"
+                                    asp-route-search="@ViewData["CurrentSearch"]"
+                                    asp-route-sort="@ViewData["CurrentSort"]">@i</a>
                                 </li>
                             }
                             @if (Model.HasNextPage)
                             {
                                 <li class="page-item">
-                                    <a class="page-link" asp-controller="AdminQLProduct" asp-action="Product" asp-route-page="@(Model.PageNumber + 1)">Sau</a>
+                                    <a class="page-link" 
+                                    asp-controller="AdminQLProduct" 
+                                    asp-action="Product" 
+                                    asp-route-page="@(Model.PageNumber + 1)"
+                                    asp-route-search="@ViewData["CurrentSearch"]"
+                                    asp-route-sort="@ViewData["CurrentSort"]">Sau</a>
                                 </li>
                             }
                             else

@@ -16,7 +16,7 @@
 		public string FullName { get; set; }
 		public string DeliveryAddress { get; set; }
 		public string PhoneNo { get; set; }
-		public string Note { get; set; }
+		public string? Note { get; set; }
 	}
 
 	public class VnPaymentRequestModel

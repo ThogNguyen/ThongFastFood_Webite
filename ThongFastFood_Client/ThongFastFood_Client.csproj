@@ -40,6 +40,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\libs\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\libs\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\libs\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\libs\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\libs\jquery-validation\LICENSE.md" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ThongFastFood_Api\ThongFastFood_Api.csproj" />
   </ItemGroup>
 

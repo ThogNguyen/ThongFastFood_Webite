@@ -198,7 +198,7 @@ namespace ThongFastFood_Api.Repositories.OrderService
 			{
 				return new ResponseMessage
 				{
-					Message = "Không thể hủy đơn hàng khi đã được thanh toán",
+					Message = "Không thể hủy đơn hàng khi đã thanh toán",
 					IsSuccess = false
 				};
 			}

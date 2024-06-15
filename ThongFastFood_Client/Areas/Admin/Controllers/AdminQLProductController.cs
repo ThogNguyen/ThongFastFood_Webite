@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using PagedList;
 using System;
+using System.Drawing.Printing;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -32,12 +34,13 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
         }
 
         // load sản phẩm
-        public async Task<IActionResult> Product(int? page)
+        public async Task<IActionResult> Product(int? page, string search, string sort)
         {
             List<ProductVM> products = new List<ProductVM>();
 
-            HttpResponseMessage apiMessage = 
-                await _httpClient.GetAsync(_httpClient.BaseAddress + "/ProductApi/GetProducts");
+            HttpResponseMessage apiMessage =
+                await _httpClient.GetAsync(_httpClient.BaseAddress +
+                "/ProductApi/GetProducts?sort=" + sort + "&search=" + search);
 
             if (apiMessage.IsSuccessStatusCode)
             {
@@ -47,7 +50,12 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
             int pageSize = 6;
             int pageNumber = page ?? 1;
-            IPagedList<ProductVM> pagedProducts = products.ToPagedList(pageNumber, pageSize);
+            IPagedList<ProductVM> pagedProducts = products.ToPagedList(pageNumber, pageSize);   
+
+            ViewData["CurrentSort"] = sort;
+            ViewData["NameSort"] = sort == "name_asc" ? "name_desc" : "name_asc";
+            ViewData["PriceSort"] = sort == "price_asc" ? "price_desc" : "price_asc";
+            ViewData["CurrentSearch"] = search;
 
             return View(pagedProducts);
         }

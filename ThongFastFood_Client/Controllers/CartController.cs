@@ -193,11 +193,17 @@ namespace ThongFastFood_Client.Controllers
 				carts = JsonConvert.DeserializeObject<List<CartVM>>(data);
 			}
 
-			return View(carts);
+			var model = new CheckoutVM
+			{
+				Order = new OrderVM(),
+				CartItems = carts
+			};
+
+			return View(model);
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> CheckOut(OrderVM model, string payment)
+		public async Task<IActionResult> CheckOut(CheckoutVM model, string payment)
 		{
 			// Lấy userId của người dùng hiện tại từ claims
 			var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -224,11 +230,11 @@ namespace ThongFastFood_Client.Controllers
 				{
 					Amount = totalAmount,
 					CreatedDate = DateTime.Now,
-					Description = $"{model.CustomerName} {model.PhoneNo}",
-					FullName = model.CustomerName, 
-					DeliveryAddress = model.DeliveryAddress,
-					PhoneNo = model.PhoneNo,
-					Note = model.Note,
+					Description = $"{model.Order.CustomerName} {model.Order.PhoneNo}",
+					FullName = model.Order.CustomerName,
+					DeliveryAddress = model.Order.DeliveryAddress,
+					PhoneNo = model.Order.PhoneNo,
+					Note = model.Order.Note,
 					OrderId = new Random().Next(1000, 10000),
 				};
 				return Redirect(_vnPayService.CreatePaymentUrl(HttpContext, vnPayModel));
@@ -236,10 +242,10 @@ namespace ThongFastFood_Client.Controllers
 
 			var requestBody = new OrderVM
 			{
-				CustomerName = model.CustomerName,
-				DeliveryAddress = model.DeliveryAddress,
-				PhoneNo = model.PhoneNo,
-				Note = model.Note
+				CustomerName = model.Order.CustomerName,
+				DeliveryAddress = model.Order.DeliveryAddress,
+				PhoneNo = model.Order.PhoneNo,
+				Note = model.Order.Note
 			};
 
 			string data = JsonConvert.SerializeObject(requestBody);
@@ -252,12 +258,12 @@ namespace ThongFastFood_Client.Controllers
 
 			if (apiMessage.IsSuccessStatusCode)
 			{
-				_notyf.Success("Thanh toán thành công!");
+				_notyf.Success("Đặt hàng thành công!");
 			}
 			else
 			{
-				_notyf.Error("Thông tin không được để trống.");
-				return RedirectToAction(nameof(CheckOut));
+				_notyf.Error("Có lỗi xảy ra trong quá trình thanh toán.");
+				return View(model);
 			}
 
 			return RedirectToAction("CustomerOrder", "MainPage");
@@ -293,7 +299,7 @@ namespace ThongFastFood_Client.Controllers
 				CustomerName = response.FullName,
 				DeliveryAddress = response.DeliveryAddress,
 				PhoneNo = response.PhoneNo,
-				Note = response.Note
+				Note = string.IsNullOrEmpty(response.Note) ? null : response.Note
 			};
 
 			string data = JsonConvert.SerializeObject(order);
