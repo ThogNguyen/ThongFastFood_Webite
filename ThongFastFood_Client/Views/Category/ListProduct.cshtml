@@ -130,71 +130,74 @@
                         </div>
                     </div>
                     <!-- Pagination Bar -->
-                    <div class="pagination-bar" style="text-align: center;">
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-12">
-                                <div class="pagination">
-                                    <ul class="page-list" style="display: inline-block;">
-                                        @if (Model.HasPreviousPage)
-                                        {
-                                            <li>
-                                                <a class="prev" asp-controller="Category" 
-                                                    asp-action="ListProduct"
-                                                    asp-route-categoryId="@ViewData["CurrentCategoryId"]"
-                                                    asp-route-page="@(Model.PageNumber - 1)"
-                                                    asp-route-search="@ViewData["CurrentSearch"]"
-                                                    asp-route-sort="@ViewData["CurrentSort"]" 
-                                                    asp-route-priceRange="@ViewData["CurrentPriceRange"]">
-                                                    Trước
-                                                </a>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="disabled">
-                                                <a class="prev">Trước</a>
-                                            </li>
-                                        }
-                                        @for (int i = 1; i <= Model.PageCount; i++)
-                                        {
-                                            <li>
-                                                <a class="@(i == Model.PageNumber ? "current" : "")" 
-                                                    asp-controller="Category"
-                                                    asp-route-categoryId="@ViewData["CurrentCategoryId"]"
-                                                    asp-action="ListProduct" 
-                                                    asp-route-page="@i"
-                                                    asp-route-search="@ViewData["CurrentSearch"]"
-                                                    asp-route-sort="@ViewData["CurrentSort"]" 
-                                                    asp-route-priceRange="@ViewData["CurrentPriceRange"]">
-                                                    @i
-                                                </a>
-                                            </li>
-                                        }
-                                        @if (Model.HasNextPage)
-                                        {
-                                            <li>
-                                                <a class="next" asp-controller="Category" 
-                                                    asp-action="ListProduct"
-                                                    asp-route-categoryId="@ViewData["CurrentCategoryId"]"
-                                                    asp-route-page="@(Model.PageNumber + 1)" 
-                                                    asp-route-sort="@ViewData["CurrentSort"]"
-                                                    asp-route-search="@ViewData["CurrentSearch"]"
-                                                    asp-route-priceRange="@ViewData["CurrentPriceRange"]">
-                                                    Sau
-                                                </a>
-                                            </li>
-                                        }
-                                        else
-                                        {
-                                            <li class="disabled">
-                                                <a class="next">Sau</a>
-                                            </li>
-                                        }
-                                    </ul>
+                    @if (Model.Any())
+                    {
+                        <div class="pagination-bar" style="text-align: center;">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-12">
+                                    <div class="pagination">
+                                        <ul class="page-list" style="display: inline-block;">
+                                            @if (Model.HasPreviousPage)
+                                            {
+                                                <li>
+                                                    <a class="prev" asp-controller="Category"
+                                                       asp-action="ListProduct"
+                                                       asp-route-categoryId="@ViewData["CurrentCategoryId"]"
+                                                       asp-route-page="@(Model.PageNumber - 1)"
+                                                       asp-route-search="@ViewData["CurrentSearch"]"
+                                                       asp-route-sort="@ViewData["CurrentSort"]"
+                                                       asp-route-priceRange="@ViewData["CurrentPriceRange"]">
+                                                        Trước
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="disabled">
+                                                    <a class="prev">Trước</a>
+                                                </li>
+                                            }
+                                            @for (int i = 1; i <= Model.PageCount; i++)
+                                            {
+                                                <li>
+                                                    <a class="@(i == Model.PageNumber ? "current" : "")"
+                                                       asp-controller="Category"
+                                                       asp-route-categoryId="@ViewData["CurrentCategoryId"]"
+                                                       asp-action="ListProduct"
+                                                       asp-route-page="@i"
+                                                       asp-route-search="@ViewData["CurrentSearch"]"
+                                                       asp-route-sort="@ViewData["CurrentSort"]"
+                                                       asp-route-priceRange="@ViewData["CurrentPriceRange"]">
+                                                        @i
+                                                    </a>
+                                                </li>
+                                            }
+                                            @if (Model.HasNextPage)
+                                            {
+                                                <li>
+                                                    <a class="next" asp-controller="Category"
+                                                       asp-action="ListProduct"
+                                                       asp-route-categoryId="@ViewData["CurrentCategoryId"]"
+                                                       asp-route-page="@(Model.PageNumber + 1)"
+                                                       asp-route-sort="@ViewData["CurrentSort"]"
+                                                       asp-route-search="@ViewData["CurrentSearch"]"
+                                                       asp-route-priceRange="@ViewData["CurrentPriceRange"]">
+                                                        Sau
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li class="disabled">
+                                                    <a class="next">Sau</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

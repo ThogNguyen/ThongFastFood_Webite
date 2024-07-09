@@ -36,8 +36,10 @@
             <div class="form-group">
                 <label class="control-label">Ảnh sản phẩm</label>
                 <input asp-for="ProductImage" name="file" type="file" class="form-control" />
+                <input type="hidden" name="OldProductImage" value="@ViewData["ProductImage"]" />
                 <span asp-validation-for="ProductImage" class="text-danger"></span>
             </div>
+
             @if (TempData["ImageNull"] != null)
             {
                 <div class="alert alert-danger" role="alert">
@@ -73,4 +75,3 @@
         </form>
     </div>
 </div>
-

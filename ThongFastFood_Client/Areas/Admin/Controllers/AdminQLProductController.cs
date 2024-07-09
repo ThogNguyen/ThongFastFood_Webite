@@ -170,48 +170,40 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
 
         //sửa sản phẩm (update)
         [HttpPost]
-        public async Task<IActionResult> EditProduct(int id, ProductVM model, IFormFile file)
+        public async Task<IActionResult> EditProduct(int id, ProductVM model, IFormFile? file, string OldProductImage)
         {
             if (!ModelState.IsValid)
             {
                 // Kiểm tra nếu trường ảnh không được điền vào
-                if (file == null)
+                if (string.IsNullOrEmpty(OldProductImage))
                 {
                     // Nếu không, đặt TempData để thông báo lỗi
-                    TempData["ImageNull"] = "Vui lòng chọn ảnh sản phẩm.";
+                    TempData["ImageNull"] = "Lỗi không tìm thấy ảnh.";
                     return RedirectToAction(nameof(EditProduct));
                 }
 
                 return RedirectToAction(nameof(EditProduct));
             }
 
-            // Lấy tên ảnh cũ từ ViewData và đảm bảo không bị null
-            string newFileName = file.FileName;
-
-            if (!string.IsNullOrEmpty(newFileName))
+            if (file != null)
             {
-                // Xác định đường dẫn đến ảnh cũ
-                string oldImagePath = Path.Combine(_environment.WebRootPath, "img", "product", newFileName);
+                // Lưu tệp tin ảnh mới vào thư mục img/product trong wwwroot
+                string fileName = Path.GetFileName(file.FileName);
+                string newFilePath = Path.Combine(_environment.WebRootPath, "img", "product", fileName);
 
-                // Kiểm tra xem ảnh cũ có tồn tại không
-                if (System.IO.File.Exists(oldImagePath))
+                using (var stream = new FileStream(newFilePath, FileMode.Create))
                 {
-                    // Nếu tồn tại, thực hiện xóa ảnh cũ
-                    System.IO.File.Delete(oldImagePath);
+                    await file.CopyToAsync(stream);
                 }
+
+                // Cập nhật đường dẫn tệp tin ảnh mới vào ProductModel
+                model.ProductImage = fileName;
             }
-
-            // Lưu tệp tin ảnh mới vào thư mục img/product trong wwwroot
-            string fileName = Path.GetFileName(file.FileName);
-            string newFilePath = Path.Combine(_environment.WebRootPath, "img", "product", fileName);
-
-            using (var stream = new FileStream(newFilePath, FileMode.Create))
+            else
             {
-                await file.CopyToAsync(stream);
+                // Giữ nguyên tên ảnh cũ
+                model.ProductImage = OldProductImage;
             }
-
-            // Lưu đường dẫn tệp tin ảnh mới vào ProductModel
-            model.ProductImage = fileName;
 
             // Chuyển đổi dữ liệu model sang chuỗi JSON
             string data = JsonConvert.SerializeObject(model);
