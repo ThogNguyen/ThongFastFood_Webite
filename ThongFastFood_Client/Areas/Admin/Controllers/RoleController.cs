@@ -64,7 +64,7 @@ namespace ThongFastFood_Client.Areas.Admin.Controllers
         public async Task<IActionResult> EditRole(string id)
         {
             HttpResponseMessage apiMessage = 
-                await _httpClient.GetAsync(_httpClient.BaseAddress + "/RoleApi/GetRoleById/" + id);
+                await _httpClient.GetAsync(_httpClient.BaseAddress + "/RoleApi/GetRoleById?id=" + id);
             if (apiMessage.IsSuccessStatusCode)
             {
                 string data = apiMessage.Content.ReadAsStringAsync().Result;
